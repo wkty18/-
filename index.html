@@ -10,78 +10,202 @@
 :root {
   --bg: #fafafa;
   --surface: #ffffff;
-  --border: #e5e5e5;
+  --border: #eaeaea;
   --text: #1a1a1a;
   --text-secondary: #6b6b6b;
-  --accent: #2d2d2d;
-  --tag-bg: #f3f3f3;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
-  --shadow-lg: 0 12px 48px rgba(0,0,0,0.08);
+  --text-tertiary: #999;
+  --accent: #1a1a1a;
+  --accent-hover: #333;
+  --tag-bg: #f4f4f4;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-card-hover: 0 8px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-float: 0 20px 60px rgba(0,0,0,0.1);
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 20px;
+  --transition: 0.35s cubic-bezier(0.16,1,0.3,1);
+  --transition-fast: 0.2s cubic-bezier(0.16,1,0.3,1);
+  --transition-bounce: 0.5s cubic-bezier(0.34,1.56,0.64,1);
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ── Header ── */
+/* ──── Subtle Background Pattern ──── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(0,0,0,0.015) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(0,0,0,0.015) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,0.008) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ──── Scroll Indicator ──── */
+.scroll-bar {
+  position: fixed; top: 0; left: 0;
+  height: 2.5px;
+  background: var(--accent);
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ──── Header ──── */
 .header {
-  padding: 80px 40px 40px;
+  position: relative; z-index: 1;
+  padding: 100px 40px 48px;
   text-align: center;
-  animation: fadeDown 0.8s cubic-bezier(0.16,1,0.3,1);
+  animation: fadeDown 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+
+.avatar-wrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 28px;
 }
 
 .avatar {
-  width: 56px; height: 56px;
+  width: 64px; height: 64px;
   border-radius: 50%;
   background: var(--accent);
   color: #fff;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 600;
-  margin-bottom: 24px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 700;
+  transition: all var(--transition-bounce);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 .avatar:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
+.avatar:active { transform: scale(0.95); }
+
+.avatar-ring {
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 2px dashed var(--border);
+  animation: spin 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .header h1 {
-  font-size: 32px; font-weight: 700;
-  letter-spacing: -0.5px;
-  color: var(--text);
+  font-size: 34px; font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
 }
-.header p {
-  margin-top: 8px;
+.header .subtitle {
+  margin-top: 10px;
   color: var(--text-secondary);
   font-size: 15px;
-  letter-spacing: 0.2px;
+  font-weight: 400;
+}
+.header .count-badge {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: var(--tag-bg);
+  font-size: 12px; font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+.count-badge span { font-weight: 700; color: var(--text); }
+
+/* ──── Search ──── */
+.search-wrap {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center;
+  padding: 0 40px 28px;
+  animation: fadeDown 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 
-/* ── Filter ── */
+.search-box {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; max-width: 480px;
+  padding: 12px 20px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-card);
+}
+.search-box:focus-within {
+  border-color: #ccc;
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+.search-box .search-icon {
+  font-size: 16px; opacity: 0.4;
+  transition: opacity var(--transition-fast);
+}
+.search-box:focus-within .search-icon { opacity: 0.7; }
+
+.search-input {
+  flex: 1; border: none; outline: none;
+  font-size: 14px; font-family: inherit;
+  color: var(--text); background: transparent;
+}
+.search-input::placeholder { color: var(--text-tertiary); }
+
+.search-clear {
+  width: 22px; height: 22px;
+  border-radius: 50%; border: none;
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  font-size: 12px; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  transition: all var(--transition-fast);
+}
+.search-clear.visible { display: flex; }
+.search-clear:hover { background: #e0e0e0; color: var(--text); }
+
+/* ──── Filter ──── */
 .filter-bar {
+  position: relative; z-index: 1;
   display: flex; justify-content: center; gap: 8px;
-  padding: 0 40px 40px;
+  padding: 0 40px 44px;
   flex-wrap: wrap;
-  animation: fadeDown 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+  animation: fadeDown 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
 }
 
 .filter-btn {
-  padding: 8px 18px;
+  padding: 9px 20px;
   border-radius: 100px;
   border: 1px solid var(--border);
   background: var(--surface);
   font-size: 13px; font-weight: 500;
+  font-family: inherit;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+  transition: all var(--transition-fast);
   user-select: none;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.filter-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--accent);
+  opacity: 0; transition: opacity var(--transition-fast);
+  z-index: -1; border-radius: 100px;
 }
 .filter-btn:hover {
   border-color: #bbb;
@@ -93,140 +217,209 @@ body {
   color: #fff;
   border-color: var(--accent);
 }
+.filter-btn:active { transform: scale(0.96); }
 
-/* ── Grid ── */
+/* ──── Grid ──── */
 .grid {
+  position: relative; z-index: 1;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  max-width: 1200px;
+  gap: 18px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 40px 80px;
+  padding: 0 40px 100px;
 }
 
+/* ──── Card ──── */
 .card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px;
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-  animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
+  will-change: transform;
+  transform-origin: center center;
 }
+
+/* Shine effect */
 .card::before {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(0,0,0,0.03), transparent 40%);
+  background: radial-gradient(700px circle at var(--mx,50%) var(--my,50%), rgba(0,0,0,0.04), transparent 40%);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
+  z-index: 0;
 }
 .card:hover::before { opacity: 1; }
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: #d0d0d0;
+
+/* Border glow */
+.card::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(0,0,0,0.06), transparent 60%, rgba(0,0,0,0.04));
+  opacity: 0;
+  transition: opacity var(--transition);
+  z-index: -1;
 }
+.card:hover::after { opacity: 1; }
+
+.card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-card-hover);
+  border-color: #d4d4d4;
+}
+.card:active { transform: translateY(-2px) scale(0.99); }
+
+.card-inner { position: relative; z-index: 1; }
 
 .card-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  margin-bottom: 18px;
+  font-size: 22px;
+  margin-bottom: 20px;
   background: var(--tag-bg);
-  transition: transform 0.3s ease;
+  transition: all var(--transition-bounce);
 }
-.card:hover .card-icon { transform: scale(1.1); }
+.card:hover .card-icon {
+  transform: scale(1.12) rotate(-5deg);
+  background: #ebebeb;
+}
 
 .card-title {
-  font-size: 16px; font-weight: 600;
+  font-size: 17px; font-weight: 600;
   letter-spacing: -0.3px;
   margin-bottom: 6px;
+  transition: color var(--transition-fast);
 }
+.card:hover .card-title { color: #000; }
+
 .card-desc {
   font-size: 13px; color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
+  line-height: 1.6;
+  margin-bottom: 18px;
 }
 
-.tags {
-  display: flex; gap: 6px; flex-wrap: wrap;
+.card-meta {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap;
 }
+
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag {
   font-size: 11px; font-weight: 500;
   padding: 4px 10px;
   border-radius: 6px;
   background: var(--tag-bg);
   color: var(--text-secondary);
-  letter-spacing: 0.2px;
-  transition: all 0.25s ease;
+  letter-spacing: 0.1px;
+  transition: all var(--transition-fast);
 }
-.card:hover .tag { background: #eaeaea; }
+.card:hover .tag { background: #e8e8e8; color: #555; }
 
-/* ── Footer ── */
-.footer {
+/* ──── Empty State ──── */
+.empty-state {
+  grid-column: 1 / -1;
   text-align: center;
-  padding: 0 40px 40px;
-  color: #bbb;
+  padding: 80px 20px;
+  color: var(--text-tertiary);
+  animation: fadeUp 0.5s ease;
+}
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state p { font-size: 14px; }
+
+/* ──── Footer ──── */
+.footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 0 40px 48px;
+  color: #c0c0c0;
   font-size: 12px;
   letter-spacing: 0.5px;
 }
 
-/* ── Animations ── */
+/* ──── Toast ──── */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: var(--accent); color: #fff;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 13px; font-weight: 500;
+  z-index: 999;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+  box-shadow: var(--shadow-float);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ──── Keyframes ──── */
 @keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-12px); }
+  from { opacity: 0; transform: translateY(-16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-/* ── Card enter stagger ── */
-.card:nth-child(1) { animation-delay: 0.05s; }
-.card:nth-child(2) { animation-delay: 0.10s; }
-.card:nth-child(3) { animation-delay: 0.15s; }
-.card:nth-child(4) { animation-delay: 0.20s; }
-.card:nth-child(5) { animation-delay: 0.25s; }
-.card:nth-child(6) { animation-delay: 0.30s; }
-.card:nth-child(7) { animation-delay: 0.35s; }
-.card:nth-child(8) { animation-delay: 0.40s; }
-.card:nth-child(9) { animation-delay: 0.45s; }
-.card:nth-child(10) { animation-delay: 0.50s; }
-.card:nth-child(11) { animation-delay: 0.55s; }
-.card:nth-child(12) { animation-delay: 0.60s; }
-.card:nth-child(13) { animation-delay: 0.65s; }
-.card:nth-child(14) { animation-delay: 0.70s; }
-.card:nth-child(15) { animation-delay: 0.75s; }
-
-.card.hidden {
-  display: none;
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
-/* ── Responsive ── */
+.card.enter { animation: popIn 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.card.exit  { animation: fadeUp 0.2s ease reverse both; pointer-events: none; }
+
+/* ──── Responsive ──── */
 @media (max-width: 768px) {
-  .header { padding: 48px 24px 32px; }
-  .header h1 { font-size: 26px; }
-  .grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
-  .filter-bar { padding: 0 24px 32px; }
+  .header { padding: 64px 24px 36px; }
+  .header h1 { font-size: 28px; }
+  .grid { grid-template-columns: 1fr; padding: 0 24px 80px; gap: 14px; }
+  .filter-bar { padding: 0 20px 36px; gap: 6px; }
+  .search-wrap { padding: 0 24px 24px; }
+  .filter-btn { padding: 7px 14px; font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  .card { padding: 22px 20px 20px; }
+  .card-title { font-size: 15px; }
 }
 </style>
 </head>
 <body>
 
+<div class="scroll-bar" id="scrollBar"></div>
+
 <header class="header">
-  <div class="avatar">W</div>
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
+    <div class="avatar" id="avatar" title="点击切换主题">W</div>
+  </div>
   <h1>wkty18</h1>
-  <p>Projects &amp; Experiments</p>
+  <p class="subtitle">Projects &amp; Experiments</p>
+  <div class="count-badge" id="countBadge">
+    共 <span id="projectCount">15</span> 个项目
+  </div>
 </header>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="搜索项目..." autocomplete="off">
+    <button class="search-clear" id="searchClear" title="清除">✕</button>
+  </div>
+</div>
 
 <nav class="filter-bar">
   <button class="filter-btn active" data-filter="all">全部</button>
-  <button class="filter-btn" data-filter="web">🎨 Web 应用</button>
+  <button class="filter-btn" data-filter="web">🎨 Web</button>
   <button class="filter-btn" data-filter="game">🎮 游戏</button>
   <button class="filter-btn" data-filter="tool">🧰 工具</button>
   <button class="filter-btn" data-filter="doc">📄 文档</button>
@@ -236,165 +429,183 @@ body {
 
 <footer class="footer">© 2026 wkty18 · Hosted on Cloudflare Pages</footer>
 
+<div class="toast" id="toast"></div>
+
 <script>
+// ──── Project Data ────
 const projects = [
-  {
-    title: "HTML 可视化编辑器",
-    desc: "Electron 桌面应用，所见即所得编辑网页，拖拽组件搭建页面",
-    icon: "🎨",
-    href: "html-visual-editor/src/index.html",
-    tags: ["Electron", "可视化"],
-    cat: "web"
-  },
-  {
-    title: "Paigechuizi",
-    desc: "React + Vite 前端项目，现代 Web 应用脚手架",
-    icon: "⚛️",
-    href: "paigechuizi/dist/index.html",
-    tags: ["React", "Vite"],
-    cat: "web"
-  },
-  {
-    title: "待办事项",
-    desc: "简洁实用的 Todo App，日常任务管理小工具",
-    icon: "✅",
-    href: "todo-app/todo-app.html",
-    tags: ["HTML", "JS"],
-    cat: "web"
-  },
-  {
-    title: "贪吃蛇",
-    desc: "经典贪吃蛇游戏，纯原生实现，流畅操控体验",
-    icon: "🐍",
-    href: "snake-game/snake.html",
-    tags: ["Game", "Canvas"],
-    cat: "game"
-  },
-  {
-    title: "Tier List 制作器",
-    desc: "拖拽式等级列表制作工具，快速创建排名图表",
-    icon: "🏆",
-    href: "tier-list-maker/tier-list-maker.html",
-    tags: ["HTML", "拖拽"],
-    cat: "web"
-  },
-  {
-    title: "微信模拟器",
-    desc: "高保真微信界面模拟，还原聊天交互体验",
-    icon: "💬",
-    href: "wechat-simulator/wechat-simulator.html",
-    tags: ["HTML", "CSS"],
-    cat: "web"
-  },
-  {
-    title: "B站首页",
-    desc: "哔哩哔哩首页仿写，复刻经典布局与交互",
-    icon: "📺",
-    href: "bilibili-home/bilibili-home.html",
-    tags: ["HTML", "CSS"],
-    cat: "web"
-  },
-  {
-    title: "化学复习",
-    desc: "化学知识复习页面，结构化展示知识点",
-    icon: "⚗️",
-    href: "chemistry-review/chemistry-review.html",
-    tags: ["HTML"],
-    cat: "web"
-  },
-  {
-    title: "Claude Code 介绍",
-    desc: "AI 编程工具 Claude Code 的功能介绍与展示页",
-    icon: "🤖",
-    href: "claude-code-intro/claude-code-intro.html",
-    tags: ["HTML", "AI"],
-    cat: "web"
-  },
-  {
-    title: "高考政治复习",
-    desc: "高考政治知识整理与复习资料",
-    icon: "📖",
-    href: "gaokao-politics-review/高考政治复习.html",
-    tags: ["HTML"],
-    cat: "web"
-  },
-  {
-    title: "云音乐悬浮窗",
-    desc: "地平线游戏内网易云音乐悬浮窗，边飙车边听歌",
-    icon: "🎵",
-    href: "Cloud-Music-overlay-for-Forza-Horizon/",
-    tags: ["Overlay", "Music"],
-    cat: "game"
-  },
-  {
-    title: "LOL 英雄图鉴",
-    desc: "Runeterra Codex — 英雄联盟信息宝典，全英雄数据查阅",
-    icon: "⚔️",
-    href: "lol-codex/index.html",
-    tags: ["LOL", "图鉴"],
-    cat: "game"
-  },
-  {
-    title: "Docx 生成器",
-    desc: "基于 docx 库的 Word 文档自动生成脚本",
-    icon: "📝",
-    href: "docx-generator/",
-    tags: ["Node.js", "docx"],
-    cat: "tool"
-  },
-  {
-    title: "排序工具规格",
-    desc: "从夯到拉排序软件需求规格说明文档",
-    icon: "📋",
-    href: "spec-sorting-tool/SPEC-从夯到拉排序软件.md",
-    tags: ["Spec", "文档"],
-    cat: "doc"
-  },
-  {
-    title: "Minecraft 模组教程",
-    desc: "Minecraft 1.20.1 Fabric 模组开发完整流程",
-    icon: "⛏️",
-    href: "minecraft-fabric-guide/",
-    tags: ["Minecraft", "Fabric"],
-    cat: "doc"
-  }
+  { title: "HTML 可视化编辑器", desc: "Electron 桌面应用，所见即所得编辑网页，拖拽组件搭建页面", icon: "🎨", href: "html-visual-editor/src/index.html", tags: ["Electron","可视化"], cat: "web" },
+  { title: "Paigechuizi", desc: "React + Vite 前端项目，现代 Web 应用脚手架", icon: "⚛️", href: "paigechuizi/dist/index.html", tags: ["React","Vite"], cat: "web" },
+  { title: "待办事项", desc: "简洁实用的 Todo App，日常任务管理小工具", icon: "✅", href: "todo-app/todo-app.html", tags: ["HTML","JS"], cat: "web" },
+  { title: "贪吃蛇", desc: "经典贪吃蛇游戏，纯原生实现，流畅操控体验", icon: "🐍", href: "snake-game/snake.html", tags: ["Game","Canvas"], cat: "game" },
+  { title: "Tier List 制作器", desc: "拖拽式等级列表制作工具，快速创建排名图表", icon: "🏆", href: "tier-list-maker/tier-list-maker.html", tags: ["HTML","拖拽"], cat: "web" },
+  { title: "微信模拟器", desc: "高保真微信界面模拟，还原聊天交互体验", icon: "💬", href: "wechat-simulator/wechat-simulator.html", tags: ["HTML","CSS"], cat: "web" },
+  { title: "B站首页", desc: "哔哩哔哩首页仿写，复刻经典布局与交互", icon: "📺", href: "bilibili-home/bilibili-home.html", tags: ["HTML","CSS"], cat: "web" },
+  { title: "化学复习", desc: "化学知识复习页面，结构化展示知识点", icon: "⚗️", href: "chemistry-review/chemistry-review.html", tags: ["HTML"], cat: "web" },
+  { title: "Claude Code 介绍", desc: "AI 编程工具 Claude Code 的功能介绍与展示页", icon: "🤖", href: "claude-code-intro/claude-code-intro.html", tags: ["HTML","AI"], cat: "web" },
+  { title: "高考政治复习", desc: "高考政治知识整理与复习资料", icon: "📖", href: "gaokao-politics-review/高考政治复习.html", tags: ["HTML"], cat: "web" },
+  { title: "云音乐悬浮窗", desc: "地平线游戏内网易云音乐悬浮窗，边飙车边听歌", icon: "🎵", href: "Cloud-Music-overlay-for-Forza-Horizon/", tags: ["Overlay","Music"], cat: "game" },
+  { title: "LOL 英雄图鉴", desc: "Runeterra Codex — 英雄联盟信息宝典，全英雄数据查阅", icon: "⚔️", href: "lol-codex/index.html", tags: ["LOL","图鉴"], cat: "game" },
+  { title: "Docx 生成器", desc: "基于 docx 库的 Word 文档自动生成脚本", icon: "📝", href: "docx-generator/", tags: ["Node.js","docx"], cat: "tool" },
+  { title: "排序工具规格", desc: "从夯到拉排序软件需求规格说明文档", icon: "📋", href: "spec-sorting-tool/SPEC-从夯到拉排序软件.md", tags: ["Spec","文档"], cat: "doc" },
+  { title: "Minecraft 模组教程", desc: "Minecraft 1.20.1 Fabric 模组开发完整流程", icon: "⛏️", href: "minecraft-fabric-guide/", tags: ["Minecraft","Fabric"], cat: "doc" }
 ];
 
+// ──── DOM ────
 const grid = document.getElementById('grid');
-const buttons = document.querySelectorAll('.filter-btn');
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+const projectCount = document.getElementById('projectCount');
+const toast = document.getElementById('toast');
+const scrollBar = document.getElementById('scrollBar');
+const filterBtns = document.querySelectorAll('.filter-btn');
 
-function render(filter = 'all') {
+let currentFilter = 'all';
+let toastTimer = null;
+let renderedCards = [];
+
+// ──── Toast ────
+function showToast(msg) {
+  clearTimeout(toastTimer);
+  toast.textContent = msg;
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ──── Render ────
+function render() {
+  const query = searchInput.value.toLowerCase().trim();
+  const filter = currentFilter;
+
+  const filtered = projects.filter(p => {
+    const matchCat = filter === 'all' || p.cat === filter;
+    const matchSearch = !query ||
+      p.title.toLowerCase().includes(query) ||
+      p.desc.toLowerCase().includes(query) ||
+      p.tags.some(t => t.toLowerCase().includes(query));
+    return matchCat && matchSearch;
+  });
+
+  // Update count
+  projectCount.textContent = filtered.length;
+
+  // Empty state
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>没有找到匹配的项目</p></div>`;
+    renderedCards = [];
+    return;
+  }
+
   grid.innerHTML = '';
-  projects.forEach((p, i) => {
-    if (filter !== 'all' && p.cat !== filter) return;
+  renderedCards = [];
+
+  filtered.forEach((p, i) => {
     const card = document.createElement('a');
-    card.className = 'card';
+    card.className = 'card enter';
     card.href = p.href;
     card.target = '_blank';
-    card.style.animationDelay = `${i * 0.05}s`;
+    card.rel = 'noopener';
+    card.style.animationDelay = `${i * 0.04}s`;
     card.innerHTML = `
-      <div class="card-icon">${p.icon}</div>
-      <div class="card-title">${p.title}</div>
-      <div class="card-desc">${p.desc}</div>
-      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-inner">
+        <div class="card-icon">${p.icon}</div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-meta">
+          <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
     `;
+
+    // Mouse shine tracking
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
       card.style.setProperty('--my', `${e.clientY - rect.top}px`);
     });
+
+    // Tilt on hover
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'all 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.15s ease-out';
+    });
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `translateY(-6px) scale(1.01) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'all 0.35s cubic-bezier(0.16,1,0.3,1)';
+    });
+
     grid.appendChild(card);
+    renderedCards.push(card);
   });
 }
 
-buttons.forEach(btn => {
+// ──── Search ────
+searchInput.addEventListener('input', () => {
+  const hasVal = searchInput.value.trim().length > 0;
+  searchClear.classList.toggle('visible', hasVal);
+  render();
+});
+
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  searchClear.classList.remove('visible');
+  searchInput.focus();
+  render();
+});
+
+// Escape to clear
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.activeElement === searchInput) {
+    searchInput.value = '';
+    searchClear.classList.remove('visible');
+    searchInput.blur();
+    render();
+  }
+  // ⌘K or Ctrl+K to focus search
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  }
+});
+
+// ──── Filter ────
+filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    buttons.forEach(b => b.classList.remove('active'));
+    filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    render(btn.dataset.filter);
+    currentFilter = btn.dataset.filter;
+    render();
   });
 });
 
+// ──── Avatar Click ────
+const avatar = document.getElementById('avatar');
+let clickCount = 0;
+avatar.addEventListener('click', () => {
+  clickCount++;
+  avatar.style.transform = 'scale(0.9)';
+  setTimeout(() => { avatar.style.transform = ''; }, 150);
+
+  if (clickCount % 3 === 0) {
+    showToast('🎉 你已经点了 ' + clickCount + ' 次啦！');
+  }
+});
+
+// ──── Scroll Progress ────
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  scrollBar.style.width = progress + '%';
+}, { passive: true });
+
+// ──── Init ────
 render();
 </script>
 </body>
