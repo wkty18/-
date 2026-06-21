@@ -4,46 +4,44 @@
 
 ---
 
-## 🛠️ 项目列表
-
-### 🎨 前端 / Web 应用
+## 🎨 前端 / Web 应用
 
 | 项目 | 说明 |
 |------|------|
-| [html-visual-editor](html-visual-editor/) | 可视化 HTML 编辑器 — Electron 应用，所见即所得编辑网页 |
+| [html-visual-editor](html-visual-editor/) | 可视化 HTML 编辑器 — Electron 桌面应用，所见即所得编辑网页 |
 | [paigechuizi](paigechuizi/) | React + Vite 前端项目 |
-| [todo-app.html](todo-app.html) | 待办事项应用 |
-| [snake.html](snake.html) | 贪吃蛇游戏 |
-| [tier-list-maker.html](tier-list-maker.html) | 等级列表制作工具 |
-| [wechat-simulator.html](wechat-simulator.html) | 微信界面模拟器 |
-| [bilibili-home.html](bilibili-home.html) | B站首页仿写 |
-| [bilibili_like.js](bilibili_like.js) | B站点赞脚本 |
-| [chemistry-review.html](chemistry-review.html) | 化学复习页面 |
-| [claude-code-intro.html](claude-code-intro.html) | Claude Code 介绍页 |
-| [高考政治复习.html](高考政治复习.html) | 高考政治复习资料 |
+| [todo-app](todo-app/) | 待办事项应用 |
+| [snake-game](snake-game/) | 贪吃蛇游戏 |
+| [tier-list-maker](tier-list-maker/) | 等级列表制作工具 |
+| [wechat-simulator](wechat-simulator/) | 微信界面模拟器 |
+| [bilibili-home](bilibili-home/) | B站首页仿写 |
+| [chemistry-review](chemistry-review/) | 化学复习页面 |
+| [claude-code-intro](claude-code-intro/) | Claude Code 介绍页 |
+| [gaokao-politics-review](gaokao-politics-review/) | 高考政治复习资料 |
 
-### 🎮 游戏相关
+## 🎮 游戏相关
 
 | 项目 | 说明 |
 |------|------|
 | [Cloud-Music-overlay-for-Forza-Horizon](Cloud-Music-overlay-for-Forza-Horizon/) | 地平线游戏内云音乐悬浮窗 |
 | [lol-codex](lol-codex/) | LOL 英雄联盟图鉴 |
 
-### 🧰 工具 / 脚本
+## 🧰 工具 / 脚本
 
 | 项目 | 说明 |
 |------|------|
-| [generate-docx.js](generate-docx.js) | Word 文档生成脚本 |
-| [electron-test](electron-test/) | Electron 测试项目 |
+| [docx-generator](docx-generator/) | Word 文档生成脚本（基于 docx 库） |
+| [bilibili-like](bilibili-like/) | B站点赞脚本 |
+| [electron-test](electron-test/) | Electron 快速上手测试 |
+| [test-electron](test-electron/) | Electron 最小示例 |
 
-### 📄 文档 / 其他
+## 📄 文档 / 其他
 
-| 文件 | 说明 |
+| 项目 | 说明 |
 |------|------|
-| [SPEC-从夯到拉排序软件.md](SPEC-从夯到拉排序软件.md) | 排序软件需求规格说明 |
-| [Minecraft_1.20.1_Fabric_模组开发流程.docx](Minecraft_1.20.1_Fabric_模组开发流程.docx) | Minecraft Fabric 模组开发教程 |
+| [spec-sorting-tool](spec-sorting-tool/) | 排序软件需求规格说明 |
+| [minecraft-fabric-guide](minecraft-fabric-guide/) | Minecraft 1.20.1 Fabric 模组开发流程 |
 | [ui-ux-pro-max-skill](ui-ux-pro-max-skill/) | Claude Code UI/UX 技能包 |
-| [skills-lock.json](skills-lock.json) | Claude Code 技能锁定配置 |
 
 ---
 
@@ -51,7 +49,7 @@
 
 - **前端**: HTML/CSS/JS, React, Vite
 - **桌面**: Electron
-- **工具**: Node.js, npm
+- **工具**: Node.js, npm, docx
 
 ---
 
