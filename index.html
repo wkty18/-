@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — wkty18</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: #e5e5e5;
+  --text: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --accent: #2d2d2d;
+  --tag-bg: #f3f3f3;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.08);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.header {
+  padding: 80px 40px 40px;
+  text-align: center;
+  animation: fadeDown 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+.avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 600;
+  margin-bottom: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+.avatar:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.header h1 {
+  font-size: 32px; font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+.header p {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+
+/* ── Filter ── */
+.filter-bar {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 0 40px 40px;
+  flex-wrap: wrap;
+  animation: fadeDown 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.filter-btn {
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+  user-select: none;
+  white-space: nowrap;
+}
+.filter-btn:hover {
+  border-color: #bbb;
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.filter-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+  animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(0,0,0,0.03), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.card:hover::before { opacity: 1; }
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: #d0d0d0;
+}
+
+.card-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 18px;
+  background: var(--tag-bg);
+  transition: transform 0.3s ease;
+}
+.card:hover .card-icon { transform: scale(1.1); }
+
+.card-title {
+  font-size: 16px; font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+.card-desc {
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.tags {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.tag {
+  font-size: 11px; font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+  transition: all 0.25s ease;
+}
+.card:hover .tag { background: #eaeaea; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 0 40px 40px;
+  color: #bbb;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Animations ── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Card enter stagger ── */
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.10s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.20s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.30s; }
+.card:nth-child(7) { animation-delay: 0.35s; }
+.card:nth-child(8) { animation-delay: 0.40s; }
+.card:nth-child(9) { animation-delay: 0.45s; }
+.card:nth-child(10) { animation-delay: 0.50s; }
+.card:nth-child(11) { animation-delay: 0.55s; }
+.card:nth-child(12) { animation-delay: 0.60s; }
+.card:nth-child(13) { animation-delay: 0.65s; }
+.card:nth-child(14) { animation-delay: 0.70s; }
+.card:nth-child(15) { animation-delay: 0.75s; }
+
+.card.hidden {
+  display: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .header { padding: 48px 24px 32px; }
+  .header h1 { font-size: 26px; }
+  .grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+  .filter-bar { padding: 0 24px 32px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="avatar">W</div>
+  <h1>wkty18</h1>
+  <p>Projects &amp; Experiments</p>
+</header>
+
+<nav class="filter-bar">
+  <button class="filter-btn active" data-filter="all">全部</button>
+  <button class="filter-btn" data-filter="web">🎨 Web 应用</button>
+  <button class="filter-btn" data-filter="game">🎮 游戏</button>
+  <button class="filter-btn" data-filter="tool">🧰 工具</button>
+  <button class="filter-btn" data-filter="doc">📄 文档</button>
+</nav>
+
+<main class="grid" id="grid"></main>
+
+<footer class="footer">© 2026 wkty18 · Hosted on Cloudflare Pages</footer>
+
+<script>
+const projects = [
+  {
+    title: "HTML 可视化编辑器",
+    desc: "Electron 桌面应用，所见即所得编辑网页，拖拽组件搭建页面",
+    icon: "🎨",
+    href: "html-visual-editor/src/index.html",
+    tags: ["Electron", "可视化"],
+    cat: "web"
+  },
+  {
+    title: "Paigechuizi",
+    desc: "React + Vite 前端项目，现代 Web 应用脚手架",
+    icon: "⚛️",
+    href: "paigechuizi/dist/index.html",
+    tags: ["React", "Vite"],
+    cat: "web"
+  },
+  {
+    title: "待办事项",
+    desc: "简洁实用的 Todo App，日常任务管理小工具",
+    icon: "✅",
+    href: "todo-app/todo-app.html",
+    tags: ["HTML", "JS"],
+    cat: "web"
+  },
+  {
+    title: "贪吃蛇",
+    desc: "经典贪吃蛇游戏，纯原生实现，流畅操控体验",
+    icon: "🐍",
+    href: "snake-game/snake.html",
+    tags: ["Game", "Canvas"],
+    cat: "game"
+  },
+  {
+    title: "Tier List 制作器",
+    desc: "拖拽式等级列表制作工具，快速创建排名图表",
+    icon: "🏆",
+    href: "tier-list-maker/tier-list-maker.html",
+    tags: ["HTML", "拖拽"],
+    cat: "web"
+  },
+  {
+    title: "微信模拟器",
+    desc: "高保真微信界面模拟，还原聊天交互体验",
+    icon: "💬",
+    href: "wechat-simulator/wechat-simulator.html",
+    tags: ["HTML", "CSS"],
+    cat: "web"
+  },
+  {
+    title: "B站首页",
+    desc: "哔哩哔哩首页仿写，复刻经典布局与交互",
+    icon: "📺",
+    href: "bilibili-home/bilibili-home.html",
+    tags: ["HTML", "CSS"],
+    cat: "web"
+  },
+  {
+    title: "化学复习",
+    desc: "化学知识复习页面，结构化展示知识点",
+    icon: "⚗️",
+    href: "chemistry-review/chemistry-review.html",
+    tags: ["HTML"],
+    cat: "web"
+  },
+  {
+    title: "Claude Code 介绍",
+    desc: "AI 编程工具 Claude Code 的功能介绍与展示页",
+    icon: "🤖",
+    href: "claude-code-intro/claude-code-intro.html",
+    tags: ["HTML", "AI"],
+    cat: "web"
+  },
+  {
+    title: "高考政治复习",
+    desc: "高考政治知识整理与复习资料",
+    icon: "📖",
+    href: "gaokao-politics-review/高考政治复习.html",
+    tags: ["HTML"],
+    cat: "web"
+  },
+  {
+    title: "云音乐悬浮窗",
+    desc: "地平线游戏内网易云音乐悬浮窗，边飙车边听歌",
+    icon: "🎵",
+    href: "Cloud-Music-overlay-for-Forza-Horizon/",
+    tags: ["Overlay", "Music"],
+    cat: "game"
+  },
+  {
+    title: "LOL 英雄图鉴",
+    desc: "Runeterra Codex — 英雄联盟信息宝典，全英雄数据查阅",
+    icon: "⚔️",
+    href: "lol-codex/index.html",
+    tags: ["LOL", "图鉴"],
+    cat: "game"
+  },
+  {
+    title: "Docx 生成器",
+    desc: "基于 docx 库的 Word 文档自动生成脚本",
+    icon: "📝",
+    href: "docx-generator/",
+    tags: ["Node.js", "docx"],
+    cat: "tool"
+  },
+  {
+    title: "排序工具规格",
+    desc: "从夯到拉排序软件需求规格说明文档",
+    icon: "📋",
+    href: "spec-sorting-tool/SPEC-从夯到拉排序软件.md",
+    tags: ["Spec", "文档"],
+    cat: "doc"
+  },
+  {
+    title: "Minecraft 模组教程",
+    desc: "Minecraft 1.20.1 Fabric 模组开发完整流程",
+    icon: "⛏️",
+    href: "minecraft-fabric-guide/",
+    tags: ["Minecraft", "Fabric"],
+    cat: "doc"
+  }
+];
+
+const grid = document.getElementById('grid');
+const buttons = document.querySelectorAll('.filter-btn');
+
+function render(filter = 'all') {
+  grid.innerHTML = '';
+  projects.forEach((p, i) => {
+    if (filter !== 'all' && p.cat !== filter) return;
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = p.href;
+    card.target = '_blank';
+    card.style.animationDelay = `${i * 0.05}s`;
+    card.innerHTML = `
+      <div class="card-icon">${p.icon}</div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    `;
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+    });
+    grid.appendChild(card);
+  });
+}
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.filter);
+  });
+});
+
+render();
+</script>
+</body>
+</html>
