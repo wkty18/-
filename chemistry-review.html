@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高考化学重点复习 · 幼儿园_霸王 · RadiantSoul · WKY</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+  :root {
+    --bg:#fff; --text:#1d1d1f; --t2:#86868b;
+    --accent:#0071e3; --aglow:rgba(0,113,227,.12);
+    --g1:linear-gradient(135deg,#0071e3,#5ac8fa);
+    --g2:linear-gradient(135deg,#ff375f,#ff9f0a);
+    --g3:linear-gradient(135deg,#30d158,#5ac8fa);
+    --g4:linear-gradient(135deg,#bf5af2,#5ac8fa);
+    --card:#f5f5f7; --border:rgba(0,0,0,.05);
+    --sh-sm:0 1px 3px rgba(0,0,0,.03);
+    --sh-md:0 4px 20px rgba(0,0,0,.05);
+    --sh-lg:0 16px 48px rgba(0,0,0,.07);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg); color:var(--text);
+    overflow:hidden; height:100vh; width:100vw;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ─── Watermark ─── */
+  .watermark {
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+    overflow:hidden;
+  }
+  .watermark .w-line {
+    position:absolute; white-space:nowrap;
+    font-size:clamp(1rem,1.8vw,1.6rem); font-weight:700;
+    color:rgba(0,0,0,.04); letter-spacing:.15em;
+    transform:rotate(-25deg); user-select:none;
+    line-height:1.8;
+  }
+  .watermark .w-line:nth-child(1){top:3%;left:-5%;}
+  .watermark .w-line:nth-child(2){top:18%;left:-3%;}
+  .watermark .w-line:nth-child(3){top:33%;left:-8%;}
+  .watermark .w-line:nth-child(4){top:48%;left:-4%;}
+  .watermark .w-line:nth-child(5){top:63%;left:-7%;}
+  .watermark .w-line:nth-child(6){top:78%;left:-2%;}
+  .watermark .w-line:nth-child(7){top:93%;left:-6%;}
+  .watermark .w-line.r2{top:8%;left:55%;}
+  .watermark .w-line.r3{top:25%;left:60%;}
+  .watermark .w-line.r4{top:42%;left:50%;}
+  .watermark .w-line.r5{top:58%;left:62%;}
+  .watermark .w-line.r6{top:75%;left:54%;}
+  .watermark .w-line.r7{top:90%;left:58%;}
+
+  .deck { height:100vh; width:100vw; position:relative; overflow:hidden; }
+
+  .slide {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:flex-start;
+    padding:26px 56px 56px;
+    opacity:0; transform:translateY(32px) scale(.985);
+    transition:all .65s cubic-bezier(.22,.06,.22,1);
+    pointer-events:none; will-change:transform,opacity;
+    overflow-y:auto; overflow-x:hidden;
+  }
+
+  .slide.active { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; z-index:10; }
+  .slide.exit-up { opacity:0; transform:translateY(-50px) scale(.97); }
+  .slide.exit-down { opacity:0; transform:translateY(50px) scale(.97); }
+
+  .sec { font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:2px; }
+
+  .hero {
+    font-size:clamp(2.2rem,4.5vw,4.5rem); font-weight:900; letter-spacing:-.03em;
+    line-height:1.1; text-align:center;
+    background:var(--g1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .hero.warm { background:var(--g2); -webkit-background-clip:text; background-clip:text; }
+  .hero.green { background:var(--g3); -webkit-background-clip:text; background-clip:text; }
+  .hero.purple { background:var(--g4); -webkit-background-clip:text; background-clip:text; }
+
+  .sub { font-size:.9rem; color:var(--t2); letter-spacing:.02em; margin-top:6px; text-align:center; }
+
+  .hl-strip { width:50px; height:3px; border-radius:2px; margin:6px auto 10px; }
+  .hl-strip.blue { background:var(--accent); }
+  .hl-strip.grad { background:var(--g1); width:70px; }
+
+  .cg { display:grid; gap:10px; width:100%; max-width:960px; margin-top:6px; }
+  .cg.c2 { grid-template-columns:1fr 1fr; }
+  .cg.c3 { grid-template-columns:1fr 1fr 1fr; }
+  .cg.c4 { grid-template-columns:1fr 1fr 1fr 1fr; }
+
+  .card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:14px 16px;
+    transition:all .3s ease; position:relative; overflow:hidden;
+  }
+  .card:hover { transform:translateY(-3px); box-shadow:var(--sh-lg); }
+  .card .ci {
+    width:34px; height:34px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; margin-bottom:6px;
+  }
+  .ci.b { background:rgba(0,113,227,.1); color:#0071e3; }
+  .ci.r { background:rgba(255,55,95,.1); color:#ff375f; }
+  .ci.g { background:rgba(48,209,88,.1); color:#30d158; }
+  .ci.o { background:rgba(255,159,10,.1); color:#ff9f0a; }
+  .ci.p { background:rgba(191,90,242,.1); color:#bf5af2; }
+
+  .card h3 { font-size:.9rem; font-weight:700; margin-bottom:3px; }
+  .card .p { font-size:.75rem; color:#555; line-height:1.5; }
+
+  .fb {
+    background:#f8f8fa; border:1px solid var(--border);
+    border-radius:11px; padding:10px 16px;
+    font-family:'SF Mono','Consolas','Courier New',monospace;
+    font-size:.84rem; letter-spacing:.01em;
+    text-align:center; color:#1d1d1f;
+    margin:5px 0; transition:all .25s ease;
+  }
+  .fb:hover { box-shadow:var(--sh-md); border-color:var(--accent); }
+  .fb .hl { color:#0071e3; font-weight:600; }
+  .fb .hl2 { color:#ff375f; font-weight:600; }
+  .fb .hl3 { color:#30d158; font-weight:600; }
+
+  .dt {
+    width:100%; max-width:960px; border-collapse:collapse;
+    font-size:.76rem; margin-top:5px;
+  }
+  .dt th {
+    text-align:left; padding:7px 10px; font-weight:700;
+    font-size:.68rem; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--t2); border-bottom:2px solid #e5e5ea;
+  }
+  .dt td { padding:7px 10px; border-bottom:1px solid #f0f0f2; color:#3a3a3c; }
+  .dt tbody tr:hover { background:#fafafa; }
+
+  .tag {
+    display:inline-block; padding:3px 9px; border-radius:14px;
+    font-size:.68rem; font-weight:600; letter-spacing:.02em; margin:2px;
+  }
+  .tag.b { background:rgba(0,113,227,.1); color:#0071e3; }
+  .tag.r { background:rgba(255,55,95,.1); color:#ff375f; }
+  .tag.g { background:rgba(48,209,88,.1); color:#248a3d; }
+  .tag.o { background:rgba(255,159,10,.1); color:#b06400; }
+
+  .nav {
+    position:fixed; bottom:16px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:5px; z-index:100;
+    background:rgba(255,255,255,.72); backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px); padding:7px 14px;
+    border-radius:28px; box-shadow:0 2px 14px rgba(0,0,0,.05);
+    border:1px solid rgba(0,0,0,.04);
+  }
+  .nav .dot {
+    width:7px; height:7px; border-radius:50%;
+    background:#d1d1d6; cursor:pointer;
+    transition:all .3s ease;
+  }
+  .nav .dot.active { background:var(--accent); width:22px; border-radius:7px; }
+  .nav .nb {
+    width:28px; height:28px; border-radius:50%; border:none;
+    background:#f0f0f2; cursor:pointer; font-size:.8rem; color:#1d1d1f;
+    transition:all .2s; display:flex; align-items:center; justify-content:center;
+  }
+  .nav .nb:hover { background:#e5e5ea; }
+  .nav .pn { font-size:.68rem; font-weight:600; color:var(--t2); min-width:34px; text-align:center; }
+
+  @keyframes up {
+    from { opacity:0; transform:translateY(24px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .au { animation:up .7s cubic-bezier(.16,1,.3,1) both; }
+  .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}.d4{animation-delay:.24s}.d5{animation-delay:.3s}.d6{animation-delay:.36s}.d7{animation-delay:.42s}.d8{animation-delay:.48s}
+
+  .info-row { display:flex; gap:10px; width:100%; max-width:960px; margin-top:6px; flex-wrap:wrap; }
+  .k { color:#0071e3; font-weight:600; }
+  .kr { color:#ff375f; font-weight:600; }
+  .kg { color:#248a3d; font-weight:600; }
+
+  /* Badge */
+  .badge {
+    display:inline-flex; align-items:center; gap:4px;
+    background:linear-gradient(135deg,#ff375f,#ff9f0a); color:#fff;
+    padding:4px 14px; border-radius:20px; font-size:.7rem; font-weight:700;
+    letter-spacing:.04em; animation:pulse 2s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+
+  .bilibili-link {
+    display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(135deg,#fb7299,#fc8fb4); color:#fff;
+    padding:10px 22px; border-radius:28px; font-size:.85rem; font-weight:700;
+    text-decoration:none; letter-spacing:.02em;
+    transition:all .3s; box-shadow:0 4px 16px rgba(251,114,153,.35);
+  }
+  .bilibili-link:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(251,114,153,.45); }
+
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-thumb { background:#d1d1d6; border-radius:4px; }
+
+  @media (max-width:768px) {
+    .slide { padding:18px 16px 45px; }
+    .cg.c3,.cg.c4 { grid-template-columns:1fr 1fr; }
+    .cg.c2 { grid-template-columns:1fr; }
+    .hero { font-size:1.6rem; }
+    .info-row { flex-direction:column; }
+  }
+  @media (max-width:480px) {
+    .cg.c3,.cg.c4,.cg.c2 { grid-template-columns:1fr; }
+    .nav { padding:5px 8px; gap:3px; }
+    .nav .dot { width:5px; height:5px; }
+    .nav .dot.active { width:16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ Watermark ══════ -->
+<div class="watermark">
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line r2">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line r3">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line r4">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line r5">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line r6">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+  <div class="w-line r7">幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY · 幼儿园_霸王 · RadiantSoul · WKY</div>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- ══════ 01 ─ 封面 ══════ -->
+<section class="slide active" data-index="0">
+  <div style="text-align:center;padding-top:10vh">
+    <div class="sec au d1">Apple Keynote</div>
+    <h1 class="hero au d2">高考化学<br>重点复习</h1>
+    <div class="hl-strip grad au d3"></div>
+    <p class="sub au d4">系统梳理 · 考点精讲 · 口诀速记 · 押题蒙题 · 27页全覆盖</p>
+    <div style="margin-top:20px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center" class="au d5">
+      <span class="tag b">物质的量</span><span class="tag r">氧化还原</span><span class="tag g">化学平衡</span><span class="tag o">电化学</span>
+      <span class="tag b">元素周期</span><span class="tag r">有机化学</span><span class="tag g">电解质溶液</span><span class="tag o">实验专题</span>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center" class="au d6">
+      <span class="badge">🔥 押题预测</span><span class="badge" style="background:linear-gradient(135deg,#0071e3,#5ac8fa)">🎯 蒙题技巧</span>
+    </div>
+    <p class="sub au d7" style="margin-top:14px;font-size:.75rem">适用人教版 · 鲁科版 · 苏教版 | 幼儿园_霸王 · RadiantSoul · WKY</p>
+  </div>
+</section>
+
+<!-- ══════ 02 ─ 目录 ══════ -->
+<section class="slide" data-index="1">
+  <div class="sec au">Outline</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">知识体系总览 — 高考化学核心模块</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c4" style="max-width:1000px">
+    <div class="card au d2"><div class="ci b">⚛️</div><h3>基本概念</h3><p class="p">物质的量·离子反应·氧化还原·热化学·胶体</p></div>
+    <div class="card au d3"><div class="ci r">🔬</div><h3>物质结构</h3><p class="p">周期律·化学键·VSEPR·杂化轨道·晶体结构</p></div>
+    <div class="card au d4"><div class="ci g">⚖️</div><h3>化学反应</h3><p class="p">速率·平衡·弱电解·盐类水解·溶度积Ksp</p></div>
+    <div class="card au d5"><div class="ci o">🔋</div><h3>电化学</h3><p class="p">原电池·电解池·金属腐蚀·新型电池分析</p></div>
+    <div class="card au d3"><div class="ci p">🧪</div><h3>元素化学</h3><p class="p">Na/Al/Fe/Cu · S/N/Cl/Si · 转化关系网</p></div>
+    <div class="card au d4"><div class="ci b">🧬</div><h3>有机化学</h3><p class="p">烃类·卤代烃·醇酚醛酸酯·合成推断</p></div>
+    <div class="card au d5"><div class="ci r">📐</div><h3>化学计算</h3><p class="p">差量法·守恒法·关系式法·极值法·十字交叉</p></div>
+    <div class="card au d6"><div class="ci g">📋</div><h3>实验专题</h3><p class="p">气体制备·离子检验·滴定分析·探究设计</p></div>
+  </div>
+  <div class="fb au d7" style="margin-top:8px;max-width:800px;font-size:.78rem">
+    <span class="hl">高考题型分布</span>：选择题(42分) | 非选择题(58分)：工业流程+实验+原理综合+有机推断+选考 |
+    <span class="hl2">新增模块</span>：押题预测 + 蒙题技巧 → 考场实战必备
+  </div>
+</section>
+
+<!-- ══════ 03─20 原有知识点页面 (Slides 02-18 保持不变) ══════ -->
+<!-- ══════ 03 ─ 物质的量 ══════ -->
+<section class="slide" data-index="2">
+  <div class="sec au">Chapter 01</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">物质的量与阿伏伽德罗常数</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c3">
+    <div class="card au d2"><div class="ci b">📐</div><h3>核心公式链（必背）</h3>
+      <div class="fb" style="font-size:.76rem;padding:9px"><span class="hl">n</span> = N/N<sub>A</sub> = m/M = V/V<sub>m</sub> = c·V</div>
+      <p class="p" style="margin-top:3px">M 摩尔质量 g/mol · V<sub>m</sub> 气体摩尔体积<br>c 物质的量浓度 mol/L</p></div>
+    <div class="card au d3"><div class="ci r">🎯</div><h3>阿伏伽德罗常数 N<sub>A</sub></h3>
+      <p class="p">N<sub>A</sub> ≈ <strong>6.02×10²³ mol⁻¹</strong><br>· 1 mol 物质含 N<sub>A</sub> 个微粒<br>· 1 mol e⁻ 电量 ≈ 96500 C (法拉第常数)<br>· 1 mol 理想气体标准状况 22.4 L<br>· 注意"粒子"指：原子/分子/离子/电子</p></div>
+    <div class="card au d4"><div class="ci g">⚠️</div><h3>常见陷阱（高频错点）</h3>
+      <p class="p">· 22.4 L/mol 仅限<strong>标准状况</strong>(0°C,101kPa)<br>· 标况下非气体：H₂O、SO₃、Br₂、HF、CCl₄<br>· 同位素：D₂O 摩尔质量 20g/mol 非 18<br>· 可逆反应不完全转化 (NO₂⇌N₂O₄)<br>· 浓度与体积无关的弱电解质部分电离</p></div>
+  </div>
+  <div class="fb au d5" style="max-width:900px;font-size:.78rem">常见考察形式：N<sub>A</sub> 判断题 — 每年高考必考 6 分选择题</div>
+  <div style="display:flex;gap:10px;margin-top:5px;max-width:900px;flex-wrap:wrap" class="au d6">
+    <div class="card" style="flex:1;min-width:200px"><h3 style="font-size:.8rem">💡 阿伏伽德罗定律</h3><p class="p"><span class="k">同温同压</span>：V₁/V₂=n₁/n₂<br><span class="k">同温同容</span>：P₁/P₂=n₁/n₂<br>相对密度：D=M₁/M₂=ρ₁/ρ₂</p></div>
+    <div class="card" style="flex:1;min-width:200px"><h3 style="font-size:.8rem">🔄 平均摩尔质量</h3><p class="p">M̄=m<sub>总</sub>/n<sub>总</sub><br>=M₁·x₁+M₂·x₂ (物质的量分数)<br>=M₁·φ₁+M₂·φ₂ (体积分数)</p></div>
+  </div>
+</section>
+
+<!-- ══════ 04 ─ 离子反应 ══════ -->
+<section class="slide" data-index="3">
+  <div class="sec au">Chapter 02</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">离子反应与离子方程式</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci b">✍️</div><h3>书写步骤（四步法）</h3>
+      <p class="p">❶ 写出正确的化学方程式（配平）<br>❷ 将<strong>易溶+易电离</strong>物质拆成离子形式<br>❸ 删除方程式两边相同的离子<br>❹ 检查电荷守恒 + 质量守恒 + 电子守恒</p>
+      <div class="fb" style="font-size:.73rem;margin-top:5px;padding:8px">关键：强酸/强碱/可溶盐 → 拆！<br>沉淀/气体/弱电解质/氧化物/单质 → 不拆！</div></div>
+    <div class="card au d3"><div class="ci r">🚫</div><h3>不能拆的物质（六类）</h3>
+      <p class="p">· <strong>沉淀↓</strong>：BaSO₄、AgCl、CaCO₃、Fe(OH)₃<br>· <strong>气体↑</strong>：CO₂、SO₂、NH₃、H₂S、Cl₂<br>· <strong>弱电解质</strong>：H₂O、CH₃COOH、NH₃·H₂O、H₂CO₃<br>· <strong>氧化物</strong>：Fe₂O₃、Al₂O₃、Na₂O<br>· <strong>单质</strong>：Fe、Cu、Cl₂、O₂<br>· <strong>浓H₂SO₄</strong>：主要以分子形式存在</p></div>
+  </div>
+  <div class="cg c2" style="margin-top:5px">
+    <div class="card au d4"><div class="ci g">✅</div><h3>离子共存判断</h3>
+      <p class="p"><span class="kr">不共存==沉淀/气体/弱电解质/氧化还原</span><br>· H⁺不与 OH⁻、CO₃²⁻、HCO₃⁻、SO₃²⁻共存<br>· OH⁻不与 NH₄⁺、Fe³⁺、Cu²⁺、Al³⁺共存<br>· Ba²⁺+SO₄²⁻↓ Ag⁺+Cl⁻↓ Ca²⁺+CO₃²⁻↓<br>· Fe³⁺+I⁻→氧化还原 AlO₂⁻+H⁺→不共存<br>· 注意题设：无色(排除Cu²⁺Fe³⁺MnO₄⁻)、酸性、碱性</p></div>
+    <div class="card au d5"><div class="ci o">📝</div><h3>真题示例</h3>
+      <p class="p">Ba(OH)₂+H₂SO₄→<br>离子：<span class="k">Ba²⁺+2OH⁻+2H⁺+SO₄²⁻=BaSO₄↓+2H₂O</span><br><br>CaCO₃+HCl→<br>离子：<span class="k">CaCO₃+2H⁺=Ca²⁺+CO₂↑+H₂O</span><br><br>醋酸+NaOH→<br>离子：<span class="k">CH₃COOH+OH⁻=CH₃COO⁻+H₂O</span></p></div>
+  </div>
+</section>
+
+<!-- ══════ 05 ─ 氧化还原 ══════ -->
+<section class="slide" data-index="4">
+  <div class="sec au">Chapter 03</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">氧化还原反应</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c3">
+    <div class="card au d2"><div class="ci r">↗️</div><h3>氧化反应</h3><p class="p"><strong>化合价↑ 失去e⁻ 被氧化</strong><br>产物：氧化产物<br>发生氧化反应 → 是<strong>还原剂</strong><br>还原剂具有<span class="kr">还原性</span><br>口诀：<span class="kr">升·失·氧·还</span></p></div>
+    <div class="card au d3" style="display:flex;align-items:center;justify-content:center;flex-direction:column"><div style="font-size:2rem;font-weight:900;color:#d1d1d6">⇌</div><p class="p" style="text-align:center">氧化性：<span class="k">氧化剂 &gt; 氧化产物</span><br>还原性：<span class="kr">还原剂 &gt; 还原产物</span><br>强换弱 规律</p></div>
+    <div class="card au d4"><div class="ci b">↘️</div><h3>还原反应</h3><p class="p"><strong>化合价↓ 得到e⁻ 被还原</strong><br>产物：还原产物<br>发生还原反应 → 是<strong>氧化剂</strong><br>氧化剂具有<span class="k">氧化性</span><br>口诀：<span class="k">降·得·还·氧</span></p></div>
+  </div>
+  <div class="fb au d5" style="max-width:900px;font-size:.8rem">完整口诀：<span class="hl">升</span>失<span class="hl">氧</span>还 — 化合价<span class="hl">升高</span>→失去电子→被<span class="hl">氧化</span>→是<span class="hl">还原</span>剂 → 具有还原性 → 产物为氧化产物 | <span class="hl2">降</span>得<span class="hl2">还</span>氧 — <span class="hl2">降低</span>→得到电子→被<span class="hl2">还原</span>→是<span class="hl2">氧化</span>剂 → 具有氧化性 → 产物为还原产物</div>
+  <div class="cg c2" style="margin-top:5px">
+    <div class="card au d6"><div class="ci o">🏆</div><h3>常见氧化剂（强→弱）</h3><p class="p">KMnO₄(H⁺)&gt;Cl₂&gt;HNO₃(浓)&gt;HNO₃(稀)&gt;浓H₂SO₄&gt;Br₂&gt;Fe³⁺&gt;Cu²⁺&gt;I₂&gt;Fe²⁺<br>· MnO₄⁻酸性→Mn²⁺（紫色褪为无色）<br>· Cr₂O₇²⁻酸性→Cr³⁺（橙→绿）<br>· HNO₃越浓还原产物价态越低</p></div>
+    <div class="card au d7"><div class="ci g">🏆</div><h3>常见还原剂（强→弱）</h3><p class="p">Na&gt;Mg&gt;Al&gt;Zn&gt;Fe&gt;Sn&gt;(H)&gt;Cu&gt;Fe²⁺&gt;I⁻&gt;Br⁻&gt;Cl⁻<br>· SO₂、SO₃²⁻、S²⁻、I⁻ 常见还原性<br>· Fe²⁺既有氧化性又有还原性（中间价态）<br>· H₂O₂既可做氧化剂也可做还原剂</p></div>
+  </div>
+</section>
+
+<!-- ══════ 06 ─ 氧化还原配平 ══════ -->
+<section class="slide" data-index="5">
+  <div class="sec au">Chapter 03 续</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">氧化还原方程式配平 & 规律</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci b">🔢</div><h3>化合价升降法（五步配平）</h3><p class="p">① 标化合价→找出变价元素<br>② 计算每个原子升/降数×原子个数→总升/降<br>③ 使<span class="k">总升=总降</span>（最小公倍数），定系数<br>④ 观察法配平其他元素（H、O最后配）<br>⑤ 检查电荷·质量·电子三守恒<br><br><strong>技巧</strong>：缺项配平用H⁺/OH⁻/H₂O补全</p></div>
+    <div class="card au d3"><div class="ci r">⚡</div><h3>常见配平范例</h3>
+      <div class="fb" style="font-size:.72rem;text-align:left;padding:9px">Cu+HNO₃(稀)→<br><span class="hl">3</span>Cu+<span class="hl">8</span>HNO₃=<span class="hl">3</span>Cu(NO₃)₂+<span class="hl">2</span>NO↑+<span class="hl">4</span>H₂O<br><br>MnO₄⁻+Fe²⁺+H⁺→<br><span class="hl">1</span>MnO₄⁻+<span class="hl">5</span>Fe²⁺+<span class="hl">8</span>H⁺=<span class="hl">1</span>Mn²⁺+<span class="hl">5</span>Fe³⁺+<span class="hl">4</span>H₂O<br><br>Cu+HNO₃(浓)→<br><span class="hl">1</span>Cu+<span class="hl">4</span>HNO₃=<span class="hl">1</span>Cu(NO₃)₂+<span class="hl">2</span>NO₂↑+<span class="hl">2</span>H₂O</div></div>
+  </div>
+  <div class="cg c3" style="margin-top:5px">
+    <div class="card au d4"><div class="ci g">📋</div><h3>氧化还原规律</h3><p class="p">· <span class="k">守恒规律</span>：得失电子总数相等<br>· <span class="kr">强弱规律</span>：强制弱，强+强→弱+弱<br>· <span class="kg">价态规律</span>：同元素 高价氧化低价还原<br>· <span class="k">归中规律</span>：高低价→中间价，不交叉<br>· <span class="kr">歧化规律</span>：中间价→高+低 (Cl₂+H₂O)</p></div>
+    <div class="card au d5"><div class="ci o">🎯</div><h3>歧化与归中反应</h3><p class="p"><strong>歧化</strong>：同一元素中间价→高+低<br>Cl₂+2NaOH=NaCl+NaClO+H₂O<br>3NO₂+H₂O=2HNO₃+NO<br>2Na₂O₂+2H₂O=4NaOH+O₂↑<br><br><strong>归中</strong>：同一元素高+低→中间<br>2H₂S+SO₂=3S↓+2H₂O<br>2Fe³⁺+Fe=3Fe²⁺</p></div>
+    <div class="card au d6"><div class="ci p">🚨</div><h3>高考高频考点</h3><p class="p">· 氧化性/还原性强弱比较与方程式书写<br>· 信息型氧化还原方程式书写（给新情境）<br>· 电子转移数计算（注意标化合价）<br>· 产物判断（酸碱性介质影响产物形式）<br>· 陌生元素（Cr、Mn等）的变价分析</p></div>
+  </div>
+</section>
+
+<!-- ══════ 07 ─ 周期律 ══════ -->
+<section class="slide" data-index="6">
+  <div class="sec au">Chapter 04</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">元素周期表 & 周期律</h2>
+  <div class="hl-strip blue au d2"></div>
+  <table class="dt au d3">
+    <thead><tr><th>性质</th><th>同周期（左→右）</th><th>同主族（上→下）</th><th>解释</th></tr></thead>
+    <tbody>
+      <tr><td><strong>原子半径</strong></td><td style="color:#30d158">⬇ 减小</td><td style="color:#ff375f">⬆ 增大</td><td>核电荷↑/电子层↑</td></tr>
+      <tr><td><strong>第一电离能</strong></td><td style="color:#ff375f">⬆ 增大(N&gt;O P&gt;S半满异常)</td><td style="color:#30d158">⬇ 减小</td><td>半径影响+稳定结构</td></tr>
+      <tr><td><strong>电负性</strong></td><td style="color:#ff375f">⬆ 增大</td><td style="color:#30d158">⬇ 减小</td><td>吸引电子能力</td></tr>
+      <tr><td><strong>金属性</strong></td><td style="color:#30d158">⬇ 减弱</td><td style="color:#ff375f">⬆ 增强</td><td>失e⁻能力</td></tr>
+      <tr><td><strong>非金属性</strong></td><td style="color:#ff375f">⬆ 增强</td><td style="color:#30d158">⬇ 减弱</td><td>得e⁻能力</td></tr>
+      <tr><td><strong>最高正价</strong></td><td>+1→+7(O、F除外)</td><td>=主族序数</td><td>最外层电子数</td></tr>
+      <tr><td><strong>最低负价</strong></td><td>-4→-1(IVA→VIIA)</td><td>=主族序数-8</td><td>8-最外层电子数</td></tr>
+      <tr><td><strong>氧化物水化物</strong></td><td>碱性→两性→酸性</td><td>碱性↑/酸性↓</td><td>金属性/非金属性变化</td></tr>
+    </tbody>
+  </table>
+  <div class="cg c3" style="margin-top:6px">
+    <div class="card au d4"><div class="ci r">📍</div><h3>周期表结构</h3><p class="p">· 7周期(1-3短,4-7长) 16族(7主7副+VIII+0)<br>· IA碱金属 | IIA碱土金属 | VIIA卤素<br>· IIIB→IIB过渡元素（全是金属）<br>· 镧系(57-71) 锕系(89-103)各15种<br>· 0族(稀有气体)He-Rn最外层8e⁻(He为2)</p></div>
+    <div class="card au d5"><div class="ci b">🎯</div><h3>微粒半径比较口诀</h3><p class="p">· <span class="k">同层比核</span>：核电荷↑→r↓<br>&nbsp;例：r(Na⁺)&gt;r(Mg²⁺)&gt;r(Al³⁺)<br>· <span class="kr">同核比电子</span>：e⁻↑→r↑<br>&nbsp;例：r(Fe)&gt;r(Fe²⁺)&gt;r(Fe³⁺)<br>· <span class="kg">同族比层</span>：电子层↑→r↑<br>&nbsp;例：r(Li)&lt;r(Na)&lt;r(K)&lt;r(Rb)&lt;r(Cs)</p></div>
+    <div class="card au d6"><div class="ci g">⚠️</div><h3>电离能异常点</h3><p class="p">· N(1s²2s²2p³半满)＞O · P(3s²3p³半满)＞S<br>· Be(2s²全满)＞B · Mg(3s²全满)＞Al<br>半满p³/全满s²结构稳定→更难失电子→电离能偏大</p></div>
+  </div>
+</section>
+
+<!-- ══════ 08 ─ 化学键 ══════ -->
+<section class="slide" data-index="7">
+  <div class="sec au">Chapter 05</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">化学键 · 分子结构 · 晶体类型</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c3">
+    <div class="card au d2"><div class="ci r">🔗</div><h3>离子键</h3><p class="p">阴阳离子间<strong>静电作用</strong><br>活泼金属(K,Na,Ca,Mg)+活泼非金属(F,Cl,O)<br>· 无方向性、无饱和性<br>· 熔融/溶于水可导电<br>· 离子化合物：含离子键即为离子化合物<br>· 例：NaCl MgO CaF₂ NaOH NH₄Cl Na₂O₂</p></div>
+    <div class="card au d3"><div class="ci b">🔗</div><h3>共价键</h3><p class="p">原子间<strong>共用电子对</strong><br>· σ键：头碰头重叠(强度大，单键即σ)<br>· π键：肩并肩重叠(双键=σ+π，三键=σ+2π)<br>· 极性键：不同原子间(H-Cl)偶极矩≠0<br>· 非极性键：同原子间(Cl-Cl)偶极矩=0<br>· 有方向性和饱和性<br>· 配位键：孤对电子→空轨道(NH₄⁺中)</p></div>
+    <div class="card au d4"><div class="ci p">🔬</div><h3>VSEPR & 杂化轨道</h3><p class="p">· CO₂：sp 直线形 180° 非极性<br>· BF₃：sp² 平面三角形 120° 非极性<br>· CH₄：sp³ 正四面体 109.5° 非极性<br>· NH₃：sp³ 三角锥 107° 极性(孤对)<br>· H₂O：sp³ V形 104.5° 极性(2孤对)<br>· SO₂：sp² V形 极性</p></div>
+  </div>
+  <div class="cg c4" style="margin-top:5px">
+    <div class="card au d5"><div class="ci o">💎</div><h3>离子晶体</h3><p class="p">NaCl CsCl<br>熔沸点高 硬而脆<br>熔融导电</p></div>
+    <div class="card au d6"><div class="ci g">💎</div><h3>原子晶体</h3><p class="p">金刚石 SiO₂ SiC<br>熔沸点极高 硬度极大<br>一般不导电</p></div>
+    <div class="card au d7"><div class="ci b">💎</div><h3>分子晶体</h3><p class="p">CO₂ H₂O I₂ C₆₀<br>熔沸点低 硬度小<br>不导电(极性溶)</p></div>
+    <div class="card au d8"><div class="ci r">💎</div><h3>金属晶体</h3><p class="p">Cu Fe Na<br>电子气理论<br>导电导热延展<br>熔沸点差异大</p></div>
+  </div>
+</section>
+
+<!-- ══════ 09 ─ 化学平衡 ══════ -->
+<section class="slide" data-index="8">
+  <div class="sec au">Chapter 06</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">化学反应速率 & 化学平衡</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci o">⏱️</div><h3>速率影响因素（必背）</h3><p class="p"><span class="k">内因</span>：反应物本身性质（决定性因素）<br><strong>外因</strong>（其他条件不变时）：<br>· c↑→v↑ · P↑→v↑（仅对有气体参与的反应）<br>· T↑→v↑（每升温10°C，v≈2~4倍）<br>· 催化剂→v↑（降低活化能Ea，不改变平衡）<br>· 固体表面积↑→v↑（粉碎、研磨）<br>· 形成原电池→v↑（如Zn+H₂SO₄+CuSO₄）<br>速率方程：v=k·cᵃ(A)·cᵇ(B)（基元反应）</p></div>
+    <div class="card au d3"><div class="ci g">⚖️</div><h3>勒夏特列原理</h3><p class="p">改变平衡条件→平衡向<strong>减弱</strong>该改变的方向移动<br><br>· <span class="kr">T↑</span>→向<strong>吸热方向</strong>移动<br>· <span class="kr">P↑</span>→向<strong>气体分子数少</strong>的方向移动<br>· <span class="kr">c↑</span>→向<strong>消耗该物质</strong>的方向移动<br>· 催化剂<strong>不改变平衡</strong>，只加快到达平衡<br>· 稀有气体：恒容充入→不改变平衡；恒压充入→相当于减压<br>· <span class="k">K只与温度有关</span>：放热反应T↑→K↓</p></div>
+  </div>
+  <div class="cg c3" style="margin-top:5px">
+    <div class="card au d4"><div class="ci b">📐</div><h3>平衡常数K</h3><div class="fb" style="font-size:.72rem;padding:7px">aA+bB⇌cC+dD<br><span class="hl">K</span>=[C]ᶜ[D]ᵈ/([A]ᵃ[B]ᵇ)<br>K只与<strong>T</strong>有关！固体不写入K</div></div>
+    <div class="card au d5"><div class="ci r">🎯</div><h3>转化率α</h3><div class="fb" style="font-size:.72rem;padding:7px"><span class="hl2">α</span>=已反应量/起始量×100%<br>多种反应物：增加一种→该物质α↓其他α↑</div></div>
+    <div class="card au d6"><div class="ci g">📊</div><h3>平衡标志判断</h3><p class="p" style="font-size:.72rem">· v正=v逆（动态标志）<br>· 各组分浓度不变（宏观标志）<br>· 变量不变即平衡（如颜色、P、ρ、M̄）<br>· 注意：总质量/总物质的量不变≠平衡</p></div>
+  </div>
+  <div class="fb au d7" style="max-width:900px;font-size:.76rem">等效平衡：恒温恒容(Δn≠0→全等；Δn=0→比例) | 恒温恒压→比例即等效 | 同一可逆反应，只要起始量"相当"，平衡后各组分百分含量相同</div>
+</section>
+
+<!-- ══════ 10 ─ 弱电解质 ══════ -->
+<section class="slide" data-index="9">
+  <div class="sec au">Chapter 07</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">弱电解质的电离平衡</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci p">🧪</div><h3>电离平衡常数 Ka/Kb</h3>
+      <div class="fb" style="font-size:.76rem;padding:9px">CH₃COOH⇌CH₃COO⁻+H⁺<br><span class="hl">Ka</span>=[CH₃COO⁻][H⁺]/[CH₃COOH]<br>NH₃·H₂O⇌NH₄⁺+OH⁻<br><span class="hl2">Kb</span>=[NH₄⁺][OH⁻]/[NH₃·H₂O]</div>
+      <p class="p">· Ka↑→酸性↑ Kb↑→碱性↑<br>· K只与<strong>温度</strong>有关（电离吸热→T↑K↑）<br>· 同浓度下比较Ka/Kb可判断酸碱性强弱<br>· 多元弱酸分步电离：K₁≫K₂≫K₃</p></div>
+    <div class="card au d3"><div class="ci r">📊</div><h3>电离度α与稀释定律</h3>
+      <div class="fb" style="font-size:.76rem;padding:9px"><span class="hl">α</span>=已电离/起始总量×100%<br>稀释定律：<span class="hl2">α↑</span>当c↓（越稀越电离）<br>Ka=cα²/(1-α)≈cα²(α很小时)</div>
+      <p class="p">· <span class="kr">稀释</span>→α↑，但[H⁺]不一定↑(看c·α)<br>· 温度↑→α↑（电离吸热）<br>· 同离子效应→α↓（加CH₃COONa到醋酸中）<br>· α与浓度和温度都有关</p></div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:6px;max-width:960px;flex-wrap:wrap" class="au d4">
+    <div class="card" style="flex:1;min-width:260px"><div class="ci g">📋</div><h3>常见弱电解质</h3><p class="p"><span class="tag b">CH₃COOH</span><span class="tag r">NH₃·H₂O</span><span class="tag g">H₂CO₃</span><span class="tag o">H₂S</span><span class="tag b">HClO</span><span class="tag r">H₂O</span><span class="tag g">H₂SiO₃</span><span class="tag o">HF</span><span class="tag b">HCN</span><br><br>强电解质：强酸(HCl H₂SO₄ HNO₃ HBr HI HClO₄) 强碱(KOH NaOH Ba(OH)₂ Ca(OH)₂) 大多数盐</p></div>
+    <div class="card" style="flex:1;min-width:260px"><div class="ci o">⚠️</div><h3>电解质与非电解质判断</h3><p class="p">· <span class="k">电解质</span>：水溶液/熔融态能导电的<strong>化合物</strong><br>· <span class="kr">非电解质</span>：水溶液和熔融态均不导电的化合物<br>· 单质和混合物既不是电解质也不是非电解质<br>· 电解质导电条件：存在自由移动的离子<br>· BaSO₄难溶但是强电解质（溶于水的部分完全电离）</p></div>
+  </div>
+</section>
+
+<!-- ══════ 11 ─ 水的电离与pH ══════ -->
+<section class="slide" data-index="10">
+  <div class="sec au">Chapter 08</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">水的电离 & 溶液pH & 酸碱中和滴定</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c3">
+    <div class="card au d2"><div class="ci b">💧</div><h3>Kw与pH计算</h3>
+      <div class="fb" style="font-size:.74rem;padding:8px">H₂O⇌H⁺+OH⁻ <span class="hl">Kw</span>=[H⁺][OH⁻]<br>25°C: Kw=<strong>1×10⁻¹⁴</strong> | 100°C: Kw≈1×10⁻¹²<br><span class="hl">pH</span>=-lg[H⁺] | <span class="hl2">pOH</span>=-lg[OH⁻]<br>pH+pOH=14(25°C) | pH+pOH=pKw</div>
+      <p class="p" style="font-size:.72rem">酸溶液：先算[H⁺]→pH<br>碱溶液：先算[OH⁻]→pOH→pH<br>混合：先判断过量→再求[H⁺]或[OH⁻]</p></div>
+    <div class="card au d3"><div class="ci r">📏</div><h3>pH酸碱性与指示剂</h3><p class="p" style="font-size:.74rem;line-height:1.5">· 25°C：pH=7中性 &lt;7酸性 &gt;7碱性<br>· 甲基橙：3.1(红)~4.4(黄) 强酸滴强碱用<br>· 酚酞：8.2(无)~10.0(红) 强碱滴强酸用<br>· 石蕊：5.0~8.0 红→紫→蓝<br>· pH试纸：整数，不能润湿（测气体可以）<br>· pH计：精确到0.01</p></div>
+    <div class="card au d4"><div class="ci g">🧪</div><h3>酸碱中和滴定</h3><p class="p" style="font-size:.73rem;line-height:1.5">· c(酸)V(酸)/c(碱)V(碱)=n(酸)/n(碱)<br>· 关键操作：检漏→润洗→装液→排气→调零→滴定<br>· 锥形瓶<strong>不能用待测液润洗</strong><br>· 滴定管先用蒸馏水洗再用标准液润洗2-3次<br>· 半分钟内不褪色为终点<br>· 误差分析：用公式c测=c标V标/V测分析</p></div>
+  </div>
+  <div class="fb au d5" style="max-width:960px;font-size:.76rem"><span class="hl">pH计算速算口诀</span>：酸酸混合求[H⁺]→pH | 碱碱混合求[OH⁻]→pOH→pH | 酸碱混合先判断谁过量→按过量者计算<br><span class="hl2">pH之和为14的酸碱等体积混合</span>：谁弱谁过量，谁弱显谁性（pH之和=14是判断线）</div>
+</section>
+
+<!-- ══════ 12 ─ 盐类水解 ══════ -->
+<section class="slide" data-index="11">
+  <div class="sec au">Chapter 09</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">盐类的水解 & 离子浓度比较</h2>
+  <div class="hl-strip blue au d2"></div>
+  <table class="dt au d3">
+    <thead><tr><th>盐的类型</th><th>典型实例</th><th>水解离子</th><th>溶液酸碱性</th><th>水解离子方程式</th></tr></thead>
+    <tbody>
+      <tr><td>强酸弱碱盐</td><td>NH₄Cl FeCl₃ AlCl₃ CuSO₄</td><td>NH₄⁺ Fe³⁺ Al³⁺ Cu²⁺</td><td style="color:#ff375f"><strong>酸性 pH&lt;7</strong></td><td>NH₄⁺+H₂O⇌NH₃·H₂O+H⁺</td></tr>
+      <tr><td>强碱弱酸盐</td><td>Na₂CO₃ NaHCO₃ CH₃COONa</td><td>CO₃²⁻ HCO₃⁻ CH₃COO⁻</td><td style="color:#0071e3"><strong>碱性 pH&gt;7</strong></td><td>CO₃²⁻+H₂O⇌HCO₃⁻+OH⁻</td></tr>
+      <tr><td>弱酸弱碱盐</td><td>NH₄HCO₃ CH₃COONH₄</td><td>阳+阴离子都水解</td><td>比较Ka与Kb<br>Ka&gt;Kb→酸性</td><td>NH₄⁺+HCO₃⁻+H₂O⇌NH₃·H₂O+H₂CO₃</td></tr>
+      <tr><td>强酸强碱盐</td><td>NaCl KNO₃ Na₂SO₄</td><td>不水解</td><td style="color:#30d158"><strong>中性 pH=7</strong></td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="cg c2" style="margin-top:6px">
+    <div class="card au d4"><div class="ci r">📐</div><h3>水解平衡常数Kh</h3><p class="p">A⁻+H₂O⇌HA+OH⁻<br><span class="kr">Kh</span>=[HA][OH⁻]/[A⁻]=<span class="k">Kw/Ka</span><br>B⁺+H₂O⇌BOH+H⁺<br><span class="kr">Kh</span>=[BOH][H⁺]/[B⁺]=<span class="k">Kw/Kb</span><br>· 水解程度：越弱越水解<br>· 升温→水解↑（吸热）· 稀释→水解↑</p></div>
+    <div class="card au d5"><div class="ci b">🎯</div><h3>溶液中离子浓度大小比较</h3><p class="p" style="font-size:.73rem;line-height:1.5"><strong>原则</strong>：电荷守恒+物料守恒+质子守恒<br>· Na₂CO₃：[Na⁺]&gt;[CO₃²⁻]&gt;[OH⁻]&gt;[HCO₃⁻]&gt;[H⁺]<br>· NH₄Cl：[Cl⁻]&gt;[NH₄⁺]&gt;[H⁺]&gt;[NH₃·H₂O]&gt;[OH⁻]<br>· CH₃COONa：[Na⁺]&gt;[CH₃COO⁻]&gt;[OH⁻]&gt;[CH₃COOH]&gt;[H⁺]<br>· NaHCO₃：[Na⁺]&gt;[HCO₃⁻]&gt;[OH⁻]&gt;[H₂CO₃]&gt;[CO₃²⁻]&gt;[H⁺]</p></div>
+  </div>
+  <div class="fb au d6" style="max-width:960px;font-size:.76rem"><span class="hl">口诀</span>：谁弱谁水解·谁强显谁性·同弱由K定 | <span class="hl2">双水解</span>：Al³⁺+3HCO₃⁻=Al(OH)₃↓+3CO₂↑（泡沫灭火器原理）| 加热蒸干：水解生成挥发性酸→得氢氧化物(FeCl₃→Fe(OH)₃→Fe₂O₃)</div>
+</section>
+
+<!-- ══════ 13 ─ Ksp ══════ -->
+<section class="slide" data-index="12">
+  <div class="sec au">Chapter 10</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">难溶电解质的溶解平衡 & Ksp</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci o">⚖️</div><h3>溶度积常数Ksp</h3>
+      <div class="fb" style="font-size:.76rem;padding:9px">AgCl(s)⇌Ag⁺+Cl⁻ <span class="hl">Ksp</span>=[Ag⁺][Cl⁻]<br>Ag₂CrO₄⇌2Ag⁺+CrO₄²⁻ <span class="hl">Ksp</span>=[Ag⁺]²[CrO₄²⁻]<br>Mg(OH)₂⇌Mg²⁺+2OH⁻ <span class="hl">Ksp</span>=[Mg²⁺][OH⁻]²</div>
+      <p class="p">· Ksp只与<strong>温度</strong>有关（多数溶解吸热→T↑Ksp↑）<br>· 同类型难溶盐可用Ksp比较溶解度大小<br>· 不同类型不能直接用Ksp比（需换算为溶解度S）</p></div>
+    <div class="card au d3"><div class="ci r">🎯</div><h3>溶度积规则（离子积Qc）</h3>
+      <p class="p"><span class="k">Qc&lt;Ksp</span>→不饱和→无沉淀/沉淀溶解<br><span class="kg">Qc=Ksp</span>→饱和→动态平衡<br><span class="kr">Qc&gt;Ksp</span>→过饱和→生成沉淀<br><br>· 沉淀完全标准：[离子]≤10⁻⁵mol/L<br>· 分步沉淀：Ksp小的先沉淀<br>· 沉淀转化：Ksp大→Ksp小(易)；反之需浓溶液</p></div>
+  </div>
+  <div class="card au d4" style="max-width:960px;margin-top:6px"><div class="ci g">📐</div><h3>Ksp与溶解度S的换算</h3>
+    <p class="p">AB型(AgCl)：S=(Ksp)½ | AB₂型(Mg(OH)₂)：S=(Ksp/4)⅓ | A₂B型(Ag₂CrO₄)：S=(Ksp/4)⅓ | AB₃型：S=(Ksp/27)¼</p>
+    <div class="fb" style="font-size:.74rem;padding:9px">通式AmBn→<span class="hl">Ksp</span>=mᵐ·nⁿ·Sᵐ⁺ⁿ | 同类型比较直接用Ksp；不同类型必须换算S后再比较</div></div>
+</section>
+
+<!-- ══════ 14 ─ 原电池电解池 ══════ -->
+<section class="slide" data-index="13">
+  <div class="sec au">Chapter 11</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">原电池 · 电解池 · 新型电池</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci r">🔋</div><h3>原电池（化学能→电能）</h3><p class="p" style="font-size:.73rem;line-height:1.5">· <span class="kr">负极</span>：较活泼金属→<strong>失e⁻→氧化反应</strong><br>· <span class="k">正极</span>：较不活泼→<strong>得e⁻→还原反应</strong><br>· e⁻流向：负极→导线→正极<br>· 电流：正极→导线→负极（与电子反向）<br>· 阳离子→正极 阴离子→负极（盐桥/隔膜）<br>· 盐桥作用：闭合回路+平衡电荷<br>· <strong>形成条件</strong>：①两个电极②电解质③闭合回路④自发的氧化还原反应</p></div>
+    <div class="card au d3"><div class="ci b">⚡</div><h3>电解池（电能→化学能）</h3><p class="p" style="font-size:.73rem;line-height:1.5">· <span class="kr">阳极</span>：与电源<strong>正极</strong>相连→<strong>氧化反应</strong><br>· <span class="k">阴极</span>：与电源<strong>负极</strong>相连→<strong>还原反应</strong><br>· 阳离子→阴极 阴离子→阳极<br>· 活性电极(金属阳极)：阳极本身溶解<br>· 惰性电极(C、Pt)：电解溶液中的离子<br>· 电解方程式=原电池反应的逆反应</p></div>
+  </div>
+  <div class="cg c2" style="margin-top:5px">
+    <div class="card au d4"><div class="ci o">📋</div><h3>放电顺序（惰性电极）</h3><p class="p" style="font-size:.72rem"><span class="k">阴极（阳离子放电）</span>：<br>Ag⁺&gt;Fe³⁺&gt;Cu²⁺&gt;H⁺(酸)&gt;Pb²⁺&gt;Sn²⁺&gt;Fe²⁺&gt;Zn²⁺&gt;H⁺(水)&gt;Al³⁺&gt;Mg²⁺&gt;Na⁺&gt;Ca²⁺&gt;K⁺<br><span class="kr">阳极（阴离子放电）</span>：<br>活性电极&gt;S²⁻&gt;I⁻&gt;Br⁻&gt;Cl⁻&gt;OH⁻&gt;含氧酸根&gt;F⁻</p></div>
+    <div class="card au d5"><div class="ci g">🔬</div><h3>电解规律总结</h3><p class="p" style="font-size:.72rem;line-height:1.5">· 电解含氧酸/强碱/活泼金属含氧酸盐→电解水<br>· 电解无氧酸/不活泼金属无氧酸盐→电解电解质本身<br>· 电解不活泼金属含氧酸盐→阳极产O₂+阴极产金属<br>· Na→Al之间的金属只能通过<strong>电解熔融盐</strong>制备<br>· 电解精炼铜：粗铜作阳极 纯铜作阴极 CuSO₄溶液</p></div>
+  </div>
+  <div class="fb au d6" style="max-width:960px;font-size:.76rem"><span class="hl">新型电池</span>：燃料电池(氢氧/甲醇)|锂离子电池(LiCoO₂→Li₁₋ₓCoO₂)|铅蓄电池(Pb+PbO₂+2H₂SO₄⇌2PbSO₄+2H₂O)|分析框架：判断正负极→写电极反应→注意电解质环境</div>
+</section>
+
+<!-- ══════ 15 ─ 金属腐蚀 ══════ -->
+<section class="slide" data-index="14">
+  <div class="sec au">Chapter 12</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">金属的腐蚀与防护</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci r">🦀</div><h3>金属腐蚀（电化学为主）</h3><p class="p"><strong>化学腐蚀</strong>：金属直接与氧化剂反应（无电流）<br><br><strong>电化学腐蚀</strong>（更普遍、更严重）：<br>· <span class="kr">析氢腐蚀</span>（酸性较强环境）<br>&nbsp;负极：Fe-2e⁻=Fe²⁺|正极：2H⁺+2e⁻=H₂↑<br>· <span class="k">吸氧腐蚀</span>（中性/弱酸/碱性）<br>&nbsp;负极：2Fe-4e⁻=2Fe²⁺<br>&nbsp;正极：O₂+4e⁻+2H₂O=4OH⁻<br>&nbsp;总：2Fe+O₂+2H₂O=2Fe(OH)₂→Fe(OH)₃→Fe₂O₃·xH₂O(铁锈)<br>· 杂质越活泼的金属腐蚀越快（形成原电池）</p></div>
+    <div class="card au d3"><div class="ci g">🛡️</div><h3>金属防护四法</h3><p class="p">❶<strong>牺牲阳极的阴极保护法</strong><br>连接更活泼金属(Zn块于船体)→Zn被腐蚀Fe被保护<br><br>❷<strong>外加电流的阴极保护法</strong><br>被保护金属接电源<strong>负极</strong>作阴极<br><br>❸<strong>覆盖保护层</strong><br>涂漆·镀层(镀Zn镀Sn镀Cr)·搪瓷·发蓝<br><br>❹<strong>改变金属内部结构</strong><br>制成合金（不锈钢加入Cr、Ni）</p></div>
+  </div>
+  <div class="fb au d4" style="max-width:960px;font-size:.76rem"><span class="hl">重点辨析</span>：镀锡铁(马口铁)破损后→Fe作负极加速腐蚀|镀锌铁(白铁)破损后→Zn作负极Fe仍被保护|金属腐蚀本质→金属失电子被氧化的过程</div>
+</section>
+
+<!-- ══════ 16 ─ 金属元素 ══════ -->
+<section class="slide" data-index="15">
+  <div class="sec au">Chapter 13</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">重要金属元素 — Na · Al · Fe · Cu</h2>
+  <div class="hl-strip blue au d2"></div>
+  <table class="dt au d3">
+    <thead><tr><th>元素</th><th>核心转化链</th><th>核心反应（必背）</th><th>颜色&amp;检验</th><th>高考焦点</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Na</strong></td><td>Na→Na₂O→Na₂O₂→NaOH<br>→Na₂CO₃→NaHCO₃</td><td>2Na+O₂→Na₂O₂(黄色火焰)<br>2Na₂O₂+2CO₂=2Na₂CO₃+O₂<br>2Na₂O₂+2H₂O=4NaOH+O₂↑</td><td>Na银白色(煤油保存)<br>Na₂O₂淡黄色<br>Na焰色：黄色</td><td>侯氏制碱法·Na₂O₂<br>NaHCO₃分解·焰色反应<br>碱金属族递变规律</td></tr>
+      <tr><td><strong>Al</strong></td><td>Al→Al₂O₃⇌Al(OH)₃<br>⇌AlO₂⁻/Al³⁺</td><td>2Al+Fe₂O₃→2Fe+Al₂O₃(铝热)<br>Al(OH)₃+OH⁻=AlO₂⁻+2H₂O<br>Al(OH)₃+3H⁺=Al³⁺+3H₂O</td><td>Al银白色<br>Al(OH)₃白色胶状↓<br>铝热反应耀眼白光</td><td><strong>两性</strong>·铝热反应<br>Al₂O₃/Al(OH)₃两性<br>工业炼铝(电解Al₂O₃)</td></tr>
+      <tr><td><strong>Fe</strong></td><td>Fe⇌Fe²⁺⇌Fe³⁺<br>Fe→Fe(OH)₂→Fe(OH)₃</td><td>2Fe³⁺+Fe=3Fe²⁺(归中)<br>2Fe²⁺+Cl₂=2Fe³⁺+2Cl⁻<br>Fe(OH)₂白→灰绿→红褐</td><td>Fe²⁺浅绿|Fe³⁺棕黄<br>Fe³⁺+KSCN→<span style="color:red">血红色</span><br>Fe²⁺+OH⁻→白↓→红褐</td><td>Fe²⁺/Fe³⁺检验·转化<br>铁与水蒸气反应<br>Fe³⁺氧化性·腐蚀</td></tr>
+      <tr><td><strong>Cu</strong></td><td>Cu→CuO→CuSO₄<br>→Cu(OH)₂→CuO</td><td>Cu+4HNO₃(浓)=Cu(NO₃)₂+2NO₂↑+2H₂O<br>3Cu+8HNO₃(稀)=3Cu(NO₃)₂+2NO↑+4H₂O<br>2Cu+O₂+H₂O+CO₂=Cu₂(OH)₂CO₃(铜绿)</td><td>Cu紫红|CuO黑<br>Cu(OH)₂蓝色↓<br>Cu²⁺溶液蓝色</td><td>与浓/稀HNO₃差异<br>铜绿形成·精炼铜<br>CuSO₄·5H₂O胆矾</td></tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;justify-content:center" class="au d4">
+    <span class="tag r">Na₂O₂供氧剂·呼吸面具</span><span class="tag b">Al(OH)₃两性·胃药</span><span class="tag g">Fe³⁺+KSCN→血红色检验</span><span class="tag o">侯氏制碱：NaCl+NH₃+CO₂+H₂O→NaHCO₃↓+NH₄Cl</span>
+  </div>
+</section>
+
+<!-- ══════ 17 ─ 非金属元素 ══════ -->
+<section class="slide" data-index="16">
+  <div class="sec au">Chapter 14</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">重要非金属元素 — S · N · Cl · Si</h2>
+  <div class="hl-strip blue au d2"></div>
+  <table class="dt au d3">
+    <thead><tr><th>元素</th><th>核心转化链</th><th>核心反应（必背）</th><th>特性&amp;检验</th><th>高考焦点</th></tr></thead>
+    <tbody>
+      <tr><td><strong>S</strong></td><td>S→SO₂→SO₃→H₂SO₄<br>S→FeS→H₂S</td><td>SO₂+Cl₂+2H₂O=H₂SO₄+2HCl<br>2H₂S+SO₂=3S↓+2H₂O(归中)<br>Cu+2H₂SO₄(浓)→CuSO₄+SO₂↑+2H₂O</td><td>S黄色|SO₂刺激性<br>SO₂使<strong>品红褪色</strong>(可逆)<br>浓H₂SO₄脱水性+吸水性</td><td>SO₂漂白vsCl₂漂白<br>浓H₂SO₄特性(脱水/强氧化)<br>SO₂还原性·酸雨形成</td></tr>
+      <tr><td><strong>N</strong></td><td>NH₃→N₂→NO→NO₂→HNO₃<br>NH₃→NH₄⁺→NH₃</td><td>4NH₃+5O₂→4NO+6H₂O(催化氧化)<br>3NO₂+H₂O=2HNO₃+NO(歧化)<br>NH₄⁺+OH⁻→NH₃↑+H₂O(检验)</td><td>NO无色→遇空气→NO₂红棕<br>NH₃碱性气体·湿润石蕊变蓝<br>HNO₃浓：钝化Fe、Al</td><td>氨催化氧化·硝酸工业<br>喷泉实验(NH₃ HCl)<br>铵盐检验·雷雨发庄稼</td></tr>
+      <tr><td><strong>Cl</strong></td><td>Cl₂→HCl→HClO<br>Cl₂→NaClO→Ca(ClO)₂</td><td>Cl₂+2NaOH=NaCl+NaClO+H₂O(歧化)<br>MnO₂+4HCl(浓)→MnCl₂+Cl₂↑+2H₂O<br>2Cl₂+2Ca(OH)₂=CaCl₂+Ca(ClO)₂+2H₂O</td><td>Cl₂黄绿色|HClO强氧化<br>Cl₂使湿润淀粉KI变蓝<br>漂白粉有效成分Ca(ClO)₂</td><td>Cl₂与碱反应·歧化<br>卤素递变(F→I)<br>Cl₂的氧化性·漂白原理</td></tr>
+      <tr><td><strong>Si</strong></td><td>SiO₂→Si(粗硅)<br>Si→SiO₂→Na₂SiO₃</td><td>SiO₂+2C→Si+2CO↑(高温)<br>SiO₂+4HF=SiF₄↑+2H₂O<br>SiO₂+2NaOH=Na₂SiO₃+H₂O</td><td>SiO₂光导纤维<br>Si半导体·芯片材料<br>Na₂SiO₃水玻璃·防火</td><td>SiO₂特性(HF腐蚀玻璃)<br>硅酸盐表示·黏土成分<br>Si在周期表中位置</td></tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;justify-content:center" class="au d4">
+    <span class="tag b">SO₂使品红褪色(可逆)</span><span class="tag r">浓H₂SO₄脱水·吸水性</span><span class="tag g">NH₃唯一碱性气体</span><span class="tag o">Cl₂黄绿色</span><span class="tag b">NO₂红棕色</span><span class="tag r">HClO漂白(不可逆)</span>
+  </div>
+</section>
+
+<!-- ══════ 18 ─ 有机化学 ══════ -->
+<section class="slide" data-index="17">
+  <div class="sec au">Chapter 15</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">有机化学 · 烃与衍生物</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci b">🏗️</div><h3>烃类转化链（核心骨架）</h3><p class="p" style="line-height:1.65;font-size:.73rem">烷烃(CₙH₂ₙ₊₂)—<span class="k">光/取代</span>→卤代烃<br>卤代烃—<span class="kr">NaOH醇/消去</span>→烯烃(CₙH₂ₙ)<br>烯烃—<span class="k">H₂O/加成</span>→醇—<span class="kr">Cu/O₂氧化</span>→醛<br>醛—<span class="k">O₂/氧化</span>→羧酸<br>羧酸+醇—<span class="kr">浓H₂SO₄/酯化</span>→酯+H₂O<br>烯烃—<span class="k">加聚</span>→聚合物|炔烃—<span class="kr">水化</span>→醛<br>苯—<span class="k">卤代/硝化/磺化</span>→苯的同系物</p></div>
+    <div class="card au d3"><div class="ci r">🎯</div><h3>官能团 & 特征反应</h3><p class="p" style="line-height:1.65;font-size:.72rem">· <span class="k">C=C</span>—加成(Br₂/H₂/HX/H₂O)、加聚、使KMnO₄褪色<br>· <span class="kr">C≡C</span>—加成(1:1或1:2)、使KMnO₄褪色<br>· <span class="kg">—X(卤素)</span>—NaOH水溶液→取代(NaX)；NaOH醇→消去<br>· <span class="k">—OH(醇)</span>—取代(Na→H₂)、消去(浓H₂SO₄)、氧化→醛/酮<br>· <span class="kr">—OH(酚)</span>—弱酸性、遇Fe³⁺→紫色、Br₂水→白色↓<br>· <span class="kg">—CHO(醛)</span>—银镜反应、与新制Cu(OH)₂→砖红↓<br>· <span class="k">—COOH</span>—酸性(使石蕊变红)、酯化反应<br>· <span class="kr">—COO—(酯)</span>—酸性水解⇌酸+醇；碱性水解→盐+醇(完全)</p></div>
+  </div>
+  <div class="card au d4" style="max-width:960px;margin-top:5px"><div class="ci g">🔬</div><h3>有机物的检验与鉴别（高频考点）</h3>
+    <p class="p" style="font-size:.73rem;line-height:1.5">· 烯烃/炔烃：使Br₂水褪色(加成)、使酸性KMnO₄褪色(氧化)|· 醛基(—CHO)：<span class="k">银镜反应</span>(Ag↓光亮的银)+<span class="kr">新制Cu(OH)₂</span>(砖红色Cu₂O↓)|· 苯酚：遇FeCl₃→<span class="kg">紫色</span>+加浓溴水→<span class="k">白色沉淀</span>|· 淀粉：遇I₂→<span class="kr">蓝色</span>|蛋白质：遇浓HNO₃→<span class="k">黄色</span>(黄蛋白反应)+灼烧→烧焦羽毛味</p></div>
+</section>
+
+<!-- ══════ 19 ─ 实验专题 ══════ -->
+<section class="slide" data-index="18">
+  <div class="sec au">Chapter 16</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">化学实验基础 & 综合探究</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci o">🧪</div><h3>常见气体制备（必背）</h3><p class="p" style="font-size:.73rem;line-height:1.5"><strong>H₂</strong>：Zn+稀H₂SO₄→排水法收集(向下排空气)|验纯：爆鸣声<br><strong>O₂</strong>：2KMnO₄→K₂MnO₄+MnO₂+O₂↑或2H₂O₂→MnO₂→2H₂O+O₂↑|排水法|带火星木条复燃<br><strong>CO₂</strong>：CaCO₃+稀HCl→向上排空气|使澄清石灰水变浑浊<br><strong>Cl₂</strong>：MnO₂+浓HCl(加热)→向上排空气+尾气NaOH吸收|黄绿色<br><strong>NH₃</strong>：NH₄Cl+Ca(OH)₂(加热)→<strong>向下排空气</strong>|湿润红色石蕊变蓝<br><strong>SO₂</strong>：Na₂SO₃+浓H₂SO₄→向上排空气+尾气NaOH|使品红褪色<br><strong>C₂H₄</strong>：C₂H₅OH→浓H₂SO₄/170°C→排水法|使Br₂水褪色</p></div>
+    <div class="card au d3"><div class="ci g">📋</div><h3>离子检验（必背）</h3><p class="p" style="font-size:.72rem;line-height:1.5">· <strong>Fe³⁺</strong>：+KSCN→<span style="color:red">血红色</span>或+NaOH→红褐色↓<br>· <strong>Fe²⁺</strong>：+NaOH→白色↓→灰绿→红褐|+K₃[Fe(CN)₆]→蓝色↓<br>· <strong>SO₄²⁻</strong>：+BaCl₂+HCl(酸化)→白色↓不溶于酸<br>· <strong>Cl⁻</strong>：+AgNO₃+HNO₃→白色↓(AgCl)不溶于酸<br>· <strong>NH₄⁺</strong>：+NaOH(加热)→使湿润<strong>红色</strong>石蕊变蓝<br>· <strong>CO₃²⁻</strong>：+稀酸→无色无味气体使石灰水浑浊<br>· <strong>Al³⁺</strong>：+过量NaOH→先↓后溶解(区别于Mg²⁺)<br>· <strong>I⁻</strong>：+AgNO₃→黄色↓|+淀粉+Cl₂水→蓝色</p></div>
+  </div>
+  <div class="cg c3" style="margin-top:5px">
+    <div class="card au d4"><div class="ci r">⚠️</div><h3>实验安全</h3><p class="p" style="font-size:.71rem">· 浓H₂SO₄稀释：酸入水+搅拌+冷却<br>· 可燃气体点燃前→验纯<br>· 加热试管→预热+管口不对人<br>· 有毒气体实验→通风橱+尾气处理<br>· Na、K着火→沙土覆盖(不能用水/CO₂)</p></div>
+    <div class="card au d5"><div class="ci b">🔬</div><h3>物质分离提纯</h3><p class="p" style="font-size:.71rem">· 过滤(固液分离)·蒸发结晶(NaCl)<br>· 降温结晶(KNO₃)·蒸馏(沸点差异大)<br>· 分液(互不相溶液体)·萃取(Br₂/I₂用CCl₄)<br>· 渗析(胶体与溶液分离)·升华(I₂)</p></div>
+    <div class="card au d6"><div class="ci p">📐</div><h3>定量实验</h3><p class="p" style="font-size:.71rem">· 酸碱中和滴定→测浓度<br>· 蒸发结晶→测结晶水含量<br>· 量气法→测气体摩尔质量<br>· 重量法→测沉淀质量求含量<br>· 注意：平行实验2-3次取平均值</p></div>
+  </div>
+</section>
+
+<!-- ══════ 20 ─ 工业流程题 ══════ -->
+<section class="slide" data-index="19">
+  <div class="sec au">Chapter 17</div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center" class="au d1">化学工业流程题 · 解题模板</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci o">🏭</div><h3>工业流程题三步模型（14分必争）</h3><p class="p" style="font-size:.73rem;line-height:1.55"><strong>①原料预处理阶段</strong><br>· 粉碎/研磨→增大接触面积，加快反应速率<br>· 焙烧/煅烧→改变物质结构或氧化/还原<br>· 酸浸/碱浸→溶解目标物质或除掉杂质<br>· 搅拌→使反应充分·升温→加快反应速率<br><br><strong>②核心反应阶段</strong><br>· 氧化/还原→变价元素调价态(加H₂O₂/Fe等)<br>· pH调节→促进水解沉淀除杂(Fe³⁺/Al³⁺沉淀)<br>· 加入沉淀剂→生成沉淀分离<br>· 置换反应→活泼金属置换不活泼金属</p></div>
+    <div class="card au d3"><div class="ci g">📋</div><h3>③分离提纯阶段（高频考点）</h3><p class="p" style="font-size:.73rem;line-height:1.55"><strong>过滤</strong>：分离不溶性固体与液体<br>· 趁热过滤→防止降温析出<br>· 减压过滤(抽滤)→加快过滤速度<br><strong>结晶</strong>：<br>· 蒸发浓缩+冷却结晶→溶解度差异大(KNO₃型)<br>· 蒸发结晶→溶解度随温度变化小(NaCl型)<br>· 重结晶→提高纯度(多次)<br><strong>洗涤</strong>：<br>· 水洗→除去可溶性杂质<br>· 醇洗→减少溶解损失+快速干燥<br><strong>干燥</strong>：低温烘干/晾干/滤纸吸干</p></div>
+  </div>
+  <div class="fb au d4" style="max-width:960px;font-size:.76rem"><span class="hl">答题模板</span>：①预处理目的：增大接触面积/提高浸出率 | ②控温原因：防止XX分解/防止XX挥发/抑制XX水解 | ③pH调节目的：使XX离子完全沉淀(转化为氢氧化物)而YY离子不沉淀 | ④洗涤目的：除去表面可溶性杂质/减少晶体溶解损失</div>
+</section>
+
+<!-- ══════════ 押题 & 蒙题 板块 ══════════ -->
+
+<!-- ══════ 21 ─ 押题1 ══════ -->
+<section class="slide" data-index="20">
+  <div style="text-align:center;padding-top:2vh">
+    <span class="badge" style="font-size:.8rem;padding:6px 18px">🔥 押题预测</span>
+  </div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center;margin-top:6px" class="au d1">Part 1 — 选择题高频考点预测</h2>
+  <div class="hl-strip blue au d2"></div>
+  <p class="sub au d2" style="font-size:.78rem;max-width:700px">基于近5年高考真题大数据分析 · 锁定7道选择题大概率考点</p>
+  <table class="dt au d3" style="margin-top:8px">
+    <thead><tr><th>题号</th><th>预测考点</th><th>考查形式</th><th>押题指数</th><th>提分策略</th></tr></thead>
+    <tbody>
+      <tr><td><strong>第7题</strong></td><td><span class="k">化学与STSE</span></td><td>化学与生活/环境/材料/能源</td><td>⭐⭐⭐⭐⭐</td><td>记牢：光化学烟雾→NOx；酸雨→SO₂+NOx；PM2.5→颗粒物；碳中和→CO₂吸收=排放；新型材料→石墨烯/碳纤维/钙钛矿</td></tr>
+      <tr><td><strong>第8题</strong></td><td><span class="kr">N<sub>A</sub> 判断题</span></td><td>粒子数/电子转移/共价键数</td><td>⭐⭐⭐⭐⭐</td><td>重点陷阱：标况气体判断+可逆反应+水解+同位素；逐项排除法，先找最明显的错误选项</td></tr>
+      <tr><td><strong>第9题</strong></td><td><span class="kg">离子方程式正误</span></td><td>是否符合事实/守恒/拆分规则</td><td>⭐⭐⭐⭐</td><td>先看"拆没拆对"，再看电荷平不平；注意少量/过量问题(如NaOH少量vs过量与AlCl₃)</td></tr>
+      <tr><td><strong>第10题</strong></td><td><span class="k">元素周期律推断</span></td><td>推位置→推结构→推性质</td><td>⭐⭐⭐⭐⭐</td><td>秒杀技巧：先找原子序数关系→确定元素；甲=乙的电子层结构→看周期；4个选项通常3个对1个错</td></tr>
+      <tr><td><strong>第11题</strong></td><td><span class="kr">有机化学选择</span></td><td>官能团性质/反应类型判断</td><td>⭐⭐⭐⭐</td><td>考点：加成/取代/消去/氧化反应类型区分；官能团性质（—OH/—CHO/—COOH）；同分异构体数</td></tr>
+      <tr><td><strong>第12题</strong></td><td><span class="kg">实验装置与操作</span></td><td>装置图/操作/试剂选择</td><td>⭐⭐⭐⭐</td><td>看装置：发生→净化→收集→尾气处理四步完整；气密性检查必考；试剂选择看反应原理</td></tr>
+      <tr><td><strong>第13题</strong></td><td><span class="k">电化学/速率平衡</span></td><td>新型电池/电解应用/平衡图像</td><td>⭐⭐⭐⭐</td><td>电池分析三步：①判断正负极 ②写电极反应 ③注意电解质环境(酸性/碱性)；平衡图像看起点→拐点→终点</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════ 22 ─ 押题2 ══════ -->
+<section class="slide" data-index="21">
+  <div style="text-align:center;padding-top:2vh"><span class="badge" style="font-size:.8rem;padding:6px 18px">🔥 押题预测</span></div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center;margin-top:6px" class="au d1">Part 2 — 非选择题命题趋势 & 热点</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci r">📊</div><h3>大题一：工业流程题（14分）</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.5"><strong>2026年热门素材预测</strong>：<br>· 锂电池回收(LiCoO₂→Co²⁺+Li⁺浸出→沉淀分离)<br>· 稀土元素提取(离子吸附型稀土矿→浸出→萃取)<br>· 钛白粉(TiO₂)生产工艺(硫酸法/氯化法)<br>· 废旧催化剂回收(Pt、Pd、Rh贵金属)<br>· 海水提溴/提镁/提碘<br><span class="kr">高频考点</span>：pH调节→除Fe³⁺/Al³⁺；氧化剂选择(H₂O₂最环保)；Ksp计算判断沉淀是否完全；循环利用物质判断</p></div>
+    <div class="card au d3"><div class="ci b">📊</div><h3>大题二：化学反应原理（14分）</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.5"><strong>2026年热门素材预测</strong>：<br>· 碳中和相关：CO₂加氢制甲醇(CH₃OH)、CO₂捕集<br>· 合成氨工业优化(N₂+3H₂⇌2NH₃ 条件选择)<br>· SO₂催化氧化制SO₃(接触法制硫酸)<br>· 氢能源相关(水煤气变换反应CO+H₂O⇌CO₂+H₂)<br><span class="k">高频考点</span>：ΔH计算(盖斯定律)；平衡常数K与温度关系；转化率/产率图像分析；催化剂对速率与平衡的影响辨析</p></div>
+  </div>
+  <div class="cg c2" style="margin-top:6px">
+    <div class="card au d4"><div class="ci g">📊</div><h3>大题三：实验探究题（14分）</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.5"><strong>2026年热门素材预测</strong>：<br>· 物质制备+纯度测定(如Na₂CO₃纯度·返滴定法)<br>· 探究条件对反应的影响(温度/pH/浓度对产率)<br>· 氧化还原滴定(KMnO₄法·碘量法)· 沉淀滴定<br>· 配合物制备与性质探究(铜氨配合物/银氨溶液)<br><span class="kg">高频考点</span>：仪器名称与用途；操作步骤排序；产率/纯度计算；误差分析(偏高/偏低)；尾气处理</p></div>
+    <div class="card au d5"><div class="ci o">📊</div><h3>大题四：有机推断（14分 选考）</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.5"><strong>2026年热门素材预测</strong>：<br>· 药物中间体合成(含苯环+杂环的多步合成)<br>· 天然产物合成(黄酮类/生物碱类化合物)<br>· 高分子单体合成(聚酯/聚酰胺类)<br>· 新型农药/染料中间体合成<br><span class="k">高频考点</span>：A→B的试剂与条件；官能团名称；反应类型判断；同分异构体数(限定条件)；合成路线设计</p></div>
+  </div>
+  <div class="fb au d6" style="max-width:960px;font-size:.75rem"><span class="hl">2026命题风向</span>：① 碳中和/碳达峰→CO₂相关化学反应必考 | ② 新能源电池→锂/钠离子电池材料 | ③ 新质生产力→新材料/催化剂/稀土 | ④ 环保主题→废水处理/废气净化/资源回收 | ⑤ 传统文化→古代化学工艺(陶瓷/冶金/造纸)与化学知识结合</div>
+</section>
+
+<!-- ══════ 23 ─ 押题3 ══════ -->
+<section class="slide" data-index="22">
+  <div style="text-align:center;padding-top:2vh"><span class="badge" style="font-size:.8rem;padding:6px 18px">🔥 押题预测</span></div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center;margin-top:6px" class="au d1">Part 3 — 近5年最高频方程式 Top 15</h2>
+  <div class="hl-strip blue au d2"></div>
+  <p class="sub au d2" style="font-size:.76rem;max-width:700px">以下方程式近5年高考中出现≥3次，考前必须会默写！</p>
+  <table class="dt au d3">
+    <thead><tr><th>#</th><th>方程式</th><th>考查场景</th><th>频次</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>MnO₂+4HCl(浓)→MnCl₂+Cl₂↑+2H₂O</td><td>实验室制Cl₂</td><td>5/5</td></tr>
+      <tr><td>2</td><td>3Cu+8HNO₃(稀)=3Cu(NO₃)₂+2NO↑+4H₂O</td><td>Cu与稀硝酸反应</td><td>5/5</td></tr>
+      <tr><td>3</td><td>2Na₂O₂+2CO₂=2Na₂CO₃+O₂</td><td>供氧剂原理</td><td>5/5</td></tr>
+      <tr><td>4</td><td>2Fe³⁺+Fe=3Fe²⁺</td><td>Fe³⁺与Fe归中</td><td>4/5</td></tr>
+      <tr><td>5</td><td>4NH₃+5O₂→4NO+6H₂O(催化剂Δ)</td><td>氨的催化氧化</td><td>4/5</td></tr>
+      <tr><td>6</td><td>Cl₂+2NaOH=NaCl+NaClO+H₂O</td><td>Cl₂尾气处理</td><td>4/5</td></tr>
+      <tr><td>7</td><td>2Al+Fe₂O₃→2Fe+Al₂O₃(高温)</td><td>铝热反应</td><td>4/5</td></tr>
+      <tr><td>8</td><td>3NO₂+H₂O=2HNO₃+NO</td><td>NO₂与水歧化</td><td>3/5</td></tr>
+      <tr><td>9</td><td>2SO₂+O₂⇌2SO₃(催化剂Δ)</td><td>接触法制硫酸</td><td>3/5</td></tr>
+      <tr><td>10</td><td>Fe³⁺+3SCN⁻⇌Fe(SCN)₃</td><td>Fe³⁺检验</td><td>3/5</td></tr>
+      <tr><td>11</td><td>Al(OH)₃+OH⁻=AlO₂⁻+2H₂O</td><td>Al(OH)₃两性</td><td>3/5</td></tr>
+      <tr><td>12</td><td>SiO₂+4HF=SiF₄↑+2H₂O</td><td>HF腐蚀玻璃</td><td>3/5</td></tr>
+      <tr><td>13</td><td>2H₂O₂→2H₂O+O₂↑(MnO₂催化)</td><td>实验室制O₂</td><td>3/5</td></tr>
+      <tr><td>14</td><td>Ba²⁺+SO₄²⁻=BaSO₄↓</td><td>SO₄²⁻检验</td><td>3/5</td></tr>
+      <tr><td>15</td><td>Ag⁺+Cl⁻=AgCl↓</td><td>Cl⁻检验</td><td>3/5</td></tr>
+    </tbody>
+  </table>
+  <div class="fb au d4" style="max-width:960px;font-size:.74rem;margin-top:6px"><span class="hl">考前突击策略</span>：每天默写5个方程式→3天一轮→反复3轮→考试时方程式书写能做到"零失误" | <span class="hl2">特别提醒</span>：注意"浓/稀""加热/高温""催化剂"等反应条件 + ↑↓符号 + 配平检查</div>
+</section>
+
+<!-- ══════ 24 ─ 蒙题1 ══════ -->
+<section class="slide" data-index="23">
+  <div style="text-align:center;padding-top:2vh">
+    <span class="badge" style="background:linear-gradient(135deg,#0071e3,#5ac8fa);font-size:.8rem;padding:6px 18px">🎯 蒙题技巧</span>
+  </div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center;margin-top:6px" class="au d1">Part 1 — 选择题蒙题大法</h2>
+  <div class="hl-strip blue au d2"></div>
+  <p class="sub au d2" style="font-size:.76rem;max-width:700px">注：蒙题是应急策略，建立在已有知识基础上！会的题不要蒙！！</p>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci r">🎲</div><h3>策略一：选项分布规律</h3>
+      <p class="p" style="font-size:.73rem;line-height:1.55">· 高考7道选择，答案ABCD分布通常为<strong>2:2:2:1</strong>或<strong>2:1:2:2</strong><br>· 不会出现某个选项≥4次或≤0次的情况<br>· 做完后统计：如果7题中A只选了1个→剩下不确定的题优先不选A<br>· 连续3题同一选项的概率极低（几乎为0）<br>· <strong>注意</strong>：此规律只是统计学规律，出题人可能打破！已确定的题不要因"统计"改答案！</p></div>
+    <div class="card au d3"><div class="ci o">🚫</div><h3>策略二：绝对词排除法</h3>
+      <p class="p" style="font-size:.73rem;line-height:1.55">· 出现"一定""绝对""总是""必然""全部""完全"等绝对词→95%是错误选项<br>· 出现"可能""一般""通常""往往"等相对词→更可能是正确选项<br>· "以上说法都正确/都错误"类选项：如果前面3个有1个明显错→排除D(都正确)；如果前面2个都对→D(都正确)概率极大<br>· <strong>例外</strong>：化学中有一些确定不变的规律(如"原子一定由原子核和电子构成")→绝对词也可能对</p></div>
+  </div>
+  <div class="cg c3" style="margin-top:5px">
+    <div class="card au d4"><div class="ci g">🔢</div><h3>策略三：数值估算法</h3><p class="p" style="font-size:.71rem">· N<sub>A</sub>题：如果算出来是2.408×10²⁴这种整齐数字→选；是无理小数→大概率错<br>· ΔH计算：答案通常是整数或一位小数；过大(>2000kJ/mol)或过小(&lt;50)的值要怀疑<br>· pH计算：通常0~14之间，强酸强碱混合答案通常接近7<br>· K值：通常在10⁻³~10³之间，极端值要警惕<br>· 产率/转化率：通常50%~95%，100%不现实</p></div>
+    <div class="card au d5"><div class="ci b">⚡</div><h3>策略四：特例反驳法</h3><p class="p" style="font-size:.71rem">· 碰到"所有XX都YY"的说法→立即想反例<br>· "所有金属氧化物都是碱性氧化物"→错！Al₂O₃两性<br>· "所有非金属氧化物都是酸性氧化物"→错！CO/NO不成盐<br>· "所有酸都有酸味"→化学角度对，但这不是化学性质<br>· 一道题中如果能想出1个反例→该选项99%是错的</p></div>
+    <div class="card au d6"><div class="ci p">🔍</div><h3>策略五：图像速判法</h3><p class="p" style="font-size:.71rem">· 平衡图像：重点关注起点/拐点/终点<br>· 上升段=反应正向进行；平台=达到平衡<br>· 多条曲线比较：看谁先达平衡→速率快<br>· pH变化曲线：强酸强碱突跃大(4~10)；弱酸弱碱突跃小<br>· 能量图：放热→生成物能量低于反应物；活化能Ea看"山峰"高度</p></div>
+  </div>
+</section>
+
+<!-- ══════ 25 ─ 蒙题2 ══════ -->
+<section class="slide" data-index="24">
+  <div style="text-align:center;padding-top:2vh"><span class="badge" style="background:linear-gradient(135deg,#0071e3,#5ac8fa);font-size:.8rem;padding:6px 18px">🎯 蒙题技巧</span></div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center;margin-top:6px" class="au d1">Part 2 — 填空题 & 计算题抢分策略</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c2">
+    <div class="card au d2"><div class="ci o">📝</div><h3>方程式书写 — 保底得分法</h3>
+      <p class="p" style="font-size:.73rem;line-height:1.55"><strong>不会写完整方程式时的得分技巧</strong>：<br>· 写出反应物和生成物（化学式写对就得分！）<br>· 配平即使不全对，写对主要产物也得一半分<br>· 离子方程式不确定时→写化学方程式（扣分更少）<br>· 氧化还原反应不确定系数→先按电子守恒配平<br>· 分解反应加热符号△一定要写<br>· 气体↑沉淀↓符号别忘了（每缺1个可能扣0.5）<br>· <strong>绝招</strong>：如果完全不会→观察题目其他信息推测</p></div>
+    <div class="card au d3"><div class="ci b">🔢</div><h3>计算题 — 公式堆砌保底法</h3>
+      <p class="p" style="font-size:.73rem;line-height:1.55"><strong>不会算也要写过程！</strong><br>· n=m/M → 即使不知道M也写这个公式<br>· 产率=实际产量/理论产量×100% → 写公式得1分<br>· 纯度=纯物质质量/样品质量×100%<br>· 平衡常数K表达式→写出来就有分<br>· pH=-lg[H⁺]→即使算不出也要写<br>· 滴定：c测V测=c标V标→写公式可能得2分<br>· <strong>关键</strong>：解题步骤写在卷面上！最终答案错但过程有正确部分→按步给分！</p></div>
+  </div>
+  <div class="cg c2" style="margin-top:5px">
+    <div class="card au d4"><div class="ci g">🏭</div><h3>工业流程题 — 万能答题模板</h3>
+      <p class="p" style="font-size:.71rem;line-height:1.5"><strong>考前背熟这些标准答案用语</strong>：<br>· 粉碎目的："增大接触面积，提高反应速率和浸出率"<br>· 升温目的："加快反应速率"或"提高浸出率"<br>· 控温原因："防止XX分解"或"防止XX挥发"或"抑制XX水解"<br>· 调节pH："使XX离子完全沉淀为氢氧化物"<br>· 加氧化剂："将XX氧化为XX，便于后续分离"<br>· 趁热过滤："防止降温后XX晶体析出"<br>· 洗涤沉淀："除去表面吸附的可溶性杂质"<br>· 循环利用："提高原料利用率，减少废弃物排放"</p></div>
+    <div class="card au d5"><div class="ci r">🧪</div><h3>实验题 — 关键词抢分法</h3>
+      <p class="p" style="font-size:.71rem;line-height:1.5"><strong>看到这些词立即联想标准答案</strong>：<br>· "气密性检查"→关闭XX活塞→微热(或注水)→观察气泡/液柱<br>· "防倒吸"→安全瓶/倒扣漏斗(氨气吸收)<br>· "干燥"→浓H₂SO₄(酸性气体)/碱石灰(碱性气体)/CaCl₂(中性)<br>· "防氧化"→通N₂/CO₂排空气/隔绝空气<br>· "提高产率"→适当升温/搅拌/增大某反应物量<br>· "沉淀是否完全"→取上层清液滴加沉淀剂→观察是否还有沉淀<br>· "洗涤是否干净"→取最后一次洗涤液→检验应无特征离子</p></div>
+  </div>
+</section>
+
+<!-- ══════ 26 ─ 蒙题3 ══════ -->
+<section class="slide" data-index="25">
+  <div style="text-align:center;padding-top:2vh"><span class="badge" style="background:linear-gradient(135deg,#0071e3,#5ac8fa);font-size:.8rem;padding:6px 18px">🎯 蒙题技巧</span></div>
+  <h2 style="font-size:1.6rem;font-weight:800;text-align:center;margin-top:6px" class="au d1">Part 3 — 考场时间管理 & 临场策略</h2>
+  <div class="hl-strip blue au d2"></div>
+  <div class="cg c3">
+    <div class="card au d2"><div class="ci r">⏱️</div><h3>黄金时间分配（理综150min）</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.55">· <strong>选择题</strong>(7题) → 12~15min（最多18min）<br>&nbsp;&nbsp;每题控制在2min以内，超时就跳过先选一个<br>· <strong>工业流程</strong> → 12~15min<br>&nbsp;&nbsp;先看问题再读流程→带着问题找答案<br>· <strong>原理综合</strong> → 12~15min<br>&nbsp;&nbsp;图像题先看横纵坐标→再看起点拐点<br>· <strong>实验探究</strong> → 12~15min<br>&nbsp;&nbsp;先通读→仪器/试剂/操作按流程作答<br>· <strong>有机推断</strong> → 12~15min<br>&nbsp;&nbsp;从已知信息出发正向/逆向结合推断<br>· <strong>留5~8min检查</strong>→重点检查方程式配平和计算</p></div>
+    <div class="card au d3"><div class="ci b">🧠</div><h3>心态管理 — 三不原则</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.55"><strong>① 不恋战</strong><br>一道题超过3分钟没有思路→果断跳过→最后回来<br>标记好题号，不要漏做<br><br><strong>② 不比较</strong><br>不要看旁边同学翻页自己就慌→别人做的可能不一样<br>专注自己的节奏<br><br><strong>③ 不放弃</strong><br>大题中有"根据信息写出XX"→信息就在题目中<br>仔细读题就能得基础分<br>空白=0分，写了就有概率得分</p></div>
+    <div class="card au d4"><div class="ci g">✅</div><h3>交卷前5分钟快速检查</h3>
+      <p class="p" style="font-size:.72rem;line-height:1.55"><strong>优先检查这5项</strong>：<br>❶ 方程式是否配平（元素+电荷+电子）<br>❷ ↑↓是否漏写（气体↑沉淀↓）<br>❸ 单位是否正确（kJ/mol 非 kJ！）<br>❹ 计算题是否写了公式和过程<br>❺ 选择题答题卡是否与试卷一致<br><br><strong>不要做</strong>：<br>· 最后5分钟不要改已确定的答案！<br>· 不要通篇检查→只查易错点<br>· 不要空着任何一道题→不会就猜</p></div>
+  </div>
+  <div class="fb au d5" style="max-width:960px;font-size:.76rem"><span class="hl">考场绝技</span>：遇到完全不会的有机推断题→先写官能团名称(—OH羟基/—CHO醛基/—COOH羧基)和反应类型(取代/加成/消去/氧化/酯化)，这些是通用得分点 | <span class="hl2">终极保底</span>：所有大题的最后1-2问通常是最难的，但第一问通常非常简单（写化学式/命名/写方程式），确保前几问拿满分！</div>
+</section>
+
+<!-- ══════ 27 ─ 最终总结 ══════ -->
+<section class="slide" data-index="26">
+  <div style="text-align:center;padding-top:6vh">
+    <div class="sec au">Final · 27/27</div>
+    <h2 class="hero warm au d1">坚持就是胜利</h2>
+    <div class="hl-strip grad au d2" style="background:var(--g2)"></div>
+    <p class="sub au d3" style="font-size:1rem;max-width:600px">回归课本 · 注重基础 · 勤于总结 · 精做真题</p>
+    <div class="cg c4 au d4" style="margin-top:16px;max-width:720px">
+      <div class="card" style="text-align:center"><div class="ci b" style="margin:0 auto 5px">📖</div><h3>回归课本</h3><p class="p">逐章梳理基础概念</p></div>
+      <div class="card" style="text-align:center"><div class="ci r" style="margin:0 auto 5px">✍️</div><h3>规范答题</h3><p class="p">单位·符号·文字准确</p></div>
+      <div class="card" style="text-align:center"><div class="ci g" style="margin:0 auto 5px">⏰</div><h3>限时训练</h3><p class="p">选择6min/大题12min</p></div>
+      <div class="card" style="text-align:center"><div class="ci o" style="margin:0 auto 5px">💪</div><h3>保持心态</h3><p class="p">先易后难 稳扎稳打</p></div>
+    </div>
+    <div class="fb au d5" style="margin-top:12px;max-width:700px;font-size:.78rem">
+      <span class="hl">应试策略</span>：选择题理解概念+排除法+特例法 | 非选择先看问题再读题·抓住关键词·方程式写对配平 | 计算守恒法优先(质量守恒·电子守恒·电荷守恒)
+    </div>
+    <!-- Bilibili Link -->
+    <div style="margin-top:18px" class="au d6">
+      <a href="https://space.bilibili.com/524744175" target="_blank" class="bilibili-link">
+        <span style="font-size:1.2rem">📺</span> B站主页：space.bilibili.com/524744175
+      </a>
+    </div>
+    <p class="sub au d7" style="margin-top:10px;font-size:.78rem;color:var(--t2)">关注获取更多学习资源！幼儿园_霸王 · RadiantSoul · WKY</p>
+    <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;justify-content:center" class="au d8">
+      <span class="tag b">逐题突破</span><span class="tag r">真题精练</span><span class="tag g">错题整理</span><span class="tag o">公式速记</span><span class="tag b">实验操作</span><span class="tag r">规范书写</span>
+    </div>
+    <p class="sub" style="margin-top:8px;font-size:.85rem;color:#3a3a3c">🎓 熟能生巧 · 持之以恒 · 祝所有考生金榜题名 · 高考加油！🎓</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ══════ Navigation ══════ -->
+<nav class="nav" id="navBar">
+  <button class="nb" id="prevBtn">◀</button>
+  <span id="dotsContainer" style="display:flex;gap:5px;align-items:center"></span>
+  <button class="nb" id="nextBtn">▶</button>
+  <span class="pn" id="pageNum">01/27</span>
+</nav>
+
+<script>
+(function(){
+  const slides=Array.from(document.querySelectorAll('.slide')), total=slides.length;
+  let cur=0, trans=false;
+  const dc=document.getElementById('dotsContainer'), pn=document.getElementById('pageNum');
+  const pb=document.getElementById('prevBtn'), nb=document.getElementById('nextBtn');
+  for(let i=0;i<total;i++){
+    const d=document.createElement('span');
+    d.className='dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>go(i));
+    dc.appendChild(d);
+  }
+  const dots=Array.from(dc.querySelectorAll('.dot'));
+  function upd(){
+    dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+    pn.textContent=String(cur+1).padStart(2,'0')+'/'+String(total).padStart(2,'0');
+  }
+  function go(i){
+    if(trans||i===cur||i<0||i>=total) return;
+    trans=true;
+    const old=slides[cur], nw=slides[i], fwd=i>cur;
+    old.classList.remove('active'); old.classList.add(fwd?'exit-up':'exit-down');
+    nw.classList.remove('exit-up','exit-down');
+    void nw.offsetWidth; nw.classList.add('active');
+    nw.querySelectorAll('[class*="au"]').forEach(el=>{el.classList.remove('au');void el.offsetWidth;el.classList.add('au');});
+    cur=i; upd();
+    setTimeout(()=>{old.classList.remove('exit-up','exit-down');trans=false;},650);
+  }
+  function nx(){go(cur+1);} function pv(){go(cur-1);}
+  pb.addEventListener('click',pv); nb.addEventListener('click',nx);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();nx();}
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();pv();}
+    else if(e.key==='Home'){e.preventDefault();go(0);}
+    else if(e.key==='End'){e.preventDefault();go(total-1);}
+  });
+  let tsY=0,tsX=0;
+  document.addEventListener('touchstart',e=>{tsY=e.touches[0].clientY;tsX=e.touches[0].clientX;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dy=e.changedTouches[0].clientY-tsY, dx=e.changedTouches[0].clientX-tsX;
+    if(Math.abs(dy)>Math.abs(dx)){if(dy<-40)nx();else if(dy>40)pv();}
+    else{if(dx<-40)nx();else if(dx>40)pv();}
+  });
+  let wt; document.addEventListener('wheel',e=>{if(wt)return;wt=setTimeout(()=>{wt=null;},700);if(e.deltaY>20)nx();else if(e.deltaY<-20)pv();},{passive:true});
+  upd();
+})();
+</script>
+</body>
+</html>

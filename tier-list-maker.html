@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>排个锤子 — 万能分级排名器</title>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — 设计令牌系统
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* ── 基础色盘 ── */
+  --color-bg-primary: #F5F5F7;
+  --color-bg-secondary: #F8F9FA;
+  --color-bg-tertiary: #F0F1F3;
+  --color-bg-elevated: #FFFFFF;
+  --color-surface-glass: rgba(255,255,255,0.72);
+  --color-text-primary: #1A1A2E;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary: #9CA3AF;
+  --color-border-default: #E5E7EB;
+  --color-border-hover: #C4C4C4;
+  --color-border-focus: #6366F1;
+  --color-accent: #6366F1;
+  --color-accent-hover: #5558E8;
+  --color-danger: #EF4444;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+
+  /* ── 经典分级色 ── */
+  --tier-s: #E74C3C;
+  --tier-s-text: #FFFFFF;
+  --tier-a: #F39C12;
+  --tier-a-text: #FFFFFF;
+  --tier-b: #F1C40F;
+  --tier-b-text: #1A1A2E;
+  --tier-c: #95A5A6;
+  --tier-c-text: #FFFFFF;
+  --tier-d: #BDC3C7;
+  --tier-d-text: #1A1A2E;
+
+  /* ── 阴影 ── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.16);
+  --shadow-drag: 0 20px 60px rgba(0,0,0,0.25);
+  --shadow-glow: 0 0 16px rgba(99,102,241,0.4);
+
+  /* ── 圆角 ── */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ── 间距 ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* ── 动画 ── */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+
+  /* ── 字体 ── */
+  --font-ui: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-en: "Inter", "SF Pro Display", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", monospace;
+
+  /* ── 导航栏高度 ── */
+  --toolbar-h: 48px;
+  --statusbar-h: 28px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE — 黑夜模式
+   ═══════════════════════════════════════════════════════════════ */
+body.dark {
+  --color-bg-primary: #0D0D0D;
+  --color-bg-secondary: #1A1A1A;
+  --color-bg-tertiary: #242424;
+  --color-bg-elevated: #2A2A2A;
+  --color-surface-glass: rgba(30,30,30,0.72);
+  --color-text-primary: #E5E5E7;
+  --color-text-secondary: #9CA3AF;
+  --color-text-tertiary: #6B7280;
+  --color-border-default: #333333;
+  --color-border-hover: #555555;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.5);
+  --shadow-drag: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%; overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: 14px; color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  transition: background-color var(--duration-slow) ease-in-out,
+              color var(--duration-slow) ease-in-out;
+  user-select: none; -webkit-user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL — 应用外壳
+   ═══════════════════════════════════════════════════════════════ */
+#app {
+  display: flex; flex-direction: column; height: 100vh;
+  background: var(--color-bg-primary);
+}
+
+/* ── 工具栏 ── */
+#toolbar {
+  display: flex; align-items: center; gap: var(--space-2);
+  height: var(--toolbar-h); padding: 0 var(--space-4);
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border-default);
+  z-index: 100; flex-shrink: 0;
+  transition: background-color var(--duration-slow), border-color var(--duration-slow);
+}
+
+#toolbar .brand {
+  font-size: 18px; font-weight: 700; color: var(--color-text-primary);
+  margin-right: var(--space-4); white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+#toolbar .brand span { font-weight: 400; color: var(--color-text-secondary); font-size: 12px; margin-left: 4px; }
+
+.toolbar-group {
+  display: flex; align-items: center; gap: var(--space-1);
+  padding: 0 var(--space-3);
+  border-left: 1px solid var(--color-border-default);
+}
+.toolbar-group:first-of-type { border-left: none; }
+
+.toolbar-spacer { flex: 1; }
+
+/* ── 工具栏按钮 ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 6px 12px; border-radius: var(--radius-md); border: 1px solid transparent;
+  background: transparent; color: var(--color-text-secondary);
+  font-family: var(--font-ui); font-size: 13px; cursor: pointer;
+  transition: all var(--duration-fast) ease-out;
+  white-space: nowrap; outline: none;
+}
+.btn:hover { background: var(--color-bg-tertiary); color: var(--color-text-primary); }
+.btn:active { transform: scale(0.96); }
+.btn.active { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+.btn.active:hover { background: var(--color-accent-hover); }
+.btn.danger { color: var(--color-danger); }
+.btn.danger:hover { background: var(--color-danger); color: #fff; }
+
+.btn-icon {
+  width: 32px; height: 32px; padding: 0; border-radius: var(--radius-md);
+  font-size: 18px; line-height: 1;
+}
+
+/* ── 下拉菜单 ── */
+.dropdown { position: relative; display: inline-flex; }
+.dropdown-menu {
+  display: none; position: absolute; top: 100%; left: 0; z-index: 200;
+  min-width: 160px; padding: var(--space-1);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  animation: menuIn var(--duration-fast) ease-out;
+  transform-origin: top left;
+}
+.dropdown.open .dropdown-menu { display: block; }
+@keyframes menuIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+.dropdown-item {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: 8px 12px; border-radius: var(--radius-md); cursor: pointer;
+  font-size: 13px; color: var(--color-text-primary);
+  transition: background var(--duration-fast);
+}
+.dropdown-item:hover { background: var(--color-bg-tertiary); }
+.dropdown-item .shortcut { margin-left: auto; color: var(--color-text-tertiary); font-size: 11px; }
+.dropdown-divider { height: 1px; background: var(--color-border-default); margin: var(--space-1) 0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN LAYOUT — 三栏布局
+   ═══════════════════════════════════════════════════════════════ */
+#main-content {
+  display: flex; flex: 1; overflow: hidden;
+}
+
+/* ── 左侧面板 ── */
+#left-panel {
+  width: 220px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid var(--color-border-default);
+  transition: all var(--duration-slow);
+  overflow: hidden;
+}
+#left-panel.collapsed { width: 0; border-right: none; }
+
+.panel-section {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border-default);
+}
+.panel-section:last-child { border-bottom: none; }
+.panel-section h3 {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  color: var(--color-text-tertiary); letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+/* ── 素材区 ── */
+#asset-grid {
+  display: flex; flex-wrap: wrap; gap: var(--space-2); align-content: flex-start;
+  min-height: 60px; max-height: 200px; overflow-y: auto;
+  padding: var(--space-2);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--color-border-default);
+  transition: border-color var(--duration-fast);
+}
+#asset-grid.drag-over { border-color: var(--color-accent); background: rgba(99,102,241,0.05); }
+#asset-grid:empty::after {
+  content: '拖入图片或点击导入';
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 60px; color: var(--color-text-tertiary);
+  font-size: 12px;
+}
+
+.asset-thumb {
+  width: 56px; height: 56px; border-radius: var(--radius-lg);
+  background-size: cover; background-position: center;
+  cursor: grab; position: relative;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--duration-fast);
+}
+.asset-thumb:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.asset-thumb.dragging { opacity: 0.4; }
+.asset-thumb .delete-btn {
+  position: absolute; top: -6px; right: -6px; width: 18px; height: 18px;
+  background: var(--color-danger); color: #fff; border-radius: var(--radius-full);
+  font-size: 10px; line-height: 18px; text-align: center; cursor: pointer;
+  opacity: 0; transition: opacity var(--duration-fast);
+}
+.asset-thumb:hover .delete-btn { opacity: 1; }
+.asset-thumb .asset-name {
+  position: absolute; bottom: -16px; left: 0; right: 0;
+  font-size: 9px; color: var(--color-text-tertiary);
+  text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ── 模板库 ── */
+.template-list { display: flex; flex-direction: column; gap: var(--space-1); }
+.template-item {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: 8px 10px; border-radius: var(--radius-md);
+  cursor: pointer; font-size: 13px;
+  transition: background var(--duration-fast);
+  border: 1px solid transparent;
+}
+.template-item:hover { background: var(--color-bg-tertiary); }
+.template-item.active { background: rgba(99,102,241,0.1); border-color: var(--color-accent); }
+.template-item .emoji { font-size: 18px; flex-shrink: 0; }
+.template-item .name { flex: 1; }
+.template-item .tiers-preview { font-size: 10px; color: var(--color-text-tertiary); }
+
+/* ── 右侧面板 ── */
+#right-panel {
+  width: 240px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid var(--color-border-default);
+  transition: all var(--duration-slow);
+  overflow-y: auto; overflow-x: hidden;
+}
+#right-panel.collapsed { width: 0; border-left: none; }
+
+.property-group {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border-default);
+}
+.property-group:last-child { border-bottom: none; }
+.property-group label {
+  display: block; font-size: 11px; font-weight: 600; color: var(--color-text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-2);
+}
+
+input[type="text"], textarea, select {
+  width: 100%; padding: 8px 10px;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui); font-size: 13px;
+  color: var(--color-text-primary); outline: none;
+  transition: all var(--duration-fast);
+}
+input[type="text"]:focus, textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+input[type="color"] {
+  width: 100%; height: 36px; border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md); cursor: pointer; padding: 2px;
+  background: var(--color-bg-tertiary);
+}
+input[type="range"] { width: 100%; accent-color: var(--color-accent); }
+
+.row-count-display {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-size: 13px; color: var(--color-text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CANVAS — 主画布
+   ═══════════════════════════════════════════════════════════════ */
+#canvas {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: var(--space-6);
+  background: var(--color-bg-primary);
+  transition: background-color var(--duration-slow);
+}
+
+#canvas-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+
+/* ── 标题栏 ── */
+#title-bar {
+  text-align: center; padding: var(--space-3) 0;
+}
+#title-input {
+  font-size: 22px; font-weight: 700; text-align: center;
+  background: transparent; border: 2px dashed transparent;
+  padding: 4px 12px; width: auto; min-width: 200px;
+  transition: border-color var(--duration-fast);
+  cursor: text;
+}
+#title-input:hover { border-color: var(--color-border-default); }
+#title-input:focus { border-color: var(--color-accent); outline: none; background: var(--color-bg-elevated); }
+
+/* ── 梯队行 ── */
+.tier-row {
+  display: flex; gap: 0; border-radius: var(--radius-lg);
+  overflow: hidden; min-height: 80px;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--duration-fast), background-color var(--duration-slow);
+  background: var(--color-bg-elevated);
+}
+.tier-row.drag-over { box-shadow: var(--shadow-glow); }
+.tier-row.drag-over .tier-label { filter: brightness(1.15); }
+
+.tier-label {
+  width: 90px; min-height: 80px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--space-3); cursor: pointer;
+  transition: all var(--duration-fast);
+  position: relative;
+}
+.tier-label .label-text {
+  font-size: 16px; font-weight: 700; text-align: center;
+  word-break: break-all; line-height: 1.2;
+}
+.tier-label .label-rank {
+  font-size: 24px; font-weight: 800; opacity: 0.3;
+  font-family: var(--font-en);
+  margin-bottom: 2px;
+}
+.tier-label .edit-hint {
+  font-size: 10px; opacity: 0; transition: opacity var(--duration-fast);
+  margin-top: 2px;
+}
+.tier-label:hover .edit-hint { opacity: 0.6; }
+
+.tier-cards {
+  flex: 1; display: flex; flex-wrap: wrap; gap: var(--space-2);
+  padding: var(--space-3); align-items: center; align-content: flex-start;
+  background: var(--color-bg-elevated);
+  min-height: 80px;
+  transition: background-color var(--duration-slow);
+}
+.tier-cards:empty::after {
+  content: '拖拽卡片到此处';
+  color: var(--color-text-tertiary); font-size: 13px;
+  font-style: italic; padding: var(--space-4);
+}
+
+.tier-actions {
+  display: flex; flex-direction: column; gap: 2px; padding: var(--space-1);
+  opacity: 0; transition: opacity var(--duration-fast);
+}
+.tier-row:hover .tier-actions { opacity: 1; }
+.tier-actions button {
+  width: 24px; height: 24px; border: none; background: var(--color-bg-tertiary);
+  border-radius: var(--radius-sm); cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-secondary); transition: all var(--duration-fast);
+}
+.tier-actions button:hover { background: var(--color-accent); color: #fff; }
+
+/* ── 卡片 ── */
+.card {
+  width: 72px; height: 72px; border-radius: var(--radius-lg);
+  background-size: cover; background-position: center;
+  cursor: grab; flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+  border: 2px solid transparent;
+  transition: all var(--duration-fast);
+  position: relative;
+  animation: cardIn 300ms cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes cardIn { from { opacity: 0; transform: scale(0.8) translateY(-8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.card.dragging { opacity: 0.3; transform: scale(0.9); }
+.card.drag-ghost { opacity: 0.6; border: 2px dashed var(--color-accent); }
+
+.card.text-card {
+  background: var(--color-bg-elevated); display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: var(--space-2); font-size: 12px; font-weight: 500;
+  word-break: break-all; line-height: 1.3; overflow: hidden;
+  border: 1px solid var(--color-border-default);
+  white-space: pre-wrap;
+}
+.card.text-card.pill { border-radius: var(--radius-full); }
+.card.text-card.sharp { border-radius: 2px; }
+.card.text-card.tag {
+  border-radius: var(--radius-sm) var(--radius-full) var(--radius-full) var(--radius-sm);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+}
+
+.card .card-delete {
+  position: absolute; top: -6px; right: -6px; width: 18px; height: 18px;
+  background: var(--color-danger); color: #fff; border-radius: var(--radius-full);
+  font-size: 10px; line-height: 18px; text-align: center; cursor: pointer;
+  opacity: 0; transition: opacity var(--duration-fast); border: none;
+}
+.card:hover .card-delete { opacity: 1; }
+
+/* ── 添加行按钮 ── */
+#add-tier-btn {
+  display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+  padding: var(--space-4); border: 2px dashed var(--color-border-default);
+  border-radius: var(--radius-lg); cursor: pointer;
+  color: var(--color-text-tertiary); font-size: 14px;
+  transition: all var(--duration-fast);
+}
+#add-tier-btn:hover { border-color: var(--color-accent); color: var(--color-accent); background: rgba(99,102,241,0.04); }
+
+/* ── 空状态 ── */
+#empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--space-12); text-align: center; color: var(--color-text-tertiary);
+}
+#empty-state .icon { font-size: 64px; margin-bottom: var(--space-4); animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+#empty-state h2 { font-size: 18px; margin-bottom: var(--space-2); color: var(--color-text-primary); }
+#empty-state .actions { display: flex; gap: var(--space-3); margin-top: var(--space-6); }
+
+/* ═══════════════════════════════════════════════════════════════
+   STATUS BAR
+   ═══════════════════════════════════════════════════════════════ */
+#statusbar {
+  display: flex; align-items: center; gap: var(--space-4);
+  height: var(--statusbar-h); padding: 0 var(--space-4);
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--color-border-default);
+  font-size: 11px; color: var(--color-text-tertiary);
+  flex-shrink: 0; z-index: 100;
+  transition: background-color var(--duration-slow), border-color var(--duration-slow);
+}
+#statusbar .stat { display: flex; align-items: center; gap: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL / DIALOG
+   ═══════════════════════════════════════════════════════════════ */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+  animation: fadeIn var(--duration-fast) ease-out;
+}
+.modal-overlay.show { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--color-bg-elevated); border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);
+  padding: var(--space-6); min-width: 360px; max-width: 90vw; max-height: 80vh;
+  overflow-y: auto; animation: modalIn 250ms ease-out;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal h2 { font-size: 18px; font-weight: 700; margin-bottom: var(--space-4); }
+.modal .modal-actions { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-6); }
+
+/* ═══════════════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════════════ */
+#toast-container {
+  position: fixed; bottom: 40px; right: 20px; z-index: 400;
+  display: flex; flex-direction: column; gap: var(--space-2);
+}
+.toast {
+  padding: 12px 20px; background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  font-size: 13px; animation: toastIn 300ms ease-out;
+  display: flex; align-items: center; gap: var(--space-2);
+  max-width: 360px;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+.toast.success { border-left: 3px solid var(--color-success); }
+.toast.error { border-left: 3px solid var(--color-danger); }
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTEXT MENU
+   ═══════════════════════════════════════════════════════════════ */
+#context-menu {
+  display: none; position: fixed; z-index: 350;
+  min-width: 180px; padding: var(--space-1);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  animation: menuIn var(--duration-fast) ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EXPORT PREVIEW
+   ═══════════════════════════════════════════════════════════════ */
+#export-preview {
+  position: fixed; left: -9999px; top: 0;
+  background: var(--color-bg-elevated);
+}
+#export-preview.dark-bg { background: #1A1A1A; }
+#export-preview.light-bg { background: #FFFFFF; }
+
+/* ── 响应式 ── */
+@media (max-width: 900px) {
+  #left-panel, #right-panel { position: fixed; top: var(--toolbar-h); bottom: var(--statusbar-h); z-index: 150; }
+  #left-panel { left: 0; }
+  #left-panel.collapsed { left: -220px; }
+  #right-panel { right: 0; }
+  #right-panel.collapsed { right: -240px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════ APP SHELL ═══════════ -->
+<div id="app">
+
+  <!-- ── 工具栏 ── -->
+  <div id="toolbar">
+    <div class="brand">排个锤子 <span>万能分级排名器</span></div>
+
+    <div class="toolbar-group">
+      <button class="btn active" id="btn-mode-image" title="图片模式">📷 图片</button>
+      <button class="btn" id="btn-mode-text" title="文字模式">📝 文字</button>
+      <button class="btn" id="btn-mode-mixed" title="混合模式">🔀 混合</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="dropdown" id="dropdown-theme">
+        <button class="btn" id="btn-theme-trigger">🎨 主题 ▾</button>
+        <div class="dropdown-menu" id="theme-menu"></div>
+      </div>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="btn btn-icon" id="btn-remove-tier" title="减少行" disabled>−</button>
+      <span class="row-count-display"><span id="row-count-num">5</span>行</span>
+      <button class="btn btn-icon" id="btn-add-tier" title="增加行">+</button>
+    </div>
+
+    <div class="toolbar-spacer"></div>
+
+    <div class="toolbar-group">
+      <button class="btn btn-icon" id="btn-undo" title="撤销 (Ctrl+Z)">↩</button>
+      <button class="btn btn-icon" id="btn-redo" title="重做 (Ctrl+Y)">↪</button>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="btn" id="btn-export">📥 导出</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="dropdown" id="dropdown-theme-mode">
+        <button class="btn btn-icon" id="btn-theme-mode" title="切换黑夜/白天模式">☀️</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" data-mode="light">☀️ 白天模式</div>
+          <div class="dropdown-item" data-mode="dark">🌙 黑夜模式</div>
+          <div class="dropdown-item" data-mode="system">🖥️ 跟随系统</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="btn btn-icon" id="btn-toggle-left" title="切换素材面板">◀</button>
+    </div>
+  </div>
+
+  <!-- ── 主内容区 ── -->
+  <div id="main-content">
+
+    <!-- 左侧面板：素材 + 模板库 -->
+    <div id="left-panel">
+      <div class="panel-section">
+        <h3>📁 素材区</h3>
+        <div id="asset-grid" ondragover="event.preventDefault(); this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="App.onAssetDrop(event)">
+        </div>
+        <div style="margin-top:8px;display:flex;gap:4px;">
+          <button class="btn" id="btn-import" style="flex:1;font-size:11px;">📷 导入图片</button>
+          <button class="btn" id="btn-clear-assets" style="font-size:11px;" title="清空素材">🗑</button>
+        </div>
+        <input type="file" id="file-input" accept="image/*" multiple hidden>
+      </div>
+
+      <div class="panel-section" style="flex:1;overflow-y:auto;">
+        <h3>📋 模板库</h3>
+        <div class="template-list" id="template-list"></div>
+      </div>
+    </div>
+
+    <!-- 中央画布 -->
+    <div id="canvas">
+      <div id="canvas-inner">
+        <!-- 空状态 -->
+        <div id="empty-state">
+          <div class="icon">📋</div>
+          <h2>还没有任何内容</h2>
+          <p>拖拽图片到此处，或点击下方按钮开始</p>
+          <div class="actions">
+            <button class="btn active" onclick="document.getElementById('file-input').click()">📷 导入图片</button>
+            <button class="btn" onclick="App.addTextCardToFirstRow()">📝 输入文字</button>
+          </div>
+          <p style="margin-top:16px;color:var(--color-text-tertiary);">── 或者从模板开始 ──</p>
+          <div class="actions" id="quick-templates"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧属性面板 -->
+    <div id="right-panel">
+      <div class="property-group">
+        <label>🏷️ 标签文字</label>
+        <input type="text" id="prop-label" placeholder="选择一行编辑" disabled>
+      </div>
+      <div class="property-group">
+        <label>🎨 行颜色</label>
+        <input type="color" id="prop-color" value="#E74C3C" disabled>
+      </div>
+      <div class="property-group">
+        <label>📝 文字颜色</label>
+        <input type="color" id="prop-text-color" value="#FFFFFF" disabled>
+      </div>
+      <div class="property-group">
+        <label>📏 最小卡片高度</label>
+        <input type="range" id="prop-min-height" min="60" max="160" value="80" disabled>
+      </div>
+      <div class="property-group">
+        <label>🔒 锁定此行</label>
+        <button class="btn" id="prop-lock" disabled style="width:100%;">🔓 未锁定</button>
+      </div>
+      <div class="property-group">
+        <label>🖼️ 全局背景</label>
+        <input type="color" id="prop-canvas-bg" value="#FFFFFF">
+        <button class="btn" id="prop-reset-bg" style="width:100%;margin-top:4px;font-size:11px;">重置背景</button>
+      </div>
+      <div class="property-group">
+        <label>📐 卡片圆角</label>
+        <input type="range" id="prop-card-radius" min="0" max="40" value="12">
+      </div>
+      <div class="property-group">
+        <label>📏 卡片间距</label>
+        <input type="range" id="prop-gap" min="2" max="24" value="8">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 状态栏 ── -->
+  <div id="statusbar">
+    <span class="stat">🖼️ <span id="stat-images">0</span> 张图</span>
+    <span class="stat">📝 <span id="stat-texts">0</span> 个文字</span>
+    <span class="stat">📏 <span id="stat-rows">5</span> 行</span>
+    <span style="flex:1;"></span>
+    <span class="stat" id="stat-save">💾 已保存</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ CONTEXT MENU ════════ -->
+<div id="context-menu"></div>
+
+<!-- ══════════════════════════════════════════════════════ TOAST CONTAINER ═══════ -->
+<div id="toast-container"></div>
+
+<!-- ══════════════════════════════════════════════════════ EXPORT PREVIEW ═══════ -->
+<div id="export-preview"></div>
+
+<!-- ══════════════════════════════════════════════════════ EXPORT DIALOG ═══════ -->
+<div class="modal-overlay" id="export-modal">
+  <div class="modal">
+    <h2>📥 导出排行图</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);">导出比例</label>
+        <div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;" id="ratio-options"></div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);">分辨率</label>
+        <div style="display:flex;gap:6px;margin-top:4px;" id="scale-options"></div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);">格式</label>
+        <div style="display:flex;gap:6px;margin-top:4px;" id="format-options"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="App.closeExportModal()">取消</button>
+      <button class="btn active" id="btn-export-confirm">导出 PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ TEXT INPUT MODAL ═══════ -->
+<div class="modal-overlay" id="text-modal">
+  <div class="modal">
+    <h2 id="text-modal-title">添加文字卡片</h2>
+    <textarea id="text-modal-input" rows="4" placeholder="输入文字内容（每行一个条目）" style="resize:vertical;"></textarea>
+    <div style="margin-top:8px;font-size:11px;color:var(--color-text-tertiary);">
+      提示：每行一个字条目，或用逗号分隔
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="App.closeTextModal()">取消</button>
+      <button class="btn active" id="btn-text-confirm">确认添加</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ SCRIPT ════════════════════ -->
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   APP STATE & ENGINE — 应用状态引擎
+   ═══════════════════════════════════════════════════════════════ */
+const App = {
+  // ── 状态 ──
+  state: {
+    tiers: [],
+    assets: [],          // { id, name, dataUrl, mimeType }
+    nextId: 1,
+    history: [],
+    historyIndex: -1,
+    selectedTierId: null,
+    mode: 'mixed',       // 'image' | 'text' | 'mixed'
+    themeMode: 'light',  // 'light' | 'dark'
+    globalBg: '#FFFFFF',
+    cardRadius: 12,
+    cardGap: 8,
+    titleText: '',
+    exportRatio: '3:4',
+    exportScale: '2x',
+    exportFormat: 'png',
+  },
+
+  // ── 内置模板 ──
+  templates: [
+    { name: '🎮 游戏角色', icon: '🎮', tiers: [
+      {label:'神中神',color:'#E74C3C',textColor:'#FFFFFF'},{label:'T0',color:'#F39C12',textColor:'#FFFFFF'},
+      {label:'T1',color:'#F1C40F',textColor:'#1A1A2E'},{label:'T2',color:'#3498DB',textColor:'#FFFFFF'},
+      {label:'T3',color:'#95A5A6',textColor:'#FFFFFF'},{label:'仓管',color:'#BDC3C7',textColor:'#1A1A2E'}
+    ]},
+    { name: '🍔 美食评价', icon: '🍔', tiers: [
+      {label:'此生必吃',color:'#E74C3C',textColor:'#FFFFFF'},{label:'值得排队',color:'#F39C12',textColor:'#FFFFFF'},
+      {label:'路过可买',color:'#F1C40F',textColor:'#1A1A2E'},{label:'算了别去',color:'#95A5A6',textColor:'#FFFFFF'},
+      {label:'避雷',color:'#BDC3C7',textColor:'#1A1A2E'}
+    ]},
+    { name: '📱 数码评测', icon: '📱', tiers: [
+      {label:'闭眼入',color:'#E74C3C',textColor:'#FFFFFF'},{label:'性价比高',color:'#F39C12',textColor:'#FFFFFF'},
+      {label:'中庸',color:'#F1C40F',textColor:'#1A1A2E'},{label:'不值',color:'#95A5A6',textColor:'#FFFFFF'},
+      {label:'智商税',color:'#BDC3C7',textColor:'#1A1A2E'}
+    ]},
+    { name: '📚 学科吐槽', icon: '📚', tiers: [
+      {label:'神课',color:'#E74C3C',textColor:'#FFFFFF'},{label:'好课',color:'#F39C12',textColor:'#FFFFFF'},
+      {label:'水课',color:'#F1C40F',textColor:'#1A1A2E'},{label:'坑课',color:'#95A5A6',textColor:'#FFFFFF'},
+      {label:'快跑',color:'#BDC3C7',textColor:'#1A1A2E'}
+    ]},
+    { name: '🏀 体育球员', icon: '🏀', tiers: [
+      {label:'GOAT',color:'#E74C3C',textColor:'#FFFFFF'},{label:'超巨',color:'#F39C12',textColor:'#FFFFFF'},
+      {label:'全明星',color:'#F1C40F',textColor:'#1A1A2E'},{label:'首发',color:'#3498DB',textColor:'#FFFFFF'},
+      {label:'替补',color:'#95A5A6',textColor:'#FFFFFF'},{label:'饮水机',color:'#BDC3C7',textColor:'#1A1A2E'}
+    ]},
+    { name: '⭐ 经典夯到拉', icon: '⭐', tiers: [
+      {label:'夯',color:'#E74C3C',textColor:'#FFFFFF'},{label:'顶级',color:'#F39C12',textColor:'#FFFFFF'},
+      {label:'人上人',color:'#F1C40F',textColor:'#1A1A2E'},{label:'NPC',color:'#95A5A6',textColor:'#FFFFFF'},
+      {label:'拉完了',color:'#BDC3C7',textColor:'#1A1A2E'}
+    ]},
+  ],
+
+  themes: [
+    { name: '经典红橙', colors: ['#E74C3C','#F39C12','#F1C40F','#95A5A6','#BDC3C7'], texts: ['#FFF','#FFF','#1A1A2E','#FFF','#1A1A2E'] },
+    { name: '莫兰迪', colors: ['#C9AFA0','#B5A99A','#A3A194','#91998E','#7F9188'], texts: ['#FFF','#FFF','#1A1A2E','#FFF','#FFF'] },
+    { name: '赛博朋克', colors: ['#FF00FF','#00FFFF','#FFFF00','#FF6600','#9900FF'], texts: ['#000','#000','#000','#FFF','#FFF'] },
+    { name: '黑白极简', colors: ['#1A1A2E','#4A4A5A','#7A7A8A','#AAAAAA','#DDDDDD'], texts: ['#FFF','#FFF','#FFF','#1A1A2E','#1A1A2E'] },
+    { name: '糖果色', colors: ['#FF6B6B','#FFA07A','#FFD93D','#6BCB77','#4D96FF'], texts: ['#FFF','#FFF','#1A1A2E','#FFF','#FFF'] },
+    { name: '黑金', colors: ['#FFD700','#DAA520','#B8860B','#8B7500','#6B5B00'], texts: ['#000','#000','#FFF','#FFF','#FFF'] },
+    { name: '水彩', colors: ['#FFB3BA','#FFDFBA','#FFFFBA','#BAFFC9','#BAE1FF'], texts: ['#1A1A2E','#1A1A2E','#1A1A2E','#1A1A2E','#1A1A2E'] },
+    { name: '像素复古', colors: ['#FF004D','#FFA300','#FFEC27','#00E436','#29ADFF'], texts: ['#FFF','#1A1A2E','#1A1A2E','#1A1A2E','#FFF'] },
+    { name: 'B站粉蓝', colors: ['#FB7299','#FC8DAD','#6DC5E0','#A8D8EA','#E8E8E8'], texts: ['#FFF','#FFF','#FFF','#1A1A2E','#1A1A2E'] },
+  ],
+
+  // ── 初始化 ──
+  init() {
+    this.state.tiers = this.templates[5].tiers.map((t, i) => ({
+      id: `tier-${this.state.nextId++}`,
+      label: t.label,
+      color: t.color,
+      textColor: t.textColor,
+      borderStyle: 'solid',
+      borderColor: 'transparent',
+      minCardHeight: 80,
+      maxCards: null,
+      locked: false,
+      sortOrder: i,
+      items: [],
+    }));
+    this.saveHistory();
+    this.applyThemeMode();
+    this.renderAll();
+    this.bindEvents();
+    this.watchSystemTheme();
+  },
+
+  // ── 生成唯一 ID ──
+  uid() { return `el-${this.state.nextId++}`; },
+
+  // ── 历史记录 ──
+  saveHistory() {
+    const snapshot = JSON.parse(JSON.stringify(this.state.tiers));
+    this.state.history = this.state.history.slice(0, this.state.historyIndex + 1);
+    this.state.history.push(snapshot);
+    if (this.state.history.length > 50) this.state.history.shift();
+    this.state.historyIndex = this.state.history.length - 1;
+    this.updateUndoRedoButtons();
+  },
+
+  undo() {
+    if (this.state.historyIndex <= 0) return;
+    this.state.historyIndex--;
+    this.state.tiers = JSON.parse(JSON.stringify(this.state.history[this.state.historyIndex]));
+    this.state.selectedTierId = null;
+    this.renderAll();
+    this.updateUndoRedoButtons();
+    this.showToast('已撤销', 'success');
+  },
+
+  redo() {
+    if (this.state.historyIndex >= this.state.history.length - 1) return;
+    this.state.historyIndex++;
+    this.state.tiers = JSON.parse(JSON.stringify(this.state.history[this.state.historyIndex]));
+    this.state.selectedTierId = null;
+    this.renderAll();
+    this.updateUndoRedoButtons();
+    this.showToast('已重做', 'success');
+  },
+
+  updateUndoRedoButtons() {
+    document.getElementById('btn-undo').style.opacity = this.state.historyIndex > 0 ? '1' : '0.4';
+    document.getElementById('btn-redo').style.opacity = this.state.historyIndex < this.state.history.length - 1 ? '1' : '0.4';
+  },
+
+  // ── 全量渲染 ──
+  renderAll() {
+    this.renderCanvas();
+    this.renderAssets();
+    this.renderTemplates();
+    this.renderProperties();
+    this.renderStatusBar();
+    this.renderEmptyState();
+    this.updateRowCount();
+    this.updateUndoRedoButtons();
+  },
+
+  // ── 渲染画布 ──
+  renderCanvas() {
+    const container = document.getElementById('canvas-inner');
+    // 清除现有行卡片
+    const existingRows = container.querySelectorAll('.tier-row');
+    existingRows.forEach(r => r.remove());
+    const titleBar = document.getElementById('title-bar');
+    const addBtn = document.getElementById('add-tier-btn');
+    const emptyState = document.getElementById('empty-state');
+
+    // 标题
+    if (titleBar) titleBar.remove();
+    const titleEl = document.createElement('div');
+    titleEl.id = 'title-bar';
+    titleEl.innerHTML = `<input id="title-input" value="${this.escapeHtml(this.state.titleText)}" placeholder="输入标题（可选）">`;
+    container.insertBefore(titleEl, container.firstChild);
+
+    // 梯队行
+    this.state.tiers.forEach((tier, idx) => {
+      const row = document.createElement('div');
+      row.className = 'tier-row';
+      row.dataset.tierId = tier.id;
+      row.draggable = false;
+      row.setAttribute('data-tier-idx', idx);
+      if (this.state.selectedTierId === tier.id) row.classList.add('selected');
+
+      // 排序序号
+      const rankLabels = ['S', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
+
+      row.innerHTML = `
+        <div class="tier-label" style="background:${tier.color};color:${tier.textColor};" onclick="App.selectTier('${tier.id}')" ondblclick="App.editTierLabel('${tier.id}')">
+          <div class="label-rank">${rankLabels[idx] || idx+1}</div>
+          <div class="label-text">${this.escapeHtml(tier.label)}</div>
+          <div class="edit-hint">双击编辑</div>
+        </div>
+        <div class="tier-cards"
+             ondragover="App.onDragOver(event, '${tier.id}')"
+             ondragleave="App.onDragLeave(event)"
+             ondrop="App.onDrop(event, '${tier.id}')">
+        </div>
+        <div class="tier-actions">
+          <button title="上移" onclick="App.moveTier(${idx}, -1)">▲</button>
+          <button title="下移" onclick="App.moveTier(${idx}, 1)">▼</button>
+          <button title="添加文字" onclick="App.openTextModal('${tier.id}')">📝</button>
+          <button title="删除此行" onclick="App.removeTier(${idx})">🗑</button>
+        </div>
+      `;
+
+      // 填充卡片
+      const cardsContainer = row.querySelector('.tier-cards');
+      tier.items.forEach((item, itemIdx) => {
+        const card = this.createCardElement(item, tier.id, itemIdx);
+        cardsContainer.appendChild(card);
+      });
+
+      // 插入到 add-btn 前面，empty-state 前面
+      if (addBtn) {
+        container.insertBefore(row, addBtn);
+      } else if (emptyState) {
+        container.insertBefore(row, emptyState);
+      } else {
+        container.appendChild(row);
+      }
+    });
+
+    // 添加行按钮
+    if (!document.getElementById('add-tier-btn')) {
+      const btn = document.createElement('div');
+      btn.id = 'add-tier-btn';
+      btn.innerHTML = '+ 添加新行';
+      btn.onclick = () => this.addTier();
+      container.appendChild(btn);
+    }
+  },
+
+  createCardElement(item, tierId, itemIdx) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.itemId = item.id;
+    card.draggable = true;
+
+    if (item.type === 'image') {
+      const asset = this.state.assets.find(a => a.id === item.assetId);
+      if (asset) {
+        card.style.backgroundImage = `url(${asset.dataUrl})`;
+      }
+    } else {
+      card.classList.add('text-card');
+      card.style.background = item.textStyle?.bgColor || '';
+      card.style.color = item.textStyle?.fontColor || '';
+      card.style.fontSize = (item.textStyle?.fontSize || 12) + 'px';
+      card.style.fontWeight = item.textStyle?.fontWeight || 500;
+      if (item.textStyle?.shape && item.textStyle.shape !== 'rounded') {
+        card.classList.add(item.textStyle.shape);
+      }
+      card.textContent = item.text || '';
+    }
+
+    card.style.borderRadius = `${this.state.cardRadius}px`;
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (item.type === 'text' && !item.textStyle?.bgColor && !item.textStyle?.fontColor) {
+      card.style.background = 'var(--color-bg-elevated)';
+      card.style.color = 'var(--color-text-primary)';
+      card.style.border = '1px solid var(--color-border-default)';
+    }
+
+    card.addEventListener('dragstart', (e) => this.onCardDragStart(e, item.id, tierId));
+    card.addEventListener('dragend', (e) => this.onCardDragEnd(e));
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (item.type === 'text') {
+        const newText = prompt('编辑文字:', item.text);
+        if (newText !== null) {
+          item.text = newText;
+          this.saveHistory();
+          this.renderAll();
+        }
+      }
+    });
+    card.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      this.showCardContextMenu(e, item.id, tierId);
+    });
+
+    // 删除按钮
+    const delBtn = document.createElement('button');
+    delBtn.className = 'card-delete';
+    delBtn.textContent = '×';
+    delBtn.onclick = (e) => { e.stopPropagation(); this.removeCard(tierId, item.id); };
+    card.appendChild(delBtn);
+
+    return card;
+  },
+
+  // ── 渲染素材 ──
+  renderAssets() {
+    const grid = document.getElementById('asset-grid');
+    grid.innerHTML = '';
+    this.state.assets.forEach(asset => {
+      const thumb = document.createElement('div');
+      thumb.className = 'asset-thumb';
+      thumb.style.backgroundImage = `url(${asset.dataUrl})`;
+      thumb.draggable = true;
+      thumb.dataset.assetId = asset.id;
+      thumb.title = asset.name;
+      thumb.addEventListener('dragstart', (e) => this.onAssetDragStart(e, asset.id));
+      thumb.addEventListener('dragend', (e) => this.onDragEnd(e));
+      thumb.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        this.showAssetContextMenu(e, asset.id);
+      });
+
+      const delBtn = document.createElement('span');
+      delBtn.className = 'delete-btn';
+      delBtn.textContent = '×';
+      delBtn.onclick = (e) => { e.stopPropagation(); this.removeAsset(asset.id); };
+      thumb.appendChild(delBtn);
+
+      grid.appendChild(thumb);
+    });
+  },
+
+  // ── 渲染模板列表 ──
+  renderTemplates() {
+    const list = document.getElementById('template-list');
+    list.innerHTML = '';
+    this.templates.forEach((tmpl, i) => {
+      const item = document.createElement('div');
+      item.className = 'template-item';
+      item.innerHTML = `
+        <span class="emoji">${tmpl.icon}</span>
+        <span class="name">${tmpl.name}</span>
+        <span class="tiers-preview">${tmpl.tiers.length}级</span>
+      `;
+      item.onclick = () => this.applyTemplate(i);
+      list.appendChild(item);
+    });
+
+    // 快速模板按钮
+    const quickContainer = document.getElementById('quick-templates');
+    if (quickContainer) {
+      quickContainer.innerHTML = '';
+      this.templates.slice(0, 4).forEach((tmpl, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.textContent = tmpl.name;
+        btn.onclick = () => this.applyTemplate(i);
+        quickContainer.appendChild(btn);
+      });
+    }
+  },
+
+  // ── 渲染属性面板 ──
+  renderProperties() {
+    const selected = this.state.selectedTierId;
+    const tier = this.state.tiers.find(t => t.id === selected);
+    const disabled = !tier;
+
+    document.getElementById('prop-label').disabled = disabled;
+    document.getElementById('prop-label').value = tier ? tier.label : '选择一行编辑';
+    document.getElementById('prop-color').disabled = disabled;
+    document.getElementById('prop-color').value = tier ? tier.color : '#E74C3C';
+    document.getElementById('prop-text-color').disabled = disabled;
+    document.getElementById('prop-text-color').value = tier ? tier.textColor : '#FFFFFF';
+    document.getElementById('prop-min-height').disabled = disabled;
+    document.getElementById('prop-min-height').value = tier ? tier.minCardHeight : 80;
+    document.getElementById('prop-lock').disabled = disabled;
+    document.getElementById('prop-lock').textContent = tier && tier.locked ? '🔒 已锁定' : '🔓 未锁定';
+    document.getElementById('prop-canvas-bg').value = this.state.globalBg;
+    document.getElementById('prop-card-radius').value = this.state.cardRadius;
+    document.getElementById('prop-gap').value = this.state.cardGap;
+  },
+
+  // ── 渲染状态栏 ──
+  renderStatusBar() {
+    let imageCount = 0, textCount = 0;
+    this.state.tiers.forEach(t => t.items.forEach(item => {
+      if (item.type === 'image') imageCount++;
+      else textCount++;
+    }));
+    document.getElementById('stat-images').textContent = this.state.assets.length;
+    document.getElementById('stat-texts').textContent = textCount;
+    document.getElementById('stat-rows').textContent = this.state.tiers.length;
+  },
+
+  // ── 渲染空状态 ──
+  renderEmptyState() {
+    const emptyState = document.getElementById('empty-state');
+    let totalCards = 0;
+    this.state.tiers.forEach(t => totalCards += t.items.length);
+    const hasContent = totalCards > 0 || this.state.assets.length > 0 || this.state.titleText;
+    if (emptyState) emptyState.style.display = hasContent ? 'none' : 'flex';
+  },
+
+  updateRowCount() {
+    document.getElementById('row-count-num').textContent = this.state.tiers.length;
+    document.getElementById('btn-remove-tier').disabled = this.state.tiers.length <= 3;
+    document.getElementById('btn-add-tier').disabled = this.state.tiers.length >= 15;
+  },
+
+  // ════════════════════════════════════════════════════ 事件绑定 ════════
+  bindEvents() {
+    // ── 工具栏 ──
+    document.getElementById('btn-mode-image').addEventListener('click', () => this.setMode('image'));
+    document.getElementById('btn-mode-text').addEventListener('click', () => this.setMode('text'));
+    document.getElementById('btn-mode-mixed').addEventListener('click', () => this.setMode('mixed'));
+    document.getElementById('btn-add-tier').addEventListener('click', () => this.addTier());
+    document.getElementById('btn-remove-tier').addEventListener('click', () => this.removeTier(this.state.tiers.length - 1));
+    document.getElementById('btn-undo').addEventListener('click', () => this.undo());
+    document.getElementById('btn-redo').addEventListener('click', () => this.redo());
+    document.getElementById('btn-export').addEventListener('click', () => this.openExportModal());
+    document.getElementById('btn-theme-mode').addEventListener('click', (e) => {
+      document.getElementById('dropdown-theme-mode').classList.toggle('open');
+    });
+    document.getElementById('btn-toggle-left').addEventListener('click', () => this.toggleLeftPanel());
+
+    // ── 文件导入 ──
+    document.getElementById('btn-import').addEventListener('click', () => document.getElementById('file-input').click());
+    document.getElementById('file-input').addEventListener('change', (e) => this.importImages(e.target.files));
+    document.getElementById('btn-clear-assets').addEventListener('click', () => this.clearAssets());
+
+    // ── 属性面板 ──
+    document.getElementById('prop-label').addEventListener('change', (e) => {
+      const tier = this.getSelectedTier(); if (!tier) return;
+      tier.label = e.target.value || '未命名';
+      this.saveHistory(); this.renderAll();
+    });
+    document.getElementById('prop-color').addEventListener('input', (e) => {
+      const tier = this.getSelectedTier(); if (!tier) return;
+      tier.color = e.target.value;
+      this.renderCanvas();
+    });
+    document.getElementById('prop-text-color').addEventListener('input', (e) => {
+      const tier = this.getSelectedTier(); if (!tier) return;
+      tier.textColor = e.target.value;
+      this.renderCanvas();
+    });
+    document.getElementById('prop-min-height').addEventListener('input', (e) => {
+      const tier = this.getSelectedTier(); if (!tier) return;
+      tier.minCardHeight = parseInt(e.target.value);
+      this.renderCanvas();
+    });
+    document.getElementById('prop-lock').addEventListener('click', () => {
+      const tier = this.getSelectedTier(); if (!tier) return;
+      tier.locked = !tier.locked;
+      this.saveHistory(); this.renderAll();
+    });
+    document.getElementById('prop-canvas-bg').addEventListener('input', (e) => {
+      this.state.globalBg = e.target.value;
+      document.getElementById('canvas').style.background = e.target.value;
+    });
+    document.getElementById('prop-reset-bg').addEventListener('click', () => {
+      this.state.globalBg = this.state.themeMode === 'dark' ? '#1A1A1A' : '#FFFFFF';
+      document.getElementById('prop-canvas-bg').value = this.state.globalBg;
+      document.getElementById('canvas').style.background = this.state.globalBg;
+    });
+    document.getElementById('prop-card-radius').addEventListener('input', (e) => {
+      this.state.cardRadius = parseInt(e.target.value);
+      document.querySelectorAll('.card').forEach(c => c.style.borderRadius = `${this.state.cardRadius}px`);
+    });
+    document.getElementById('prop-gap').addEventListener('input', (e) => {
+      this.state.cardGap = parseInt(e.target.value);
+      document.querySelectorAll('.tier-cards').forEach(c => c.style.gap = `${this.state.cardGap}px`);
+    });
+
+    // ── 主题模式下拉 ──
+    document.querySelectorAll('#dropdown-theme-mode .dropdown-item').forEach(item => {
+      item.addEventListener('click', () => {
+        this.setThemeMode(item.dataset.mode);
+        document.getElementById('dropdown-theme-mode').classList.remove('open');
+      });
+    });
+
+    // ── 主题选择器 ──
+    this.renderThemeMenu();
+
+    // ── 标题输入 ──
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'title-input') {
+        this.state.titleText = e.target.value;
+      }
+    });
+
+    // ── 全局点击关闭下拉 ──
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+      }
+      // 关闭右键菜单
+      document.getElementById('context-menu').style.display = 'none';
+    });
+
+    // ── 键盘快捷键 ──
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'z') { e.preventDefault(); this.undo(); }
+      if (e.ctrlKey && e.key === 'y') { e.preventDefault(); this.redo(); }
+      if (e.ctrlKey && e.key === 's') { e.preventDefault(); this.showToast('项目数据已在内存中', 'success'); }
+      if (e.ctrlKey && e.key === 'v') {
+        // 处理剪贴板粘贴
+        if (navigator.clipboard && navigator.clipboard.read) {
+          navigator.clipboard.read().then(items => {
+            items.forEach(item => {
+              if (item.types.includes('image/png') || item.types.includes('image/jpeg')) {
+                item.getType('image/png').then(blob => {
+                  this.processImageBlob(blob, 'clipboard.png');
+                }).catch(() => {});
+              }
+            });
+          }).catch(() => {});
+        }
+      }
+      if (e.key === 'Delete') {
+        // 删除选中行的最后一张卡片
+        const tier = this.getSelectedTier();
+        if (tier && tier.items.length > 0 && !e.target.closest('input,textarea')) {
+          this.removeCard(tier.id, tier.items[tier.items.length-1].id);
+        }
+      }
+      if (e.key === 'Escape') {
+        this.state.selectedTierId = null;
+        this.renderAll();
+        document.getElementById('context-menu').style.display = 'none';
+        this.closeExportModal();
+        this.closeTextModal();
+      }
+    });
+
+    // ── 粘贴事件 ──
+    document.addEventListener('paste', (e) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (const item of items) {
+        if (item.type.startsWith('image/')) {
+          e.preventDefault();
+          const blob = item.getAsFile();
+          this.processImageBlob(blob, 'pasted-image.png');
+        }
+      }
+    });
+
+    // ── 画布点击取消选择 ──
+    document.getElementById('canvas').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('canvas') || e.target.id === 'canvas-inner') {
+        this.state.selectedTierId = null;
+        this.renderAll();
+      }
+    });
+
+    // ── 导出对话框 ──
+    this.setupExportModal();
+
+    // ── 文字输入对话框 ──
+    document.getElementById('btn-text-confirm').addEventListener('click', () => this.confirmTextModal());
+    document.getElementById('text-modal-input').addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'Enter') this.confirmTextModal();
+    });
+  },
+
+  renderThemeMenu() {
+    const menu = document.getElementById('theme-menu');
+    menu.innerHTML = '';
+    this.themes.forEach((theme, i) => {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      const swatches = theme.colors.slice(0, 5).map(c => `<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:${c};"></span>`).join('');
+      item.innerHTML = `<span style="display:flex;gap:2px;">${swatches}</span> ${theme.name}`;
+      item.addEventListener('click', () => {
+        this.applyTheme(i);
+        document.getElementById('dropdown-theme').classList.remove('open');
+      });
+      menu.appendChild(item);
+    });
+
+    document.getElementById('btn-theme-trigger').addEventListener('click', () => {
+      document.getElementById('dropdown-theme').classList.toggle('open');
+    });
+  },
+
+  setupExportModal() {
+    const ratioOptions = document.getElementById('ratio-options');
+    const ratios = [
+      { label: '3:4 小红书', value: '3:4' },
+      { label: '4:3 横版', value: '4:3' },
+      { label: '9:16 抖音', value: '9:16' },
+      { label: '16:9 B站', value: '16:9' },
+      { label: '1:1 方形', value: '1:1' },
+    ];
+    ratioOptions.innerHTML = '';
+    ratios.forEach(r => {
+      const btn = document.createElement('button');
+      btn.className = 'btn' + (this.state.exportRatio === r.value ? ' active' : '');
+      btn.textContent = r.label;
+      btn.onclick = () => {
+        this.state.exportRatio = r.value;
+        this.setupExportModal();
+      };
+      ratioOptions.appendChild(btn);
+    });
+
+    const scaleOptions = document.getElementById('scale-options');
+    const scales = ['1x', '2x', '3x'];
+    scaleOptions.innerHTML = '';
+    scales.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'btn' + (this.state.exportScale === s ? ' active' : '');
+      btn.textContent = s;
+      btn.onclick = () => {
+        this.state.exportScale = s;
+        this.setupExportModal();
+      };
+      scaleOptions.appendChild(btn);
+    });
+
+    const formatOptions = document.getElementById('format-options');
+    const formats = ['PNG', 'JPG', 'WebP'];
+    formatOptions.innerHTML = '';
+    formats.forEach(f => {
+      const btn = document.createElement('button');
+      btn.className = 'btn' + (this.state.exportFormat === f.toLowerCase() ? ' active' : '');
+      btn.textContent = f;
+      btn.onclick = () => {
+        this.state.exportFormat = f.toLowerCase();
+        this.setupExportModal();
+      };
+      formatOptions.appendChild(btn);
+    });
+
+    document.getElementById('btn-export-confirm').onclick = () => this.doExport();
+  },
+
+  // ════════════════════════════════════════════════════ 核心操作 ════════
+
+  setMode(mode) {
+    this.state.mode = mode;
+    document.getElementById('btn-mode-image').classList.toggle('active', mode === 'image');
+    document.getElementById('btn-mode-text').classList.toggle('active', mode === 'text');
+    document.getElementById('btn-mode-mixed').classList.toggle('active', mode === 'mixed');
+  },
+
+  selectTier(tierId) {
+    this.state.selectedTierId = this.state.selectedTierId === tierId ? null : tierId;
+    this.renderAll();
+  },
+
+  getSelectedTier() {
+    return this.state.tiers.find(t => t.id === this.state.selectedTierId);
+  },
+
+  editTierLabel(tierId) {
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (!tier || tier.locked) return;
+    const newLabel = prompt('编辑标签文字:', tier.label);
+    if (newLabel !== null) {
+      tier.label = newLabel || '未命名';
+      this.saveHistory();
+      this.renderAll();
+    }
+  },
+
+  addTier() {
+    if (this.state.tiers.length >= 15) { this.showToast('最多支持 15 行', 'error'); return; }
+    const rankLabels = ['S','A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
+    const idx = this.state.tiers.length;
+    const colors = ['#E74C3C','#F39C12','#F1C40F','#95A5A6','#BDC3C7','#3498DB','#9B59B6','#1ABC9C','#E67E22','#2ECC71','#E91E63','#00BCD4','#FF5722','#607D8B','#795548'];
+    this.state.tiers.push({
+      id: `tier-${this.state.nextId++}`,
+      label: rankLabels[idx] || `${idx+1}级`,
+      color: colors[idx % colors.length],
+      textColor: idx < 3 ? '#FFFFFF' : '#1A1A2E',
+      borderStyle: 'solid',
+      borderColor: 'transparent',
+      minCardHeight: 80,
+      maxCards: null,
+      locked: false,
+      sortOrder: idx,
+      items: [],
+    });
+    this.saveHistory();
+    this.renderAll();
+    this.showToast(`已添加第 ${this.state.tiers.length} 行`, 'success');
+  },
+
+  removeTier(idx) {
+    if (this.state.tiers.length <= 3) { this.showToast('最少保留 3 行', 'error'); return; }
+    const tier = this.state.tiers[idx];
+    if (tier.items.length > 0) {
+      if (!confirm(`该行有 ${tier.items.length} 张卡片，删除后卡片将移动到素材区。确认删除？`)) return;
+    }
+    this.state.tiers.splice(idx, 1);
+    if (this.state.selectedTierId === tier.id) this.state.selectedTierId = null;
+    this.saveHistory();
+    this.renderAll();
+    this.showToast('已删除行', 'success');
+  },
+
+  moveTier(idx, direction) {
+    const newIdx = idx + direction;
+    if (newIdx < 0 || newIdx >= this.state.tiers.length) return;
+    const item = this.state.tiers.splice(idx, 1)[0];
+    this.state.tiers.splice(newIdx, 0, item);
+    this.state.tiers.forEach((t, i) => t.sortOrder = i);
+    this.saveHistory();
+    this.renderAll();
+  },
+
+  // ── 卡片操作 ──
+  removeCard(tierId, itemId) {
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (!tier || tier.locked) return;
+    tier.items = tier.items.filter(i => i.id !== itemId);
+    this.saveHistory();
+    this.renderAll();
+  },
+
+  addCardToTier(tierId, item) {
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (!tier || tier.locked) return;
+    if (tier.maxCards && tier.items.length >= tier.maxCards) {
+      this.showToast(`该行最多 ${tier.maxCards} 张卡片`, 'error');
+      return;
+    }
+    tier.items.push(item);
+    this.saveHistory();
+    this.renderAll();
+  },
+
+  // ── 素材管理 ──
+  importImages(fileList) {
+    if (!fileList || fileList.length === 0) return;
+    const files = Array.from(fileList);
+    if (this.state.assets.length + files.length > 100) {
+      this.showToast('素材最多 100 张，请先清理旧素材', 'error');
+      return;
+    }
+    let processed = 0;
+    files.forEach(file => {
+      if (!file.type.startsWith('image/')) {
+        this.showToast(`${file.name} 不是支持的图片格式`, 'error');
+        return;
+      }
+      if (file.size > 50 * 1024 * 1024) {
+        this.showToast(`${file.name} 超过 50MB 限制`, 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.state.assets.push({
+          id: this.uid(),
+          name: file.name,
+          dataUrl: e.target.result,
+          mimeType: file.type,
+        });
+        processed++;
+        if (processed === files.length || processed === files.filter(f => f.type.startsWith('image/') && f.size <= 50*1024*1024).length) {
+          this.renderAll();
+          this.showToast(`已导入 ${processed} 张图片`, 'success');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    document.getElementById('file-input').value = '';
+  },
+
+  processImageBlob(blob, name) {
+    if (this.state.assets.length >= 100) { this.showToast('素材已达上限', 'error'); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.state.assets.push({
+        id: this.uid(),
+        name: name,
+        dataUrl: e.target.result,
+        mimeType: blob.type || 'image/png',
+      });
+      this.renderAll();
+      this.showToast('已粘贴图片到素材区', 'success');
+    };
+    reader.readAsDataURL(blob);
+  },
+
+  removeAsset(assetId) {
+    this.state.assets = this.state.assets.filter(a => a.id !== assetId);
+    // 同时移除使用此素材的卡片
+    this.state.tiers.forEach(t => {
+      t.items = t.items.filter(i => !(i.type === 'image' && i.assetId === assetId));
+    });
+    this.saveHistory();
+    this.renderAll();
+  },
+
+  clearAssets() {
+    if (!confirm('确认清空所有素材？已放入行的卡片不受影响。')) return;
+    this.state.assets = [];
+    this.renderAll();
+  },
+
+  // ── 模板操作 ──
+  applyTemplate(idx) {
+    const tmpl = this.templates[idx];
+    if (!tmpl) return;
+    // 保留现有卡片，映射到最接近的行
+    const oldItems = this.state.tiers.flatMap(t => t.items);
+    this.state.tiers = tmpl.tiers.map((t, i) => ({
+      id: `tier-${this.state.nextId++}`,
+      label: t.label,
+      color: t.color,
+      textColor: t.textColor,
+      borderStyle: 'solid',
+      borderColor: 'transparent',
+      minCardHeight: 80,
+      maxCards: null,
+      locked: false,
+      sortOrder: i,
+      items: i < oldItems.length ? [oldItems[i]] : [],
+    }));
+    this.state.selectedTierId = null;
+    this.saveHistory();
+    this.renderAll();
+    this.showToast(`已套用模板：${tmpl.name}`, 'success');
+  },
+
+  applyTheme(idx) {
+    const theme = this.themes[idx];
+    if (!theme) return;
+    this.state.tiers.forEach((tier, i) => {
+      if (i < theme.colors.length) {
+        tier.color = theme.colors[i];
+        tier.textColor = theme.texts[i];
+      }
+    });
+    this.saveHistory();
+    this.renderAll();
+    this.showToast(`已应用主题：${theme.name}`, 'success');
+  },
+
+  // ── 黑夜/白天模式 ──
+  setThemeMode(mode) {
+    this.state.themeMode = mode;
+    this.applyThemeMode();
+  },
+
+  applyThemeMode() {
+    const mode = this.state.themeMode;
+    let isDark;
+    if (mode === 'system') {
+      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } else {
+      isDark = mode === 'dark';
+    }
+    document.body.classList.toggle('dark', isDark);
+    const btn = document.getElementById('btn-theme-mode');
+    const icons = { light: '☀️', dark: '🌙', system: '🖥️' };
+    btn.textContent = icons[mode] || '☀️';
+
+    // 更新背景
+    this.state.globalBg = isDark ? '#1A1A1A' : '#FFFFFF';
+    document.getElementById('canvas').style.background = this.state.globalBg;
+    if (document.getElementById('prop-canvas-bg')) {
+      document.getElementById('prop-canvas-bg').value = this.state.globalBg;
+    }
+
+    // 持久化
+    try { localStorage.setItem('tier-maker-theme-mode', mode); } catch(e) {}
+  },
+
+  watchSystemTheme() {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (this.state.themeMode === 'system') this.applyThemeMode();
+    });
+    // 恢复持久化设置
+    try {
+      const saved = localStorage.getItem('tier-maker-theme-mode');
+      if (saved && ['light','dark','system'].includes(saved)) {
+        this.state.themeMode = saved;
+      }
+    } catch(e) {}
+  },
+
+  toggleLeftPanel() {
+    document.getElementById('left-panel').classList.toggle('collapsed');
+  },
+
+  // ════════════════════════════════════════════════════ 拖拽系统 ════════
+
+  dragData: null,  // { itemId, sourceTierId, assetId, type }
+
+  onAssetDragStart(e, assetId) {
+    this.dragData = { type: 'asset', assetId };
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('text/plain', assetId);
+    e.target.classList.add('dragging');
+  },
+
+  onCardDragStart(e, itemId, sourceTierId) {
+    const tier = this.state.tiers.find(t => t.id === sourceTierId);
+    if (tier && tier.locked) { e.preventDefault(); return; }
+    this.dragData = { type: 'card', itemId, sourceTierId };
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', itemId);
+    setTimeout(() => e.target.classList.add('dragging'), 0);
+  },
+
+  onDragEnd(e) {
+    if (e.target) e.target.classList.remove('dragging');
+    document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    document.querySelectorAll('.card.drag-ghost').forEach(el => el.classList.remove('drag-ghost'));
+    this.dragData = null;
+  },
+
+  onDragOver(e, tierId) {
+    e.preventDefault();
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (tier && tier.locked) return;
+    e.dataTransfer.dropEffect = 'move';
+    e.currentTarget.closest('.tier-row')?.classList.add('drag-over');
+  },
+
+  onDragLeave(e) {
+    e.currentTarget.closest('.tier-row')?.classList.remove('drag-over');
+  },
+
+  onDrop(e, targetTierId) {
+    e.preventDefault();
+    e.currentTarget.closest('.tier-row')?.classList.remove('drag-over');
+    const tier = this.state.tiers.find(t => t.id === targetTierId);
+    if (tier && tier.locked) return;
+
+    if (!this.dragData) return;
+
+    if (this.dragData.type === 'asset') {
+      // 从素材区拖入
+      const asset = this.state.assets.find(a => a.id === this.dragData.assetId);
+      if (asset) {
+        this.addCardToTier(targetTierId, {
+          id: this.uid(),
+          type: 'image',
+          assetId: asset.id,
+          sortOrder: tier.items.length,
+        });
+      }
+    } else if (this.dragData.type === 'card') {
+      // 跨行或同行移动
+      const sourceTier = this.state.tiers.find(t => t.id === this.dragData.sourceTierId);
+      if (!sourceTier) return;
+      const item = sourceTier.items.find(i => i.id === this.dragData.itemId);
+      if (!item) return;
+      // 从源行移除
+      sourceTier.items = sourceTier.items.filter(i => i.id !== item.id);
+      // 添加到目标行
+      if (!tier) return;
+      tier.items.push(item);
+      this.saveHistory();
+      this.renderAll();
+    }
+
+    this.dragData = null;
+  },
+
+  // Asset drop on the asset grid itself
+  onAssetDrop(e) {
+    e.preventDefault();
+    document.getElementById('asset-grid').classList.remove('drag-over');
+    const files = e.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.importImages(files);
+    }
+  },
+
+  // ════════════════════════════════════════════════════ 文字卡片 ════════
+  textModalTargetTierId: null,
+
+  openTextModal(tierId) {
+    this.textModalTargetTierId = tierId;
+    document.getElementById('text-modal-input').value = '';
+    document.getElementById('text-modal').classList.add('show');
+    setTimeout(() => document.getElementById('text-modal-input').focus(), 100);
+  },
+
+  closeTextModal() {
+    document.getElementById('text-modal').classList.remove('show');
+    this.textModalTargetTierId = null;
+  },
+
+  confirmTextModal() {
+    const input = document.getElementById('text-modal-input').value.trim();
+    if (!input) { this.closeTextModal(); return; }
+
+    // 支持换行和逗号分隔
+    const texts = input.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+    const tierId = this.textModalTargetTierId || (this.state.tiers[0]?.id);
+    if (!tierId) { this.showToast('请先添加行', 'error'); return; }
+
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    texts.forEach(text => {
+      this.addCardToTier(tierId, {
+        id: this.uid(),
+        type: 'text',
+        text: text,
+        sortOrder: tier ? tier.items.length : 0,
+        textStyle: { fontSize: 12, fontWeight: 500, fontColor: '', bgColor: '', shape: 'rounded', borderStyle: 'none', borderColor: '' },
+      });
+    });
+
+    this.closeTextModal();
+    this.showToast(`已添加 ${texts.length} 个文字卡片`, 'success');
+  },
+
+  addTextCardToFirstRow() {
+    if (this.state.tiers.length === 0) {
+      this.showToast('请先添加行', 'error');
+      return;
+    }
+    this.openTextModal(this.state.tiers[0].id);
+  },
+
+  // ════════════════════════════════════════════════════ 右键菜单 ════════
+  showCardContextMenu(e, itemId, tierId) {
+    const menu = document.getElementById('context-menu');
+    menu.innerHTML = `
+      <div class="dropdown-item" onclick="App.editCardText('${itemId}','${tierId}')">✏️ 编辑文字</div>
+      <div class="dropdown-item" onclick="App.duplicateCard('${itemId}','${tierId}')">📋 复制卡片</div>
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item danger" onclick="App.removeCard('${tierId}','${itemId}')">🗑 删除卡片</div>
+    `;
+    menu.style.display = 'block';
+    menu.style.left = `${e.clientX}px`;
+    menu.style.top = `${e.clientY}px`;
+    // 保持在视口内
+    const rect = menu.getBoundingClientRect();
+    if (rect.right > window.innerWidth) menu.style.left = `${e.clientX - rect.width}px`;
+    if (rect.bottom > window.innerHeight) menu.style.top = `${e.clientY - rect.height}px`;
+  },
+
+  showAssetContextMenu(e, assetId) {
+    const menu = document.getElementById('context-menu');
+    menu.innerHTML = `
+      <div class="dropdown-item" onclick="App.addAssetToSelectedTier('${assetId}')">➕ 添加到选中行</div>
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item danger" onclick="App.removeAsset('${assetId}')">🗑 删除素材</div>
+    `;
+    menu.style.display = 'block';
+    menu.style.left = `${e.clientX}px`;
+    menu.style.top = `${e.clientY}px`;
+    const rect = menu.getBoundingClientRect();
+    if (rect.right > window.innerWidth) menu.style.left = `${e.clientX - rect.width}px`;
+    if (rect.bottom > window.innerHeight) menu.style.top = `${e.clientY - rect.height}px`;
+  },
+
+  editCardText(itemId, tierId) {
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (!tier) return;
+    const item = tier.items.find(i => i.id === itemId);
+    if (!item || item.type !== 'text') return;
+    const newText = prompt('编辑文字:', item.text);
+    if (newText !== null) {
+      item.text = newText;
+      this.saveHistory();
+      this.renderAll();
+    }
+  },
+
+  duplicateCard(itemId, tierId) {
+    const tier = this.state.tiers.find(t => t.id === tierId);
+    if (!tier) return;
+    const item = tier.items.find(i => i.id === itemId);
+    if (!item) return;
+    const copy = JSON.parse(JSON.stringify(item));
+    copy.id = this.uid();
+    tier.items.push(copy);
+    this.saveHistory();
+    this.renderAll();
+  },
+
+  addAssetToSelectedTier(assetId) {
+    const tier = this.getSelectedTier();
+    if (!tier) {
+      // 添加到第一行
+      const firstTier = this.state.tiers[0];
+      if (!firstTier) { this.showToast('请先添加行', 'error'); return; }
+      this.addCardToTier(firstTier.id, {
+        id: this.uid(), type: 'image', assetId, sortOrder: firstTier.items.length,
+      });
+    } else {
+      this.addCardToTier(tier.id, {
+        id: this.uid(), type: 'image', assetId, sortOrder: tier.items.length,
+      });
+    }
+  },
+
+  // ════════════════════════════════════════════════════ 导出系统 ════════
+  openExportModal() {
+    document.getElementById('export-modal').classList.add('show');
+  },
+
+  closeExportModal() {
+    document.getElementById('export-modal').classList.remove('show');
+  },
+
+  async doExport() {
+    this.closeExportModal();
+    // 构建导出预览 DOM
+    const preview = document.getElementById('export-preview');
+    const isDark = document.body.classList.contains('dark');
+    preview.className = isDark ? 'dark-bg' : 'light-bg';
+
+    // 计算比例
+    const ratio = this.state.exportRatio;
+    let w = 1200, h = 1600; // default 3:4
+    switch (ratio) {
+      case '4:3': w = 1600; h = 1200; break;
+      case '9:16': w = 1080; h = 1920; break;
+      case '16:9': w = 1920; h = 1080; break;
+      case '1:1': w = 1080; h = 1080; break;
+      default: w = 1200; h = 1600;
+    }
+    const scale = this.state.exportScale === '2x' ? 2 : this.state.exportScale === '3x' ? 3 : 1;
+    w *= scale; h *= scale;
+
+    preview.style.width = `${w}px`;
+    preview.style.background = isDark ? '#1A1A1A' : '#FFFFFF';
+
+    // 构建内容
+    let html = `<div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;padding:${48*scale}px;color:${isDark?'#E5E5E7':'#1A1A2E'};">`;
+    if (this.state.titleText) {
+      html += `<div style="text-align:center;font-size:${36*scale}px;font-weight:700;margin-bottom:${32*scale}px;">${this.escapeHtml(this.state.titleText)}</div>`;
+    }
+    this.state.tiers.forEach(tier => {
+      html += `<div style="display:flex;margin-bottom:${8*scale}px;border-radius:${12*scale}px;overflow:hidden;min-height:${tier.minCardHeight*scale}px;">`;
+      html += `<div style="width:${120*scale}px;background:${tier.color};color:${tier.textColor};display:flex;align-items:center;justify-content:center;font-size:${22*scale}px;font-weight:700;flex-shrink:0;">${this.escapeHtml(tier.label)}</div>`;
+      html += `<div style="flex:1;display:flex;flex-wrap:wrap;gap:${this.state.cardGap*scale}px;padding:${12*scale}px;background:${isDark?'#1A1A1A':'#FFFFFF'};align-items:center;">`;
+      tier.items.forEach(item => {
+        const cardSize = 72 * scale;
+        if (item.type === 'image') {
+          const asset = this.state.assets.find(a => a.id === item.assetId);
+          if (asset) {
+            html += `<div style="width:${cardSize}px;height:${cardSize}px;border-radius:${this.state.cardRadius*scale}px;background:url(${asset.dataUrl}) center/cover;"></div>`;
+          }
+        } else {
+          html += `<div style="min-width:${cardSize}px;min-height:${cardSize}px;border-radius:${this.state.cardRadius*scale}px;background:${isDark?'#242424':'#FAFAFA'};border:1px solid ${isDark?'#333':'#E5E7EB'};display:flex;align-items:center;justify-content:center;padding:${8*scale}px;font-size:${14*scale}px;text-align:center;">${this.escapeHtml(item.text||'')}</div>`;
+        }
+      });
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+    preview.innerHTML = html;
+
+    try {
+      const dataUrl = await htmlToImage.toPng(preview, {
+        width: w,
+        height: h,
+        pixelRatio: 1,
+      });
+      // 触发下载
+      const link = document.createElement('a');
+      link.download = `tier-list-${ratio.replace(':','x')}-${Date.now()}.${this.state.exportFormat}`;
+      link.href = dataUrl;
+      link.click();
+      this.showToast('✅ 导出成功！', 'success');
+    } catch (err) {
+      console.error('Export failed:', err);
+      this.showToast('导出失败，请重试', 'error');
+    }
+  },
+
+  // ════════════════════════════════════════════════════ 工具函数 ════════
+  escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  },
+
+  showToast(msg, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(40px)';
+      toast.style.transition = 'all 300ms ease-in';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  },
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOT — 启动
+   ═══════════════════════════════════════════════════════════════ */
+App.init();
+
+// 暴露到全局，供 HTML onclick 调用
+window.App = App;
+</script>
+</body>
+</html>

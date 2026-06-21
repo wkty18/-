@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code — 未来的编程方式</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #000000;
+    --text: #f5f5f7;
+    --text-secondary: #86868b;
+    --accent: #d4773c;
+    --accent-glow: rgba(212, 119, 60, 0.4);
+    --blue: #2997ff;
+    --blue-glow: rgba(41, 151, 255, 0.35);
+    --purple: #a855f7;
+    --green: #34d399;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(255,255,255,0.08);
+    --sidebar-w: 260px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+  a, button, .feature-card, .showcase-card, .terminal-block, .toc-link, .nav-cta, .btn-primary, .btn-secondary, .sidebar-toggle, .bgm-btn { cursor: none; }
+
+  /* ── Custom Cursor ── */
+  .cursor-dot {
+    position: fixed; width: 6px; height: 6px; border-radius: 50%;
+    background: #fff; pointer-events: none; z-index: 99999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px rgba(255,255,255,0.8), 0 0 30px rgba(212,119,60,0.5);
+    transition: width 0.15s, height 0.15s;
+  }
+  .cursor-ring {
+    position: fixed; width: 32px; height: 32px; border-radius: 50%;
+    border: 1.5px solid rgba(212,119,60,0.5); pointer-events: none; z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+    animation: cursorRingPulse 2s ease-in-out infinite;
+  }
+  @keyframes cursorRingPulse {
+    0%, 100% { border-color: rgba(212,119,60,0.4); box-shadow: 0 0 12px rgba(212,119,60,0.1); }
+    50% { border-color: rgba(212,119,60,0.7); box-shadow: 0 0 20px rgba(212,119,60,0.2); }
+  }
+  .cursor-trail {
+    position: fixed; width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(212,119,60,0.5); pointer-events: none; z-index: 99997;
+    transform: translate(-50%, -50%);
+    animation: trailFade 0.6s ease-out forwards;
+  }
+  @keyframes trailFade {
+    0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  }
+
+  /* ── Ambient background ── */
+  .bg-ambient {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(212,119,60,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 80% 80%, rgba(41,151,255,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 30% at 50% 50%, rgba(168,85,247,0.04) 0%, transparent 50%);
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(0,0,0,0.75); backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .nav-logo {
+    font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #f5f5f7 0%, #a1a1a6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+  .bgm-btn {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05); color: #fff; font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .bgm-btn:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); }
+  .bgm-btn.playing { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+  .nav-cta {
+    padding: 0.45rem 1.1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+    background: var(--accent); color: #fff; border: none;
+    transition: all 0.3s cubic-bezier(0.25,0.1,0.25,1);
+    text-decoration: none;
+  }
+  .nav-cta:hover { transform: scale(1.04); box-shadow: 0 0 28px var(--accent-glow); }
+
+  /* ── Sidebar TOC ── */
+  .sidebar-toggle {
+    position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 101;
+    width: 28px; height: 56px; border-radius: 0 8px 8px 0;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-left: none; color: #fff; font-size: 0.7rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.35s cubic-bezier(0.25,0.1,0.25,1);
+  }
+  .sidebar-toggle:hover { background: rgba(255,255,255,0.1); }
+  .sidebar-toggle.open { left: var(--sidebar-w); border-radius: 8px 0 0 8px; border-left: 1px solid rgba(255,255,255,0.1); border-right: none; }
+  .sidebar {
+    position: fixed; top: 0; left: calc(-1 * var(--sidebar-w)); width: var(--sidebar-w); height: 100vh;
+    background: rgba(10,10,10,0.92); backdrop-filter: saturate(180%) blur(30px);
+    border-right: 1px solid rgba(255,255,255,0.08); z-index: 99;
+    display: flex; flex-direction: column; padding: 1.5rem 1.25rem;
+    transition: left 0.4s cubic-bezier(0.25,0.1,0.25,1);
+    overflow-y: auto;
+  }
+  .sidebar.open { left: 0; }
+  .sidebar-title {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-secondary); margin-bottom: 1.25rem; padding-top: 3rem;
+  }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; }
+  .toc-link {
+    display: block; padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.85rem;
+    color: var(--text-secondary); text-decoration: none; font-weight: 500;
+    transition: all 0.25s; position: relative;
+  }
+  .toc-link:hover, .toc-link.active {
+    color: #fff; background: rgba(255,255,255,0.06);
+  }
+  .toc-link.active::before {
+    content: ''; position: absolute; left: -1.25rem; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 16px; border-radius: 2px; background: var(--accent);
+  }
+  .sidebar-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 98;
+    opacity: 0; pointer-events: none; transition: opacity 0.35s;
+  }
+  .sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding-top: 52px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 500;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 2rem; letter-spacing: 0.01em;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  .hero-badge-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 10px var(--green); animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green); }
+    50% { opacity: 0.4; box-shadow: 0 0 2px var(--green); }
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; letter-spacing: -0.03em;
+    line-height: 1.05; animation: fadeInUp 1s ease-out 0.1s both;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, #d4773c 0%, #f5a623 30%, #e8734a 60%, #d4773c 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+  }
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 400; color: var(--text-secondary);
+    margin-top: 1.5rem; max-width: 640px; margin-inline: auto;
+    animation: fadeInUp 1s ease-out 0.25s both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 2.5rem; animation: fadeInUp 1s ease-out 0.4s both;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 0.85rem 2rem; border-radius: 999px; font-size: 0.95rem; font-weight: 600;
+    border: none; transition: all 0.35s cubic-bezier(0.25,0.1,0.25,1);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(212,119,60,0.15);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px var(--accent-glow), 0 0 120px rgba(212,119,60,0.25);
+  }
+  .btn-secondary {
+    background: rgba(255,255,255,0.06); color: var(--text);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25);
+  }
+
+  /* ── Scroll indicator ── */
+  .scroll-indicator {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    animation: fadeInUp 1s ease-out 1s both, float 3s ease-in-out infinite;
+  }
+  .scroll-indicator span {
+    display: block; width: 24px; height: 40px; border-radius: 999px;
+    border: 2px solid rgba(255,255,255,0.2); position: relative;
+  }
+  .scroll-indicator span::after {
+    content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    width: 3px; height: 10px; border-radius: 999px; background: rgba(255,255,255,0.5);
+    animation: scrollDot 2s ease-in-out infinite;
+  }
+  @keyframes scrollDot {
+    0% { top: 6px; opacity: 1; }
+    100% { top: 24px; opacity: 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+  }
+
+  /* ── Sections ── */
+  section { padding: 7rem 0; }
+  .section-label {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.15; margin-bottom: 1.5rem;
+  }
+  .section-title .highlight {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .section-desc {
+    font-size: 1.05rem; color: var(--text-secondary); max-width: 640px; line-height: 1.7;
+  }
+
+  /* ── Feature Grid ── */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem; margin-top: 3rem;
+  }
+  .feature-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1.25rem; padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.25,0.1,0.25,1);
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.04), transparent 40%);
+    opacity: 0; transition: opacity 0.4s; z-index: 0;
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card:hover {
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .feature-card > * { position: relative; z-index: 1; }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .feature-icon.orange { background: rgba(212,119,60,0.15); color: var(--accent); }
+  .feature-icon.blue { background: rgba(41,151,255,0.15); color: var(--blue); }
+  .feature-icon.purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+  .feature-icon.green { background: rgba(52,211,153,0.15); color: var(--green); }
+
+  .feature-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+  /* ── Showcase cards ── */
+  .showcase {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .showcase-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1.5rem; padding: 2.5rem 2rem;
+    transition: all 0.4s cubic-bezier(0.25,0.1,0.25,1);
+    position: relative; overflow: hidden;
+  }
+  .showcase-card:hover {
+    border-color: rgba(255,255,255,0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .showcase-card .glow {
+    position: absolute; top: -60%; right: -30%; width: 300px; height: 300px;
+    border-radius: 50%; filter: blur(80px); opacity: 0.15; pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .showcase-card:hover .glow { opacity: 0.28; }
+  .glow-orange { background: var(--accent); }
+  .glow-blue { background: var(--blue); }
+  .glow-purple { background: var(--purple); }
+
+  .showcase-num {
+    font-size: 3.5rem; font-weight: 900; letter-spacing: -0.03em;
+    background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1;
+  }
+  .showcase-card h3 { font-size: 1.4rem; font-weight: 700; margin: 0.75rem 0 0.5rem; }
+  .showcase-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.65; }
+
+  /* ── Code terminal ── */
+  .terminal-block {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 1rem; overflow: hidden; margin-top: 3rem;
+    max-width: 720px; margin-inline: auto;
+    box-shadow: 0 0 80px rgba(41,151,255,0.06);
+  }
+  .terminal-header {
+    background: rgba(255,255,255,0.04); padding: 0.6rem 1rem;
+    display: flex; align-items: center; gap: 0.4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .terminal-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+  .terminal-dot:nth-child(1) { background: #ff5f57; }
+  .terminal-dot:nth-child(2) { background: #febc2e; }
+  .terminal-dot:nth-child(3) { background: #28c840; }
+  .terminal-body {
+    padding: 1.5rem; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.88rem; line-height: 1.7; color: #a1a1aa;
+  }
+  .terminal-body .prompt { color: var(--green); }
+  .terminal-body .cmd { color: #f5f5f7; }
+  .terminal-body .comment { color: #52525b; }
+  .terminal-body .output { color: var(--blue); }
+  .terminal-body .cursor-anim::after {
+    content: '▊'; color: var(--accent); animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+    margin-top: 4rem; padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-size: 2.5rem; font-weight: 900; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #f5f5f7, #a1a1a6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.3rem; }
+
+  /* ── Model cards ── */
+  .model-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem; margin-top: 3rem;
+  }
+  .model-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1.25rem; padding: 2rem; text-align: center;
+    transition: all 0.4s;
+  }
+  .model-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-4px); }
+  .model-card .model-tier {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .model-card h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .model-card .model-tagline { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+  .model-card .model-specs { list-style: none; font-size: 0.85rem; color: var(--text-secondary); }
+  .model-card .model-specs li { padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .model-card .model-price {
+    display: inline-block; margin-top: 1.25rem; padding: 0.4rem 1rem; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600;
+  }
+  .model-opus { border-top: 2px solid #d4773c; }
+  .model-opus .model-tier { color: var(--accent); }
+  .model-opus .model-price { background: rgba(212,119,60,0.15); color: var(--accent); }
+  .model-sonnet { border-top: 2px solid #2997ff; }
+  .model-sonnet .model-tier { color: var(--blue); }
+  .model-sonnet .model-price { background: rgba(41,151,255,0.15); color: var(--blue); }
+  .model-haiku { border-top: 2px solid #34d399; }
+  .model-haiku .model-tier { color: var(--green); }
+  .model-haiku .model-price { background: rgba(52,211,153,0.15); color: var(--green); }
+
+  /* ── Timeline ── */
+  .timeline {
+    display: flex; flex-direction: column; gap: 0; margin-top: 3rem;
+    position: relative; padding-left: 2rem;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 1px; background: linear-gradient(180deg, var(--accent), var(--blue), var(--purple), transparent);
+  }
+  .timeline-item {
+    position: relative; padding: 1.5rem 0 1.5rem 2rem;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -1.6rem; top: 1.8rem;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .timeline-item:nth-child(2)::before { background: var(--blue); box-shadow: 0 0 12px var(--blue-glow); }
+  .timeline-item:nth-child(3)::before { background: var(--purple); }
+  .timeline-item:nth-child(4)::before { background: var(--green); }
+  .timeline-date {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  .timeline-item:nth-child(2) .timeline-date { color: var(--blue); }
+  .timeline-item:nth-child(3) .timeline-date { color: var(--purple); }
+  .timeline-item:nth-child(4) .timeline-date { color: var(--green); }
+  .timeline-item h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .timeline-item p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+
+  /* ── Testimonials ── */
+  .testimonial-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .testimonial-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1.25rem; padding: 2rem;
+    transition: all 0.4s;
+  }
+  .testimonial-card:hover { border-color: rgba(255,255,255,0.18); transform: translateY(-3px); }
+  .testimonial-stars { color: #f5a623; font-size: 0.85rem; margin-bottom: 0.75rem; letter-spacing: 0.1em; }
+  .testimonial-card p { color: var(--text); font-size: 0.95rem; line-height: 1.65; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.25rem; }
+  .testimonial-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700;
+  }
+  .testimonial-avatar.av1 { background: rgba(212,119,60,0.2); color: var(--accent); }
+  .testimonial-avatar.av2 { background: rgba(41,151,255,0.2); color: var(--blue); }
+  .testimonial-avatar.av3 { background: rgba(168,85,247,0.2); color: var(--purple); }
+  .testimonial-name { font-size: 0.9rem; font-weight: 600; }
+  .testimonial-role { font-size: 0.8rem; color: var(--text-secondary); }
+
+  /* ── FAQ ── */
+  .faq-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .faq-item {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1rem; overflow: hidden; transition: all 0.3s;
+  }
+  .faq-item:hover { border-color: rgba(255,255,255,0.15); }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 1.5rem; font-weight: 600; font-size: 1rem;
+  }
+  .faq-q::after {
+    content: '+'; font-size: 1.2rem; color: var(--text-secondary);
+    transition: transform 0.3s;
+  }
+  .faq-item.open .faq-q::after { content: '−'; transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 1.5rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.25rem; }
+
+  /* ── CTA section ── */
+  .cta-section { text-align: center; padding: 8rem 0; }
+  .cta-section h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center; padding: 2rem; color: var(--text-secondary);
+    font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Particles ── */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+  /* ── Marquee ── */
+  .marquee {
+    overflow: hidden; white-space: nowrap; padding: 1.5rem 0;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    margin-top: 3rem;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 3rem; animation: marquee 30s linear infinite;
+    font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee-track .sep { color: rgba(255,255,255,0.15); }
+
+  /* ── BGM Toast ── */
+  .bgm-toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: rgba(30,30,30,0.9); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px; padding: 0.65rem 1.25rem; z-index: 200;
+    font-size: 0.8rem; color: var(--text-secondary);
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: transform 0.4s cubic-bezier(0.25,0.1,0.25,1);
+  }
+  .bgm-toast.show { transform: translateX(-50%) translateY(0); }
+  .bgm-toast .eq { display: flex; gap: 2px; align-items: flex-end; }
+  .bgm-toast .eq span {
+    width: 2px; background: var(--accent); border-radius: 1px;
+    animation: eqAnim 0.8s ease-in-out infinite;
+  }
+  .bgm-toast .eq span:nth-child(1) { height: 8px; animation-delay: 0s; }
+  .bgm-toast .eq span:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+  .bgm-toast .eq span:nth-child(3) { height: 6px; animation-delay: 0.3s; }
+  .bgm-toast .eq span:nth-child(4) { height: 12px; animation-delay: 0.45s; }
+  @keyframes eqAnim {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .container { padding: 0 1.25rem; }
+    .hero h1 { font-size: 2.5rem; }
+    .feature-grid, .showcase, .model-grid, .testimonial-grid { grid-template-columns: 1fr; }
+    .stats-bar { gap: 2rem; }
+    .sidebar { width: 240px; }
+    .cursor-dot, .cursor-ring, .cursor-trail { display: none; }
+    body, a, button, .feature-card, .showcase-card, .terminal-block, .toc-link, .nav-cta, .btn-primary, .btn-secondary, .sidebar-toggle, .bgm-btn { cursor: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ambient background -->
+<div class="bg-ambient"></div>
+
+<!-- Particles canvas -->
+<canvas class="particles" id="particles"></canvas>
+
+<!-- Custom Cursor Elements -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Sidebar TOC -->
+<div class="sidebar-toggle" id="sidebarToggle" title="目录">☰</div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-title">目录</div>
+  <ul class="toc-list">
+    <li><a href="#hero" class="toc-link active" data-section="hero">概览</a></li>
+    <li><a href="#features" class="toc-link" data-section="features">核心能力</a></li>
+    <li><a href="#models" class="toc-link" data-section="models">模型家族</a></li>
+    <li><a href="#howitworks" class="toc-link" data-section="howitworks">工作原理</a></li>
+    <li><a href="#quickstart" class="toc-link" data-section="quickstart">快速上手</a></li>
+    <li><a href="#scenarios" class="toc-link" data-section="scenarios">实战场景</a></li>
+    <li><a href="#timeline" class="toc-link" data-section="timeline">发展历程</a></li>
+    <li><a href="#ecosystem" class="toc-link" data-section="ecosystem">生态扩展</a></li>
+    <li><a href="#testimonials" class="toc-link" data-section="testimonials">用户声音</a></li>
+    <li><a href="#comparison" class="toc-link" data-section="comparison">对比优势</a></li>
+    <li><a href="#faq" class="toc-link" data-section="faq">常见问题</a></li>
+    <li><a href="#cta" class="toc-link" data-section="cta">立即开始</a></li>
+  </ul>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- BGM Toast -->
+<div class="bgm-toast" id="bgmToast">
+  <div class="eq"><span></span><span></span><span></span><span></span></div>
+  Ambient Sound · Now Playing
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">Claude Code</div>
+    <div class="nav-right">
+      <button class="bgm-btn" id="bgmBtn" title="背景音乐">🔇</button>
+      <a href="#cta" class="nav-cta">开始使用</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      现已正式发布
+    </div>
+    <h1>
+      编程的<br>
+      <span class="gradient-text">下一个时代</span>
+    </h1>
+    <p class="hero-subtitle">
+      Claude Code 是 Anthropic 推出的智能编程助手，直接在终端中与 AI 协作，
+      以前所未有的速度构建、调试与部署。
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">⬇ 开始使用</a>
+      <a href="#features" class="btn-secondary">了解更多 →</a>
+    </div>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>⚡ 终端原生</span><span class="sep">·</span>
+    <span>🔍 代码审查</span><span class="sep">·</span>
+    <span>🛠️ 自动修复</span><span class="sep">·</span>
+    <span>📦 项目脚手架</span><span class="sep">·</span>
+    <span>🧪 测试生成</span><span class="sep">·</span>
+    <span>📖 文档撰写</span><span class="sep">·</span>
+    <span>🐛 智能调试</span><span class="sep">·</span>
+    <span>🚀 CI/CD 集成</span><span class="sep">·</span>
+    <span>⚡ 终端原生</span><span class="sep">·</span>
+    <span>🔍 代码审查</span><span class="sep">·</span>
+    <span>🛠️ 自动修复</span><span class="sep">·</span>
+    <span>📦 项目脚手架</span><span class="sep">·</span>
+    <span>🧪 测试生成</span><span class="sep">·</span>
+    <span>📖 文档撰写</span><span class="sep">·</span>
+    <span>🐛 智能调试</span><span class="sep">·</span>
+    <span>🚀 CI/CD 集成</span>
+  </div>
+</div>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <div class="section-label reveal">核心能力</div>
+    <h2 class="section-title reveal">为<span class="highlight">开发者</span>重新定义工作流</h2>
+    <p class="section-desc reveal">六大核心能力，覆盖开发全生命周期 — 从需求分析到代码审查，AI 全程协作。</p>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">⚡</div>
+        <h3>终端原生体验</h3>
+        <p>直接在终端中运行，与现有工具链无缝集成。支持 bash/zsh/fish，零学习成本上手。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon blue">🧠</div>
+        <h3>深度代码理解</h3>
+        <p>理解整个项目上下文 — 多文件编辑、跨模块重构、智能补全，远超传统 IDE。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon purple">🔧</div>
+        <h3>自动化工具调用</h3>
+        <p>自主执行命令、读写文件、搜索代码库、运行测试 — 全程透明可控。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">📋</div>
+        <h3>PR 审查与修复</h3>
+        <p>一键审查 Pull Request、发现潜在 bug、自动生成修复代码，提升代码质量。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">🌐</div>
+        <h3>多平台接入</h3>
+        <p>通过 cc-connect 连接到微信、飞书、Telegram 等 IM，手机上也能写代码。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon blue">🎯</div>
+        <h3>Skills 生态</h3>
+        <p>安装社区 Skills 扩展能力 — 前端设计、PPT 生成、数据分析，无限可能。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Models -->
+<section id="models">
+  <div class="container">
+    <div class="section-label reveal">模型家族</div>
+    <h2 class="section-title reveal">三个模型<span class="highlight">，各有所长</span></h2>
+    <p class="section-desc reveal">根据任务复杂度选择合适的模型 — 从轻量快速到深度推理，按需切换。</p>
+    <div class="model-grid">
+      <div class="model-card model-opus reveal">
+        <div class="model-tier">旗舰级</div>
+        <h3>Opus 4.8</h3>
+        <p class="model-tagline">最强推理，攻克复杂难题</p>
+        <ul class="model-specs">
+          <li>多步骤架构设计</li>
+          <li>跨系统深度集成</li>
+          <li>复杂算法优化</li>
+          <li>安全审计与合规</li>
+        </ul>
+        <span class="model-price">最强能力</span>
+      </div>
+      <div class="model-card model-sonnet reveal">
+        <div class="model-tier">均衡级 · 推荐</div>
+        <h3>Sonnet 4.6</h3>
+        <p class="model-tagline">速度与智能的完美平衡</p>
+        <ul class="model-specs">
+          <li>日常编码与重构</li>
+          <li>代码审查与测试</li>
+          <li>文档与 API 设计</li>
+          <li>快速原型开发</li>
+        </ul>
+        <span class="model-price">日常首选</span>
+      </div>
+      <div class="model-card model-haiku reveal">
+        <div class="model-tier">轻量级</div>
+        <h3>Haiku 4.5</h3>
+        <p class="model-tagline">极速响应，高效闪电</p>
+        <ul class="model-specs">
+          <li>自动补全与提示</li>
+          <li>简单问答与搜索</li>
+          <li>格式转换与清理</li>
+          <li>批量小任务处理</li>
+        </ul>
+        <span class="model-price">极速体验</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar reveal">
+  <div class="stat-item">
+    <div class="stat-num" id="countSkill">500K+</div>
+    <div class="stat-label">Skill 安装量</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">支持平台</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">46+</div>
+    <div class="stat-label">兼容 Agent</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">200K</div>
+    <div class="stat-label">上下文窗口 (Tokens)</div>
+  </div>
+</div>
+
+<!-- How it works -->
+<section id="howitworks">
+  <div class="container">
+    <div class="section-label reveal">工作原理</div>
+    <h2 class="section-title reveal">从想法到<span class="highlight">代码</span>，一步到位</h2>
+    <p class="section-desc reveal">自然语言驱动，AI 自动完成项目探索、计划制定、代码编写与验证。</p>
+    <div class="showcase">
+      <div class="showcase-card reveal">
+        <div class="glow glow-orange"></div>
+        <div class="showcase-num">01</div>
+        <h3>描述需求</h3>
+        <p>用自然语言描述你想要的功能、修复的 bug 或想了解的问题。无需精确指令，AI 理解上下文。</p>
+      </div>
+      <div class="showcase-card reveal">
+        <div class="glow glow-blue"></div>
+        <div class="showcase-num">02</div>
+        <h3>AI 深度分析</h3>
+        <p>Claude Code 自动搜索项目代码，理解架构，制定分步执行计划，预估影响范围。</p>
+      </div>
+      <div class="showcase-card reveal">
+        <div class="glow glow-purple"></div>
+        <div class="showcase-num">03</div>
+        <h3>自主执行</h3>
+        <p>自动编码、运行测试、修复错误、生成报告 — 每一步都透明可见，随时可干预。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Start -->
+<section id="quickstart">
+  <div class="container">
+    <div class="section-label reveal">快速上手</div>
+    <h2 class="section-title reveal">一行命令<span class="highlight">，即刻开始</span></h2>
+    <p class="section-desc reveal">安装仅需 30 秒，无需复杂配置。支持 npm、Homebrew、直接下载。</p>
+    <div class="terminal-block reveal">
+      <div class="terminal-header">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+      </div>
+      <div class="terminal-body">
+        <span class="comment"># 推荐：npm 全局安装</span><br>
+        <span class="prompt">$</span> <span class="cmd">npm install -g @anthropic-ai/claude-code</span><br><br>
+        <span class="comment"># 或使用 Homebrew (macOS)</span><br>
+        <span class="prompt">$</span> <span class="cmd">brew install claude-code</span><br><br>
+        <span class="comment"># 进入项目，开始对话</span><br>
+        <span class="prompt">$</span> <span class="cmd">cd my-project && claude</span><br><br>
+        <span class="output">⚡ Claude Code v2.1 — 128 文件已索引</span><br>
+        <span class="output">💡 输入你的需求，AI 即刻开始工作</span><br><br>
+        <span class="prompt">></span> <span class="cursor-anim">帮我用 React 重构用户登录模块</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Scenarios -->
+<section id="scenarios">
+  <div class="container">
+    <div class="section-label reveal">实战场景</div>
+    <h2 class="section-title reveal">覆盖开发<span class="highlight">全生命周期</span></h2>
+    <p class="section-desc reveal">无论前端、后端、DevOps 还是数据科学，Claude Code 都能胜任。</p>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">🏗️</div>
+        <h3>项目脚手架</h3>
+        <p>一句话生成完整项目结构："帮我创建一个 Next.js + TypeScript 博客项目，集成 MDX 和暗色模式。"</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon blue">🐛</div>
+        <h3>智能 Debug</h3>
+        <p>粘贴报错信息，Claude 自动分析堆栈、定位根因、提供修复方案并运行验证。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon purple">🔄</div>
+        <h3>代码迁移</h3>
+        <p>从 JavaScript 到 TypeScript、Vue 2 到 Vue 3 — 自动迁移代码、更新依赖、修复类型错误。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">📊</div>
+        <h3>数据管道</h3>
+        <p>编写 ETL 脚本、优化 SQL 查询、生成数据可视化 — 从数据提取到报告输出一气呵成。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">🧪</div>
+        <h3>自动测试</h3>
+        <p>为现有代码生成单元测试、集成测试、E2E 测试，覆盖边界情况和异常路径。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon blue">🚢</div>
+        <h3>CI/CD 优化</h3>
+        <p>编写 GitHub Actions、优化 Docker 镜像、配置自动部署 — DevOps 生产力倍增。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label reveal">发展历程</div>
+    <h2 class="section-title reveal">持续进化<span class="highlight">，永不止步</span></h2>
+    <p class="section-desc reveal">从发布至今，Claude Code 以极快的速度迭代，每一次更新都带来突破性的能力提升。</p>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2025.02</div>
+        <h4>Claude Code 正式发布</h4>
+        <p>以终端 CLI 形态首次亮相，支持 Read/Write/Edit/Bash 四大核心工具。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2025.06</div>
+        <h4>Skills 生态 + MCP 协议</h4>
+        <p>开放 Skills 市场与 MCP 外部工具连接，社区贡献突破 1 万个 Skill。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2025.12</div>
+        <h4>多模态 + cc-connect</h4>
+        <p>支持图片输入、cc-connect IM 桥接，在微信/飞书/Telegram 中直接使用。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2026.05</div>
+        <h4>Opus 4.8 + 200K 上下文</h4>
+        <p>新一代旗舰模型发布，200K token 上下文窗口，支持 Workflow 多智能体协作。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ecosystem -->
+<section id="ecosystem">
+  <div class="container">
+    <div class="section-label reveal">生态扩展</div>
+    <h2 class="section-title reveal">连接一切<span class="highlight">，无限可能</span></h2>
+    <p class="section-desc reveal">通过 cc-connect 和 MCP 协议，将 Claude Code 的能力延伸到任何平台和工具。</p>
+    <div class="showcase">
+      <div class="showcase-card reveal">
+        <div class="glow glow-orange"></div>
+        <div class="showcase-num" style="font-size:2rem;">💬</div>
+        <h3>IM 即界面</h3>
+        <p>微信、飞书、钉钉、Telegram、Discord、Slack — 10+ 平台，一个 AI 助手，随时随地写代码。</p>
+      </div>
+      <div class="showcase-card reveal">
+        <div class="glow glow-blue"></div>
+        <div class="showcase-num" style="font-size:2rem;">🔌</div>
+        <h3>MCP 万能插头</h3>
+        <p>连接数据库、API、文件系统、云服务 — 通过 MCP 协议让 Claude Code 与任何外部工具交互。</p>
+      </div>
+      <div class="showcase-card reveal">
+        <div class="glow glow-purple"></div>
+        <div class="showcase-num" style="font-size:2rem;">🧩</div>
+        <h3>Skills 市场</h3>
+        <p>1.3 万+ 社区 Skill — 前端设计、PPT 生成、安全审计、数据分析，一键安装，即刻扩展。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-label reveal">用户声音</div>
+    <h2 class="section-title reveal">全球开发者<span class="highlight">的选择</span></h2>
+    <p class="section-desc reveal">来自不同领域开发者的真实反馈。</p>
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Claude Code 彻底改变了我写代码的方式。以前需要一上午的重构任务，现在一杯咖啡的时间就完成了。"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar av1">Z</div>
+          <div>
+            <div class="testimonial-name">张伟</div>
+            <div class="testimonial-role">全栈工程师 · 某独角兽</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"我们的团队从 Copilot 迁移到 Claude Code，PR 审查质量提升明显，bug 减少了 40%。Sonnet 模型性价比无敌。"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar av2">S</div>
+          <div>
+            <div class="testimonial-name">Sarah Chen</div>
+            <div class="testimonial-role">Tech Lead · Stripe</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"在微信上就能用 Claude Code，太方便了。地铁上发条消息，下车时 PR 已经生成好了。cc-connect 是杀手级功能。"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar av3">L</div>
+          <div>
+            <div class="testimonial-name">李明</div>
+            <div class="testimonial-role">独立开发者</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section id="comparison">
+  <div class="container">
+    <div class="section-label reveal">为什么选择</div>
+    <h2 class="section-title reveal">Claude Code <span class="highlight">vs</span> 传统方案</h2>
+    <p class="section-desc reveal">不仅仅是代码补全，更是一个真正理解你项目的 AI 开发伙伴。</p>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon green">✓</div>
+        <h3>200K 上下文窗口</h3>
+        <p>一次性加载整个代码库，理解跨文件依赖关系，而非孤立地分析单个文件片段。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">✓</div>
+        <h3>自适应推理</h3>
+        <p>简单问题秒回，复杂问题深度思考 — 根据任务难度自动调节推理深度，不浪费 token。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">✓</div>
+        <h3>企业级安全</h3>
+        <p>五级权限控制，敏感操作需显式授权。SOC 2 合规，代码不上传用于训练。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">✓</div>
+        <h3>开放可扩展</h3>
+        <p>Skills 社区 + MCP 协议 + Hook 系统 — 打造属于你自己的 AI 开发工作流。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label reveal">常见问题</div>
+    <h2 class="section-title reveal">你关心的<span class="highlight">，都在这里</span></h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-q">Claude Code 如何收费？</div>
+        <div class="faq-a">Claude Code 本身免费使用，通过 Anthropic API 按 token 计费。你也可以接入第三方 API 提供商（如 MiniMax、Kimi、DeepSeek）降低成本。建议日常使用 Sonnet 模型，复杂任务切换到 Opus。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q">支持哪些编程语言？</div>
+        <div class="faq-a">Claude Code 支持所有主流编程语言，包括但不限于：TypeScript、Python、Rust、Go、Java、C/C++、Ruby、Swift、Kotlin 等。它对前端框架（React、Vue、Next.js）和后端框架（FastAPI、Express、Spring）有特别深的理解。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q">我的代码安全吗？</div>
+        <div class="faq-a">安全是 Anthropic 的第一优先级。通过 API 使用时，你的代码不会用于模型训练。Claude Code 支持 SOC 2 合规，所有数据传输加密。权限分级系统确保敏感操作（如删除文件、执行危险命令）需要用户显式授权。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q">与 GitHub Copilot 有什么区别？</div>
+        <div class="faq-a">Claude Code 是终端原生的自主编程助手，能主动探索项目、执行多步骤任务、运行测试并修复错误；而 Copilot 主要在 IDE 中提供代码补全。Claude Code 的 200K 上下文窗口和深度推理能力使其更适合复杂的编程任务。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q">在中国大陆可以使用吗？</div>
+        <div class="faq-a">可以。通过 cc-connect 的第三方 API 接入（如 MiniMax M2.7、Kimi K2.6、DashScope GLM-5.1），无需翻墙即可使用。SkillHub 国内镜像提供高速 Skills 下载。同时支持微信接入，手机上也能用。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <h2 class="reveal">准备好改变编程方式了吗？</h2>
+    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;" class="reveal">
+      npm install -g @anthropic-ai/claude-code<br>
+      <span style="font-size:0.85rem;">一行命令，开启 AI 编程新时代</span>
+    </p>
+    <div class="hero-actions reveal">
+      <a href="https://docs.anthropic.com/en/docs/claude-code" class="btn-primary" target="_blank">免费开始使用</a>
+      <a href="https://docs.anthropic.com/en/docs/claude-code/overview" class="btn-secondary" target="_blank">查看文档</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>Claude Code · Anthropic · 用 AI 重新定义编程</p>
+</footer>
+
+<!-- ── Audio element for BGM ── -->
+<audio id="bgmAudio" loop preload="auto" crossorigin="anonymous"></audio>
+
+<script>
+// ═══ Custom Cursor ═══
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = innerWidth/2, my = innerHeight/2;
+let rx = mx, ry = my;
+const trails = [];
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  // Spawn trail
+  const trail = document.createElement('div');
+  trail.className = 'cursor-trail';
+  trail.style.left = mx + 'px';
+  trail.style.top = my + 'px';
+  document.body.appendChild(trail);
+  setTimeout(() => trail.remove(), 600);
+});
+
+function cursorLoop() {
+  rx += (mx - rx) * 0.3;
+  ry += (my - ry) * 0.3;
+  dot.style.left = mx + 'px';
+  dot.style.top = my + 'px';
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(cursorLoop);
+}
+cursorLoop();
+
+// Hover effects
+document.querySelectorAll('a, button, .feature-card, .showcase-card, .toc-link, .terminal-block, .faq-q').forEach(el => {
+  el.addEventListener('mouseenter', () => { dot.style.transform = 'translate(-50%,-50%) scale(1.8)'; ring.style.width = '44px'; ring.style.height = '44px'; });
+  el.addEventListener('mouseleave', () => { dot.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.width = '32px'; ring.style.height = '32px'; });
+});
+
+// ═══ Sidebar TOC ═══
+const sidebar = document.getElementById('sidebar');
+const toggle = document.getElementById('sidebarToggle');
+const overlay = document.getElementById('sidebarOverlay');
+const tocLinks = document.querySelectorAll('.toc-link');
+
+function openSidebar() { sidebar.classList.add('open'); toggle.classList.add('open'); toggle.textContent = '✕'; overlay.classList.add('open'); }
+function closeSidebar() { sidebar.classList.remove('open'); toggle.classList.remove('open'); toggle.textContent = '☰'; overlay.classList.remove('open'); }
+toggle.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+overlay.addEventListener('click', closeSidebar);
+
+// Highlight active TOC link
+const sectionIds = [...tocLinks].map(l => l.dataset.section);
+const observerTOC = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      document.querySelector(`.toc-link[data-section="${e.target.id}"]`)?.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+sectionIds.forEach(id => { const el = document.getElementById(id); if (el) observerTOC.observe(el); });
+
+// ═══ BGM ═══
+const bgmAudio = document.getElementById('bgmAudio');
+const bgmBtn = document.getElementById('bgmBtn');
+const bgmToast = document.getElementById('bgmToast');
+let bgmPlaying = false;
+
+// Generate ambient sound with Web Audio API
+let audioCtx = null;
+let bgmNodes = [];
+
+function startBGM() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Layer 1: Deep sub drone
+  const osc1 = audioCtx.createOscillator();
+  const gain1 = audioCtx.createGain();
+  osc1.type = 'sine';
+  osc1.frequency.value = 55;
+  gain1.gain.value = 0.06;
+  osc1.connect(gain1).connect(audioCtx.destination);
+
+  // Layer 2: Fifth harmonic pad
+  const osc2 = audioCtx.createOscillator();
+  const gain2 = audioCtx.createGain();
+  osc2.type = 'sine';
+  osc2.frequency.value = 82.4;
+  gain2.gain.value = 0.04;
+  osc2.connect(gain2).connect(audioCtx.destination);
+
+  // Layer 3: High shimmer (filtered saw)
+  const osc3 = audioCtx.createOscillator();
+  const filter3 = audioCtx.createBiquadFilter();
+  const gain3 = audioCtx.createGain();
+  osc3.type = 'sawtooth';
+  osc3.frequency.value = 220;
+  filter3.type = 'lowpass';
+  filter3.frequency.value = 600;
+  gain3.gain.value = 0.015;
+  osc3.connect(filter3).connect(gain3).connect(audioCtx.destination);
+
+  // Layer 4: Slow evolving pad
+  const osc4 = audioCtx.createOscillator();
+  const gain4 = audioCtx.createGain();
+  osc4.type = 'triangle';
+  osc4.frequency.value = 110;
+  gain4.gain.value = 0.05;
+  osc4.connect(gain4).connect(audioCtx.destination);
+
+  // Slow LFO modulation on filter and gains
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  lfo.type = 'sine';
+  lfo.frequency.value = 0.1;
+  lfoGain.gain.value = 200;
+  lfo.connect(lfoGain).connect(filter3.frequency);
+  const lfo2 = audioCtx.createOscillator();
+  const lfo2Gain = audioCtx.createGain();
+  lfo2.type = 'sine';
+  lfo2.frequency.value = 0.07;
+  lfo2Gain.gain.value = 0.02;
+  lfo2.connect(lfo2Gain).connect(gain3.gain);
+
+  [osc1,osc2,osc3,osc4,lfo,lfo2].forEach(o => o.start());
+  bgmNodes = [osc1,osc2,osc3,osc4,gain1,gain2,gain3,gain4,lfo,lfo2,lfoGain,lfo2Gain,filter3];
+}
+
+function stopBGM() {
+  bgmNodes.forEach(n => { try { n.stop(); n.disconnect(); } catch(e){} });
+  bgmNodes = [];
+}
+
+bgmBtn.addEventListener('click', () => {
+  if (bgmPlaying) {
+    stopBGM();
+    bgmBtn.textContent = '🔇';
+    bgmBtn.classList.remove('playing');
+    bgmToast.classList.remove('show');
+    bgmPlaying = false;
+  } else {
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    startBGM();
+    bgmBtn.textContent = '🔊';
+    bgmBtn.classList.add('playing');
+    bgmToast.classList.add('show');
+    setTimeout(() => bgmToast.classList.remove('show'), 4000);
+    bgmPlaying = true;
+  }
+});
+
+// ═══ Scroll reveal ═══
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ═══ Mouse tracking on cards ═══
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+    card.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+  });
+});
+
+// ═══ Particle system ═══
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let w, h;
+
+function resizeP() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+resizeP();
+window.addEventListener('resize', resizeP);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    this.fadeSpeed = Math.random() * 0.003 + 0.001;
+    this.opacityDir = Math.random() > 0.5 ? 1 : -1;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.opacity += this.fadeSpeed * this.opacityDir;
+    if (this.opacity >= 0.5) this.opacityDir = -1;
+    if (this.opacity <= 0.05) this.opacityDir = 1;
+    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(255,255,255,${0.03 * (1 - dist/120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ═══ FAQ Accordion ═══
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// ═══ Keyboard shortcut: M to toggle BGM ═══
+document.addEventListener('keydown', e => {
+  if (e.key === 'm' && !e.ctrlKey && !e.metaKey && !e.altKey && document.activeElement === document.body) {
+    bgmBtn.click();
+  }
+  if (e.key === 'Escape') closeSidebar();
+});
+</script>
+</body>
+</html>

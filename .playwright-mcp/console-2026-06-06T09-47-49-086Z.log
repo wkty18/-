@@ -1,0 +1,4 @@
+[    1113ms] [ERROR] Hydration completed but contains mismatches. @ https://s1.hdslb.com/bfs/static/shanks/laputa-search/assets/index-12de2f6c.js:16
+[    1161ms] [INFO] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113 @ https://search.bilibili.com/all?keyword=%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C&order=click:0
+[    1801ms] [INFO] %c bili-fe-mirror %c v2.1.0  padding: 2px 6px; border-radius: 3px 0 0 3px; color: #fff; background: #FF6699; font-weight: bold; padding: 2px 6px; border-radius: 0 3px 3px 0; color: #fff; background: #FF9999; font-weight: bold; @ https://s1.hdslb.com/bfs/seed/jinkela/short/b-mirror/biliMirror.umd.mini.js:1
+[    1802ms] [LOG] 白屏检测是否正常 {status: ok, loop: 0, data: Object} @ https://search.bilibili.com/all?keyword=%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C&order=click:228

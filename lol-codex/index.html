@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runeterra Codex — 英雄联盟信息宝典</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Noto+Serif+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #06090F;
+  --bg-base: #0C1119;
+  --bg-surface: #111827;
+  --bg-card: #161D2A;
+  --bg-card-hover: #1C2433;
+  --bg-input: #0D1320;
+  --hex: #00B4D8;
+  --hex-bright: #48CAE4;
+  --hex-glow: #90E0EF;
+  --hex-dim: #0077B6;
+  --gold: #FFD166;
+  --gold-bright: #FFE5A3;
+  --gold-dim: #B8960C;
+  --red: #EF476F;
+  --red-glow: #FF6B8A;
+  --green: #06D6A0;
+  --purple: #A855F7;
+  --text-primary: #E8ECF1;
+  --text-secondary: #94A3B8;
+  --text-dim: #64748B;
+  --border-subtle: rgba(148,163,184,0.08);
+  --border-hex: rgba(0,180,216,0.25);
+  --border-gold: rgba(255,209,102,0.3);
+  --shadow-hex: 0 0 24px rgba(0,180,216,0.12);
+  --shadow-gold: 0 0 24px rgba(255,209,102,0.12);
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 14px;
+  --font-display: 'Cinzel', serif;
+  --font-chinese: 'Noto Serif SC', serif;
+  --font-body: 'Noto Sans SC', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg-deep);color:var(--text-primary);font-family:var(--font-body);font-size:15px;line-height:1.6}
+body{min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 10%,rgba(0,180,216,0.04) 0%,transparent 55%),radial-gradient(ellipse at 85% 70%,rgba(255,209,102,0.03) 0%,transparent 55%),radial-gradient(ellipse at 50% 40%,rgba(168,85,247,0.03) 0%,transparent 50%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 5l4 8 8 4-8 4-4 8-4-8-8-4 8-4z' fill='none' stroke='%2300B4D8' stroke-width='0.3' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg-deep)}::-webkit-scrollbar-thumb{background:var(--hex-dim);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--hex)}
+
+.app{position:relative;z-index:1;max-width:1500px;margin:0 auto;padding:0 28px}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:28px 0 20px;border-bottom:1px solid var(--border-subtle);gap:20px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-hex{width:44px;height:44px;position:relative;display:flex;align-items:center;justify-content:center}
+.logo-hex svg{width:44px;height:44px}
+.logo-hex .hex-path{fill:none;stroke:var(--hex);stroke-width:1.5;filter:drop-shadow(0 0 8px rgba(0,180,216,0.5));animation:hexPulse 3s ease-in-out infinite}
+@keyframes hexPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(0,180,216,0.5))}50%{filter:drop-shadow(0 0 20px rgba(0,180,216,0.8))}}
+.logo-text h1{font-family:var(--font-display);font-size:1.4rem;font-weight:900;letter-spacing:0.06em;color:var(--hex-bright);text-transform:uppercase;line-height:1.2}
+.logo-text span{font-family:var(--font-chinese);font-size:0.7rem;letter-spacing:0.15em;color:var(--text-dim)}
+
+/* MODE SWITCHER */
+.mode-switch{display:flex;gap:2px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:3px}
+.mode-btn{font-family:var(--font-body);font-size:0.82rem;font-weight:500;color:var(--text-secondary);background:transparent;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;transition:all .25s;white-space:nowrap;letter-spacing:0.02em}
+.mode-btn:hover{color:var(--text-primary);background:rgba(0,180,216,0.06)}
+.mode-btn.active{color:var(--hex-bright);background:rgba(0,180,216,0.12);font-weight:700}
+
+/* MODE HEADER BADGE */
+.mode-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:0.75rem;font-weight:600;letter-spacing:0.04em;margin-right:12px}
+.mode-badge.ranked{background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.25);color:var(--gold)}
+.mode-badge.aram{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.25);color:var(--purple)}
+
+/* STATS BAR */
+.stats-bar{display:flex;gap:16px;padding:20px 0;flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:10px;padding:10px 18px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);transition:all .3s}
+.stat-item:hover{border-color:var(--border-hex);box-shadow:var(--shadow-hex)}
+.stat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.stat-dot.hex{background:var(--hex);box-shadow:0 0 8px var(--hex)}
+.stat-dot.gold{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.stat-dot.purple{background:var(--purple);box-shadow:0 0 8px var(--purple)}
+.stat-dot.green{background:var(--green);box-shadow:0 0 8px var(--green)}
+.stat-label{font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em}
+.stat-value{font-family:var(--font-mono);font-size:0.95rem;font-weight:600;color:var(--text-primary)}
+
+/* SUBNAV */
+.subnav{display:flex;gap:2px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:3px;margin-bottom:20px;overflow-x:auto}
+.subnav-btn{font-family:var(--font-body);font-size:0.78rem;font-weight:500;color:var(--text-secondary);background:transparent;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;transition:all .25s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.subnav-btn:hover{color:var(--text-primary);background:rgba(0,180,216,0.06)}
+.subnav-btn.active{color:var(--hex-bright);background:rgba(0,180,216,0.12);font-weight:600}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:12px;padding:0 0 18px;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:260px;max-width:500px}
+.search-input{width:100%;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:11px 44px 11px 16px;color:var(--text-primary);font-family:var(--font-body);font-size:0.9rem;outline:none;transition:all .3s}
+.search-input::placeholder{color:var(--text-dim)}
+.search-input:focus{border-color:var(--hex);box-shadow:0 0 16px rgba(0,180,216,0.1)}
+.search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--hex-dim);font-size:1.1rem;pointer-events:none}
+.search-hint{font-size:0.65rem;color:var(--text-dim);white-space:nowrap}
+
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.filter-chip{font-family:var(--font-body);font-size:0.75rem;padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:18px;color:var(--text-secondary);cursor:pointer;transition:all .25s;white-space:nowrap}
+.filter-chip:hover{border-color:var(--border-hex);color:var(--text-primary)}
+.filter-chip.active{background:rgba(0,180,216,0.12);border-color:var(--hex);color:var(--hex-bright)}
+
+/* TIER BADGE */
+.tier-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:900;letter-spacing:0.04em;flex-shrink:0}
+.tier-s{background:linear-gradient(135deg,#FF6B6B,#FFD166);color:#1a0a00;box-shadow:0 0 12px rgba(255,107,107,0.4)}
+.tier-a{background:linear-gradient(135deg,#FFD166,#FFB347);color:#1a0a00;box-shadow:0 0 8px rgba(255,209,102,0.3)}
+.tier-b{background:linear-gradient(135deg,#48CAE4,#00B4D8);color:#001a20;box-shadow:0 0 8px rgba(72,202,228,0.3)}
+.tier-c{background:linear-gradient(135deg,#94A3B8,#64748B);color:#0a0a0a}
+.tier-d{background:linear-gradient(135deg,#64748B,#475569);color:#0a0a0a}
+
+/* CHAMPION GRID */
+.champ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.champ-card{position:relative;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.champ-card:hover{transform:translateY(-3px);border-color:var(--border-hex);box-shadow:var(--shadow-hex),0 8px 25px rgba(0,0,0,.4);z-index:5;background:var(--bg-card-hover)}
+.champ-card .img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg-surface)}
+.champ-card .img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.champ-card:hover .img-wrap img{transform:scale(1.08)}
+.champ-card .img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,var(--bg-card) 100%)}
+.champ-card .card-tier{position:absolute;top:8px;right:8px;z-index:2}
+.champ-card .card-body{padding:12px 14px;position:relative}
+.champ-card .card-name{font-family:var(--font-chinese);font-size:0.95rem;font-weight:700;color:var(--text-primary);margin-bottom:1px}
+.champ-card .card-en{font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);margin-bottom:4px}
+.champ-card .card-roles{display:flex;gap:4px;flex-wrap:wrap}
+.champ-card .card-role{font-size:0.62rem;padding:2px 8px;background:rgba(0,180,216,0.08);border:1px solid rgba(0,180,216,0.15);border-radius:10px;color:var(--hex-bright);letter-spacing:0.03em}
+
+/* BUILD SECTION */
+.build-layout{display:flex;gap:20px;flex-wrap:wrap}
+.build-champ-select{width:280px;flex-shrink:0}
+.build-champ-list{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);max-height:500px;overflow-y:auto}
+.build-champ-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:all .2s;border-bottom:1px solid var(--border-subtle)}
+.build-champ-item:hover{background:rgba(0,180,216,0.06)}
+.build-champ-item.selected{background:rgba(0,180,216,0.1);border-left:3px solid var(--hex)}
+.build-champ-item img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.build-champ-item .bci-name{font-family:var(--font-chinese);font-size:0.85rem;font-weight:600;color:var(--text-primary)}
+.build-champ-item .bci-tier{margin-left:auto}
+
+.build-detail{flex:1;min-width:350px}
+.build-block{margin-bottom:20px}
+.build-block-title{font-family:var(--font-chinese);font-size:0.9rem;font-weight:700;color:var(--hex-bright);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.build-block-title::before{content:'';display:inline-block;width:3px;height:16px;background:var(--hex);border-radius:2px}
+.build-items{display:flex;flex-wrap:wrap;gap:8px}
+.build-item-card{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);min-width:200px;transition:all .25s;cursor:pointer;flex:1}
+.build-item-card:hover{border-color:var(--border-gold);box-shadow:var(--shadow-gold)}
+.build-item-card.core{border-color:rgba(255,209,102,0.3);background:rgba(255,209,102,0.04)}
+.build-item-card img{width:40px;height:40px;border-radius:4px;object-fit:contain;background:var(--bg-deep)}
+.build-item-card .bic-name{font-size:0.8rem;font-weight:600;color:var(--text-primary)}
+.build-item-card .bic-rating{display:flex;gap:1px;margin-top:2px}
+.build-item-card .bic-star{font-size:0.6rem;color:var(--text-dim)}
+.build-item-card .bic-star.on{color:var(--gold)}
+.build-item-card .bic-tag{font-size:0.6rem;padding:2px 8px;border-radius:8px;margin-left:auto}
+.build-item-card .bic-tag.core-tag{background:rgba(255,209,102,0.15);color:var(--gold);border:1px solid rgba(255,209,102,0.25)}
+
+/* RUNES */
+.rune-display{display:flex;gap:20px;flex-wrap:wrap}
+.rune-tree{flex:1;min-width:200px;padding:18px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md)}
+.rune-tree.primary{border-left:3px solid var(--gold)}
+.rune-tree.secondary{border-left:3px solid var(--hex)}
+.rune-tree-title{font-family:var(--font-chinese);font-size:0.85rem;font-weight:700;margin-bottom:10px}
+.rune-tree.primary .rune-tree-title{color:var(--gold)}
+.rune-tree.secondary .rune-tree-title{color:var(--hex-bright)}
+.rune-row{display:flex;gap:4px;margin-bottom:6px}
+.rune-slot{width:32px;height:32px;border-radius:50%;background:var(--bg-deep);border:2px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;font-size:0.6rem;transition:all .2s}
+.rune-slot.active{border-color:var(--hex);background:rgba(0,180,216,0.15)}
+.rune-slot.keystone{width:40px;height:40px;border-color:var(--gold);box-shadow:0 0 10px rgba(255,209,102,0.2)}
+
+/* AUGMENT GRID */
+.augment-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.augment-card{padding:16px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);transition:all .3s;cursor:pointer}
+.augment-card:hover{border-color:var(--border-hex);box-shadow:var(--shadow-hex)}
+.augment-card.prismatic{border-left:3px solid #A855F7}
+.augment-card.gold{border-left:3px solid var(--gold)}
+.augment-card.silver{border-left:3px solid #94A3B8}
+.augment-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.augment-name{font-family:var(--font-chinese);font-size:0.85rem;font-weight:700;color:var(--text-primary)}
+.augment-tier-tag{font-size:0.6rem;padding:3px 10px;border-radius:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase}
+.augment-tier-tag.prismatic{background:rgba(168,85,247,0.15);color:#C084FC;border:1px solid rgba(168,85,247,0.3)}
+.augment-tier-tag.gold{background:rgba(255,209,102,0.15);color:var(--gold);border:1px solid rgba(255,209,102,0.3)}
+.augment-tier-tag.silver{background:rgba(148,163,184,0.12);color:#94A3B8;border:1px solid rgba(148,163,184,0.25)}
+.augment-effect{font-size:0.75rem;color:var(--text-secondary);line-height:1.5}
+.augment-set-tag{display:inline-block;margin-top:6px;font-size:0.6rem;padding:2px 8px;background:rgba(0,180,216,0.08);border-radius:8px;color:var(--hex-bright)}
+.augment-hero-rating{display:flex;align-items:center;gap:4px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle)}
+.augment-hero-rating span{font-size:0.65rem;color:var(--text-dim)}
+
+/* COMBO SECTION */
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.combo-card{padding:20px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);transition:all .3s}
+.combo-card:hover{border-color:var(--border-hex);box-shadow:var(--shadow-hex)}
+.combo-title{font-family:var(--font-chinese);font-size:0.95rem;font-weight:700;color:var(--hex-bright);margin-bottom:6px}
+.combo-augments{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.combo-aug-tag{font-size:0.65rem;padding:4px 10px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);border-radius:10px;color:#C084FC}
+.combo-desc{font-size:0.78rem;color:var(--text-secondary);line-height:1.5}
+.combo-heroes{font-size:0.68rem;color:var(--text-dim);margin-top:6px}
+
+/* EXTERNAL LINKS */
+.ext-links{display:flex;gap:10px;flex-wrap:wrap;padding:16px 0}
+.ext-link{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-secondary);text-decoration:none;font-size:0.8rem;transition:all .25s}
+.ext-link:hover{border-color:var(--hex);color:var(--hex-bright);box-shadow:var(--shadow-hex)}
+.ext-link svg{width:16px;height:16px;fill:currentColor}
+
+/* SECTION */
+.section{margin:4px 0 24px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-family:var(--font-chinese);font-size:1.05rem;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:10px}
+.section-count{font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);font-weight:400}
+
+/* NO RESULTS */
+.no-res{text-align:center;padding:50px 20px;grid-column:1/-1}
+.no-res-icon{font-size:2.5rem;margin-bottom:12px}
+.no-res-text{font-family:var(--font-chinese);color:var(--text-dim);font-size:0.9rem}
+
+/* SELECTED CHAMP HERO */
+.selected-hero{display:flex;align-items:center;gap:16px;padding:20px;background:var(--bg-card);border:1px solid var(--border-hex);border-radius:var(--radius-lg);margin-bottom:20px}
+.selected-hero img{width:72px;height:72px;border-radius:50%;border:2px solid var(--hex);object-fit:cover}
+.selected-hero .sh-info h3{font-family:var(--font-chinese);font-size:1.2rem;font-weight:700;color:var(--text-primary)}
+.selected-hero .sh-info .sh-sub{font-size:0.78rem;color:var(--text-dim)}
+
+/* TIER LIST VIEW */
+.tier-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.tier-label{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);font-family:var(--font-display);font-size:1rem;font-weight:900;flex-shrink:0}
+.tier-label.s{background:linear-gradient(135deg,#EF476F,#FFD166);color:#1a0a00}
+.tier-label.a{background:linear-gradient(135deg,#FFD166,#FFB347);color:#1a0a00}
+.tier-label.b{background:#48CAE4;color:#001a20}
+.tier-label.c{background:#94A3B8;color:#0a0a0a}
+.tier-label.d{background:#64748B;color:#0a0a0a}
+.tier-champs{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.tier-champ-chip{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:16px;cursor:pointer;transition:all .2s;font-size:0.78rem}
+.tier-champ-chip:hover{border-color:var(--border-hex);background:var(--bg-card-hover)}
+.tier-champ-chip img{width:22px;height:22px;border-radius:50%}
+
+/* FOOTER */
+.footer{text-align:center;padding:36px 0 28px;border-top:1px solid var(--border-subtle);margin-top:24px}
+.footer p{color:var(--text-dim);font-size:0.78rem}
+.footer .ext-links{justify-content:center}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .app{padding:0 14px}
+  .header{flex-direction:column;align-items:flex-start}
+  .champ-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+  .augment-grid{grid-template-columns:1fr}
+  .combo-grid{grid-template-columns:1fr}
+  .build-layout{flex-direction:column}
+  .build-champ-select{width:100%}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .search-wrap{max-width:none}
+}
+@media(max-width:480px){
+  .champ-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px}
+  .champ-card .card-body{padding:8px 10px}
+  .champ-card .card-name{font-size:0.78rem}
+  .mode-btn{padding:8px 12px;font-size:0.72rem}
+  .subnav-btn{padding:6px 12px;font-size:0.7rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="logo">
+      <div class="logo-hex">
+        <svg viewBox="0 0 44 44"><polygon points="22,4 38,12 38,28 22,36 6,28 6,12" class="hex-path"/><polygon points="22,9 34,15 34,27 22,33 10,27 10,15" class="hex-path" opacity="0.4"/></svg>
+      </div>
+      <div class="logo-text"><h1>Runeterra Codex</h1><span>英雄联盟 · 战术信息宝典</span></div>
+    </div>
+    <div class="mode-switch" id="modeSwitch">
+      <button class="mode-btn active" data-mode="ranked">🏟 峡谷排位</button>
+      <button class="mode-btn" data-mode="aram">⚔ 海克斯乱斗</button>
+    </div>
+  </header>
+
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item"><div class="stat-dot hex"></div><div><div class="stat-label">数据版本</div><div class="stat-value" id="statVersion">---</div></div></div>
+    <div class="stat-item"><div class="stat-dot gold"></div><div><div class="stat-label">英雄总数</div><div class="stat-value" id="statChamps">---</div></div></div>
+    <div class="stat-item"><div class="stat-dot purple"></div><div><div class="stat-label">当前模式</div><div class="stat-value" id="statMode">峡谷排位</div></div></div>
+    <div class="stat-item"><div class="stat-dot green"></div><div><div class="stat-label">当前板块</div><div class="stat-value" id="statSection">英雄梯度</div></div></div>
+  </div>
+
+  <div class="subnav" id="subNav"></div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="searchInput" placeholder="搜索英雄（支持中文/拼音/缩写/首字母）...">
+      <span class="search-icon">⌕</span>
+    </div>
+    <span class="search-hint">💡 试试：亚索 / yasuo / ys / 盲僧 / lq</span>
+    <div class="filter-group" id="filterGroup"></div>
+  </div>
+
+  <div id="mainContent"></div>
+
+  <footer class="footer">
+    <div class="ext-links" id="extLinks"></div>
+    <p>Runeterra Codex · 数据源自 Riot Games Data Dragon API · 符文之地战术信息宝典</p>
+  </footer>
+</div>
+
+<script>
+// ============ CORE ENGINE ============
+(function(){
+'use strict';
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+// State
+const S={version:'',champions:{},champList:[],items:{},itemList:[],runes:{},summoners:{},
+  mode:'ranked',tab:'tier',search:'',filter:'all',selectedChamp:null};
+
+// ============ PINYIN MAP ============
+const PINYIN={
+"Aatrox":"anyijianmo_ays_jm_暗裔剑魔",
+"Ahri":"ali_ah_hl_九尾妖狐_jiuweiyaohu_jwyh",
+"Akali":"akl_akl_al_离群之刺_liqunzhici_lqzc",
+"Akshan":"akshang_aks_as_影哨_yingshao",
+"Alistar":"alst_alst_als_牛头酋长_niutouqiuzhang_ntzq",
+"Amumu":"ammu_am_am_殇之木乃伊_shangzhimunaiyi_szmny",
+"Anivia":"anivia_anv_av_冰晶凤凰_bingjingfenghuang_bjfh",
+"Annie":"anni_an_an_黑暗之女_heianzhinv_hazn",
+"Aphelios":"afelios_afls_afs_残月之肃_canyuezhisu_cyzs",
+"Ashe":"aixi_ax_ax_寒冰射手_hanbingsheshou_hbss",
+"AurelionSol":"aurelionsuo_arls_als_铸星龙王_zhuxinglongwang_zxlw",
+"Azir":"azir_azr_az_沙漠皇帝_shamohuangdi_smhd",
+"Bard":"bade_bd_bd_星界游神_xingjieyoushen_xjys",
+"Belveth":"beiliuyisi_blys_bls_虚空女皇_xukongnvhuang_xknh",
+"Blitzcrank":"bucicilang_bccl_bcl_蒸汽机器人_zhengqijiqiren_zqjqr",
+"Brand":"bulande_bld_bld_复仇焰魂_fuchouyanhun_fcyh",
+"Braum":"bulong_bl_bl_弗雷尔卓德之心_fuleierzhuodezhixin_flezdzx",
+"Briar":"buleier_ble_bl_狂厄蔷薇_kuangqiangwei_keqw",
+"Caitlyn":"kaitelin_ktl_ktl_皮城女警_pichengnvjing_pcnj",
+"Camille":"kami mi_kmr_kme_青钢影_qinggangying_qgy",
+"Cassiopeia":"kaxiopeiya_kxpy_kxpy_魔蛇之拥_moshezhiyong_mszy",
+"Chogath":"kejiashitou_kjst_kjst_虚空恐惧_xukongkongju_xkkj",
+"Corki":"kuji_kj_kj_英勇投弹手_yingyongtoudanshou_yyts",
+"Darius":"delaisi_dls_dls_诺克萨斯之手_nuokesasizhishou_nksszs",
+"Diana":"daianna_dan_dan_皎月女神_jiaoyuenvshen_jyns",
+"Draven":"delaiwen_dlw_dlw_荣耀行刑官_rongyaoxingxingguan_ryxxg",
+"DrMundo":"mengduo_md_md_祖安狂人_zhuankuangren_zakr",
+"Ekko":"aike_ak_ak_时间刺客_shijiancike_sjck",
+"Elise":"yilisi_yls_yls_蜘蛛女皇_zhizhunvhuang_zznh",
+"Evelynn":"yifulin_yfl_yfl_痛苦之拥_tongkuzhiyong_tkzy",
+"Ezreal":"yizeirui_yzr_yzr_探险家_tanxianjia_txj",
+"Fiddlesticks":"feidelitike_fdltk_fdltk_远古恐惧_yuangukongju_ygkj",
+"Fiora":"jianji_jj_jj_无双剑姬_wushuangjianji_wsjj",
+"Fizz":"feizi_fz_fz_潮汐海灵_chaoxihailing_cxhl",
+"Galio":"jialiao_jlo_jlo_正义巨像_zhengyijuxiang_zyjx",
+"Gangplank":"pulangke_plk_plk_海洋之灾_haiyangzhizai_hyzz",
+"Garen":"gailun_gl_gl_德玛西亚之力_demaxiyazhili_dmxyzl",
+"Gnar":"naer_ne_ne_迷失之牙_mishizhiya_mszy",
+"Gragas":"jiutong_jt_jt_酒桶_jiutong",
+"Graves":"geleifusi_glfs_glfs_法外狂徒_fawaikuangtu_fwkt",
+"Gwen":"gewen_gw_gw_灵罗娃娃_lingluowawa_llww",
+"Hecarim":"hekalimu_hklm_hklm_战争之影_zhanzhengzhiying_zzzy",
+"Heimerdinger":"datou_dt_dt_大发明家_dafamingjia_dfmj",
+"Illaoi":"eluoyi_ely_ely_海兽祭司_haishoujisi_hsjs",
+"Irelia":"airuiliya_arly_erly_刀锋舞者_daofengwuzhe_dfwz",
+"Ivern":"aifeng_af_af_翠神_cuishen_cs",
+"Janna":"fengnv_fn_fn_风暴之怒_fengbaozhinu_fbzn",
+"JarvanIV":"huangzi_hz_hz_德玛西亚皇子_demaxiyahuangzi_dmxyhz",
+"Jax":"jiaokesi_jks_jks_武器大师_wuqidashi_wqds",
+"Jayce":"jiesi_js_js_未来守护者_weilaishouhuzhe_wlshz",
+"Jhin":"jin_j_j_戏命师_ximingshi_xms",
+"Jinx":"jinkesi_jks_jks_暴走萝莉_baozouluoli_bzll",
+"Kaisa":"kaisha_ks_ks_虚空之女_xukongzhinv_xkzn",
+"Kalista":"kalista_klst_klst_复仇之矛_fuchouzhimao_fczm",
+"Karma":"kaerma_km_km_天启者_tianqizhe_tqz",
+"Karthus":"sige_sg_sg_死亡颂唱者_siwangsongchangzhe_swscz",
+"Kassadin":"kasadin_ksd_ksd_虚空行者_xukongxingzhe_xkxz",
+"Katarina":"katelina_ktln_ktln_不祥之刃_buxiangzhiren_bxzr",
+"Kayle":"kaier_ke_ke_正义天使_zhengyitianshi_zyts",
+"Kayn":"kaiyin_ky_ky_影流之镰_yingliuzhilian_ylzl",
+"Kennen":"kainan_kn_kn_狂暴之心_kuangbaozhixin_kbzx",
+"Khazix":"kaxike_kxk_kxk_虚空掠夺者_xukonglveduozhe_xkldz",
+"Kindred":"qianjue_qj_qj_永猎双子_yonglieshuangzi_ylsz",
+"Kled":"kelie_kl_kl_暴怒骑士_baonuqishi_bnqs",
+"KogMaw":"datun_dt_dt_深渊巨口_shenyuanjukou_syjk",
+"KSante":"kuisangdi_ksd_ksd_纳祖芒·塔利斯_nazumangtalisi_nzm",
+"Leblanc":"yaoji_yj_yj_诡术妖姬_guishuyaoji_gsyj",
+"LeeSin":"lisinq_lq_ms_mangsen_盲僧_mangseng",
+"Leona":"leiona_leona_lon_曙光女神_shuguangnvshen_sgns",
+"Lillia":"liliya_lly_lly_含羞蓓蕾_hanxiubeilei_hxbl",
+"Lissandra":"lisangzhuo_lsz_lsz_冰霜女巫_bingshuangnvwu_bsnw",
+"Lucian":"luxi'an_lxa_lxa_圣枪游侠_shengqiangyouxia_sqyx",
+"Lulu":"lulu_ll_ll_仙灵女巫_xianlingnvwu_xlnw",
+"Lux":"lake si_lks_lks_光辉女郎_guanghuinvlang_ghnl",
+"Malphite":"moteng_ssrz_ssrz_熔岩巨兽_rongyanjushou_ryjs",
+"Malzahar":"maerzhaha_mezh_mezh_虚空先知_xukongxianzhi_xkxz",
+"Maokai":"maokai_mk_mk_扭曲树精_niuqushujing_nqsj",
+"MasterYi":"jiansheng_js_js_无极剑圣_wujijiansheng_wjjs",
+"Milio":"mili'ou_mlo_mlo_明烛_mingzhu_mz",
+"MissFortune":"nvqiang_nq_nq_赏金猎人_shangjinlieren_sjlr",
+"Mordekaiser":"tienan_tn_tn_铁铠冥魂_tiekaiminghun_tkmh",
+"Morgana":"mogan na_mgn_mgn_堕落天使_duoluotianshi_dlts",
+"Naafiri":"nafeili_nfl_nfl_百裂冥犬_bailiemingquan_blmq",
+"Nami":"nami_nm_nm_唤潮鲛姬_huanchaojiaoji_hcjj",
+"Nasus":"goutou_gt_gt_沙漠死神_shamosishen_smss",
+"Nautilus":"tansang_tst_tst_深海泰坦_shenhaitaitan_shtt",
+"Neeko":"nike_nk_nk_万花通灵_wanhuatongling_whtl",
+"Nidalee":"baonv_bn_bn_狂野女猎手_kuangyenvlieshou_kynls",
+"Nilah":"nila_nl_nl_不羁之悦_bujizhiyue_bjzy",
+"Nocturne":"mengyan_my_my_永恒梦魇_yonghengmengyan_yhmy",
+"Nunu":"xueyuan_xy_xy_雪原双子_xueyuanshuangzi_xysz",
+"Olaf":"aolafu_alf_alf_狂战士_kuangzhanshi_kzs",
+"Orianna":"fa'tiao_ft_ft_发条魔灵_fatiaomoling_ftml",
+"Ornn":"ao'en_aen_ae_山隐之焰_shanyinzhiyan_syzy",
+"Pantheon":"paensen_ps_ps_不屈之枪_buquzhiqiang_bqzq",
+"Poppy":"bobi_bb_bb_圣锤之毅_shengchuizhiyi_sczy",
+"Pyke":"paike_pk_pk_血港鬼影_xuegangguiying_xggy",
+"Qiyana":"qiyana_qyn_qyn_元素女皇_yuansunvhuang_ysnh",
+"Quinn":"kuiyin_ky_ky_德玛西亚之翼_demaxiyazhiyi_dmxyzy",
+"Rakan":"luo_l_l_幻翎_huanling_hl",
+"Rammus":"jiasu_longgui_lg_lg_披甲龙龟_pijialonggui_pjlg",
+"RekSai":"leikesai_lks_lks_虚空遁地兽_xukongdundishou_xkdds",
+"Rell":"ruier_re_re_镕铁少女_rongtienvshao_rtsn",
+"Renata":"lienata_lnt_lnt_炼金男爵_lianjinnanjue_ljnj",
+"Renekton":"eyu_ey_ey_荒漠屠夫_huangmotufu_hmtf",
+"Rengar":"leigaer_lge_lge_傲之追猎者_aozhizhuiliezhe_azzlz",
+"Riven":"ruiwen_rw_rw_放逐之刃_fangzhuzhiren_fzzr",
+"Rumble":"lanbo_lb_lb_机械公敌_jixiegongdi_jxgd",
+"Ryze":"ruizi_rz_rz_符文法师_fuwenfashi_fwfs",
+"Samira":"shamila_sml_sml_沙漠玫瑰_shamomeigui_smmg",
+"Sejuani":"zhuangnv_zn_zn_凛冬之怒_lindongzhinu_ldzn",
+"Senna":"senna_sn_sn_涤魂圣枪_dihunshengqiang_dhsq",
+"Seraphine":"salafen_nv_ny_星籁歌姬_xinglaigeji_xlgj",
+"Sett":"wanhao_wh_wh_腕豪_wanhao",
+"Shaco":"sake_sk_sk_恶魔小丑_emoxiaochou_emxc",
+"Shen":"shen_s_s_暮光之眼_muguangzhiyan_mgzy",
+"Shyvana":"longnv_ln_ln_龙血武姬_longxuewuji_lxwj",
+"Singed":"liantong_lt_lt_炼金术士_lianjinshushi_ljss",
+"Sion":"sai'en_sen_sen_亡灵战神_wanglingzhanshen_wlzs",
+"Sivir":"xiweier_xwe_xwe_战争女神_zhanzhengnvshen_zgns",
+"Skarner":"xieke_xk_xk_水晶先锋_shuijingxianfeng_sjxf",
+"Smolder":"xiaohuolong_xhl_xhl_炽炎雏龙_chiyanchulong_cycl",
+"Sona":"suona_sn_sn_琴瑟仙女_qinsexiannv_qsxn",
+"Soraka":"suolaka_slk_slk_众星之子_zhongxingzhizi_zxzz",
+"Swain":"siweiyin_swy_swy_诺克萨斯统领_nuokesasitongling_nksstl",
+"Sylas":"sailasi_sls_sls_解脱者_jietuozhe_jtz",
+"Syndra":"xindela_xdl_xdl_暗黑元首_anheiyuanshou_ahys",
+"TahmKench":"tamu_tm_tm_河流之王_heliuzhiwang_hlzw",
+"Taliyah":"yanque_yq_yq_岩雀_yanque",
+"Talon":"telong_tl_tl_刀锋之影_daofengzhiying_dfzy",
+"Taric":"baoshi_bs_bs_瓦罗兰之盾_waluolanzhidun_wlzzd",
+"Teemo":"timo_tm_tm_迅捷斥候_xunjiechihou_xjch",
+"Thresh":"chuishi_cs_cs_魂锁典狱长_hunsuodianyuzhang_hsdyz",
+"Tristana":"cuisitana_cstn_cstn_麦林炮手_mailinpaoshou_mlps",
+"Trundle":"jumo_jm_jm_巨魔之王_jumozhiwang_jmzw",
+"Tryndamere":"manwang_mw_mw_蛮族之王_manzuzhiwang_mzzw",
+"TwistedFate":"kapai_kp_kp_卡牌大师_kapaidashi_kpds",
+"Twitch":"laoshu_ls_ls_瘟疫之源_wenyizhiyuan_wyzy",
+"Udyr":"wudier_wde_wde_兽灵行者_shoulingxingzhe_slxz",
+"Urgot":"egate_egt_egt_无畏战车_wuweizhanche_wwzc",
+"Varus":"weilusi_wls_wls_惩戒之箭_chengjiezhijian_cjzj",
+"Vayne":"wei'en_we_we_暗夜猎手_anyelieshou_ayls",
+"Veigar":"xiaofa_xf_xf_邪恶小法师_xiexiaofashi_xxfs",
+"Velkoz":"weikesi_wks_wks_虚空之眼_xukongzhiyan_xkzy",
+"Vex":"weigusi_wgs_wgs_愁云使者_chouyunshizhe_cysz",
+"Vi":"wei_w_w_皮城执法官_pichengzhifaguan_pczfg",
+"Viego":"foyige_fyg_fyg_破败之王_pobaizhiwang_pbzw",
+"Viktor":"weiketuo_wkt_wkt_机械先驱_jixiexianqu_jxxq",
+"Vladimir":"fuladimi'er_fldm_fldm_猩红收割者_xinghongshougezhe_xhsgz",
+"Volibear":"wolibear_wlb_wlb_不灭狂雷_bumiekuanglei_bmkl",
+"Warwick":"langren_lr_lr_祖安怒兽_zhuannushou_zans",
+"Wukong":"wukong_wk_wk_齐天大圣_qitiandasheng_qtds",
+"Xayah":"xia_luo_xl_xl_逆羽_niyu_ny",
+"Xerath":"zelei si_zls_zls_远古巫灵_yuangupowuling_ygpwl",
+"XinZhao":"zhaoxin_zx_zx_德邦总管_debangzongguan_dbzg",
+"Yasuo":"yasuo_ys_ys_疾风剑豪_jifengjianhao_jfjh",
+"Yone":"yongen_yg_yg_封魔剑魂_fengmojianhun_fmjh",
+"Yorick":"yuelike_ylk_ylk_牧魂人_muhunren_mhr",
+"Yuumi":"maomi_mm_mm_魔法猫咪_mofamaomi_mfmm",
+"Zac":"zhake_zk_zk_生化魔人_shenghuamoren_shmr",
+"Zed":"jie_j_j_影流之主_yingliuzhizhu_ylzz",
+"Zeri":"zeli_zl_zl_祖安花火_zuhuanhuohua_zahh",
+"Ziggs":"jidansi_jds_jds_爆破鬼才_baopoguicai_bpgc",
+"Zilean":"jiguanglaotou_jglt_jglt_时光守护者_shiguangshouhuzhe_sgsz",
+"Zoe":"zuoyi_zy_zy_暮光星灵_muguangxingling_mgxl",
+"Zyra":"jiela_jl_jl_荆棘之兴_jingjizhixing_jjzx"
+};
+
+// Build search tokens for each champion
+function buildSearchTokens(champId, zhName) {
+  const entry = PINYIN[champId] || '';
+  const tokens = new Set();
+  tokens.add(champId.toLowerCase());
+  tokens.add(zhName.toLowerCase());
+  entry.split('_').forEach(t => { if(t.length>=2) tokens.add(t.toLowerCase()); });
+  // Add first letters of pinyin words
+  const pyParts = entry.split('_').filter(t => t.length>=2 && !/[一-鿿]/.test(t));
+  if(pyParts.length>0) tokens.add(pyParts.map(p=>p[0]).join('').toLowerCase());
+  return [...tokens];
+}
+
+// ============ ARAM AUGMENTS DATA ============
+const AUGMENTS = {
+  prismatic: [
+    {id:"BackToBasics",name:"返璞归真",effect:"+35%技能伤害,+70技能急速,+35%治疗/护盾;终极技能被封印",set:""},
+    {id:"BiggestSnowball",name:"超级大雪球",effect:"雪球巨大化,穿透小兵,撞击爆炸造成200-350伤害+击飞+减速;+100技能急速",set:"Snowday"},
+    {id:"BladeWaltz",name:"利刃华尔兹",effect:"替换召唤师技能:在7名敌人之间闪烁造成伤害(不可被选中)",set:""},
+    {id:"BouncePoroKing",name:"跳跳国王",effect:"变身为魄罗之王:70%减伤,免疫控制,弹跳范围击退",set:""},
+    {id:"CantTouchThis",name:"别想碰我",effect:"释放终极技能获得2秒无敌(8秒CD)",set:""},
+    {id:"Cerberus",name:"地狱三头犬",effect:"获得丛刃+强攻符文",set:""},
+    {id:"CircleOfDeath",name:"死亡之环",effect:"你的治疗量70%作为魔法伤害对最近敌人造成伤害",set:""},
+    {id:"ClownCollege",name:"小丑学院",effect:"获得萨科的背刺、欺诈魔术和死亡爆炸(3个盒子恐惧)",set:"Deathknell"},
+    {id:"CourageColossus",name:"巨人勇气",effect:"定身获得150-450(+4%最大生命值)护盾",set:""},
+    {id:"Cruelty",name:"残酷",effect:"定身召唤彗星造成50-150(+40%AP)(+4%最大生命值)魔法伤害",set:""},
+    {id:"Dashing",name:"冲刺",effect:"冲刺和闪烁获得+175技能急速",set:""},
+    {id:"DevilShoulder",name:"肩上的恶魔",effect:"与提莫签订契约:消耗生命但+15%额外真实伤害和生命残留治疗",set:""},
+    {id:"DrawYourSword",name:"拔剑",effect:"变为近战;+30%攻击力,+25%攻速,+30%生命值,+25%移速,+20%生命偷取",set:""},
+    {id:"Dropkick",name:"飞踢",effect:"5%生命值斩杀阈值,尸体造成范围伤害;斩杀时治疗",set:""},
+    {id:"Droppybara",name:"滴答水豚",effect:"召唤巨型水豚造成30%最大生命值真实伤害(650范围)",set:""},
+    {id:"DualWield",name:"双持",effect:"普攻发射40%伤害的箭矢;+10%总攻速",set:""},
+    {id:"Earthwake",name:"地震波",effect:"冲刺留下爆炸轨迹(70-210+125%AD+60%AP)",set:""},
+    {id:"EmpoweredFaithful",name:"信徒之力",effect:"治疗/护盾盟友叠加虔诚→750%治疗/护盾强度冲击波处决",set:""},
+    {id:"EmpyreanPromise",name:"苍穹之约",effect:"冲刺至盟友,双方获得100-250(+100%AP)(+10%额外生命值)护盾",set:""},
+    {id:"Eureka",name:"灵光一现",effect:"获得技能急速=30%法术强度",set:""},
+    {id:"FanTheHammer",name:"连发火枪",effect:"普攻向四个方向各发射5个爆竹",set:"Firecracker"},
+    {id:"FeelTheBurn",name:"感受灼烧",effect:"替换召唤师技能:对800范围内所有敌人施放虚弱+点燃",set:""},
+    {id:"FeyMagic",name:"妖精魔法",effect:"终极技能伤害使敌人变形2秒(缴械+减速)",set:""},
+    {id:"FinalForm",name:"最终形态",effect:"释放终极技能获得50%最大生命值护盾,+20%全能吸血,+30%移速持续10秒",set:""},
+    {id:"Gash",name:"撕裂",effect:"命中附加真实伤害(20-40+25%额外护甲);+50%攻速",set:""},
+    {id:"GiantSlayer",name:"巨人杀手",effect:"缩小75%体型;+20%移速;对大体型敌人造成10-30%额外伤害",set:""},
+    {id:"GlassCannon",name:"玻璃大炮",effect:"生命值上限锁定为70%最大值;造成15%额外真实伤害",set:""},
+    {id:"Goldrend",name:"淘金热",effect:"伤害性普攻/技能造成50-150额外魔法伤害+获得30金币+25%移速",set:"MakeItRain"},
+    {id:"Goliath",name:"歌利亚",effect:"+35%生命值,+15%自适应之力,+50%体型",set:""},
+    {id:"HandOfBaron",name:"男爵之手",effect:"改良版大龙buff(+25%自适应之力,大幅强化小兵)",set:""},
+    {id:"HeadsUpCupcake",name:"纸杯蛋糕来袭",effect:"纸杯蛋糕飞越地图提供治疗和金币",set:"MakeItRain"},
+    {id:"HolySnowball",name:"神圣雪球",effect:"雪球冲刺到达时获得1.5秒无敌;雪球+100技能急速",set:"Snowday"},
+    {id:"BabyKitty",name:"小猫咪找妈妈",effect:"与最近盟友链接:+75%移速,+50%治疗/护盾强度",set:"WeeWooWeeWoo"},
+    {id:"InfernalConduit",name:"地狱导管",effect:"技能施加可叠加灼烧;所有灼烧每次触发减少基础技能0.08秒冷却",set:""},
+    {id:"InfiniteRecursion",name:"无限递归",effect:"+60技能急速,每次英雄击杀+3技能急速",set:"StackosaurusRex"},
+    {id:"JeweledGauntlet",name:"宝石手套",effect:"技能可暴击(145%伤害);+25%(+4.5%/100AP)暴击率",set:""},
+    {id:"KingMe",name:"封王",effect:"进入敌方闸门→免费获得棱彩增幅+首件传说装备升级",set:""},
+    {id:"LaserHeal",name:"激光治疗",effect:"替换召唤师技能:引导光束治疗盟友并伤害敌人",set:""},
+    {id:"MadScientist",name:"疯狂科学家",effect:"每次复活:要么+30%自适应之力/+20%生命值/+40%体型;要么+70技能急速/+40%移速/-40%体型",set:""},
+    {id:"MasterDuality",name:"二元大师",effect:"普攻获得AP,技能获得AD(无限叠加)",set:"StackosaurusRex"},
+    {id:"MysticPunch",name:"神秘重拳",effect:"普攻减少剩余技能冷却1.25秒",set:""},
+    {id:"OminousPact",name:"不祥契约",effect:"技能消耗5%当前生命值;基于已损失生命值获得AP(最高75-150)、移速和全能吸血",set:""},
+    {id:"OmniSoul",name:"全能龙魂",effect:"获得3个随机龙魂",set:""},
+    {id:"PandorasBox",name:"潘多拉魔盒",effect:"所有当前增幅转化为随机棱彩增幅",set:"HighRoller"},
+    {id:"PromQueen",name:"舞会皇后",effect:"每25秒自动释放洛的终极技能",set:"FullyAutomated"},
+    {id:"ProteinShake",name:"蛋白质奶昔",effect:"+25%(+35%/100额外护甲)(+35%/100额外魔抗)治疗/护盾强度",set:""},
+    {id:"QuantumComputing",name:"量子计算",effect:"自动释放卡蜜尔的横扫:200-350+最大生命值伤害(外圈),治疗80%",set:"FullyAutomated"},
+    {id:"QuestIcathia",name:"依卡西亚的陨落",effect:"同时获得辉耀+日炎→虚空灼烧(计为2层灼烧)",set:""},
+    {id:"QuestSneakerhead",name:"运动鞋达人",effect:"完成鞋子任务→获得嘉文一世的王冠(已禁用)",set:""},
+    {id:"QuestWooglet",name:"巫妖之帽",effect:"合成灭世者的死亡之帽+中亚沙漏→转化为巫妖之帽",set:""},
+    {id:"ScopiestWeapons",name:"超级瞄准镜",effect:"+250攻击距离(近战)/+150攻击距离(远程)",set:""},
+    {id:"SlowCooker",name:"慢炖锅",effect:"持续500范围灼烧光环(0.66%最大生命值/秒,无限叠加)",set:""},
+    {id:"StatsOnStatsOnStats",name:"属性叠叠乐",effect:"4个属性铁砧(更高品质)+下次选择额外重随",set:"HighRoller"},
+    {id:"StuckInHere",name:"一起困在这里",effect:"终极技能后嘲讽所有敌人(2秒)获得50%减伤",set:""},
+    {id:"SymphonyOfWar",name:"战争交响曲",effect:"获得征服者+致命节奏符文",set:""},
+    {id:"TapDancer",name:"踢踏舞者",effect:"普攻获得可叠加移速;额外攻速=10%总移速",set:"StackosaurusRex"},
+    {id:"TransmuteChaos",name:"混沌转化",effect:"获得2个完全随机的增幅",set:"HighRoller"},
+    {id:"TriggeredInferno",name:"触发地狱",effect:"累积风格层数→释放快速连发射击(每敌人最多10发)",set:""},
+    {id:"TrueshotProdigy",name:"精准弹幕天才",effect:"700+距离命中发射伊泽瑞尔的精准弹幕(15秒CD)",set:""},
+    {id:"UltimateAwakening",name:"终极觉醒",effect:"释放终极技能重置所有基础技能冷却,+300基础技能急速持续15秒",set:""},
+    {id:"UltimateRevolution",name:"终极革命",effect:"释放终极技能重置其冷却(75秒CD,死亡重置)",set:""},
+    {id:"UpgradeSwordBlossom",name:"升级黎明之剑",effect:"黎明之剑+250%治疗;+100%攻速但-50%对英雄普攻伤害",set:""},
+    {id:"VoidRift",name:"虚空裂隙",effect:"连续技能命中附近目标产生虚空裂隙造成100-450魔法伤害+99%减速",set:""},
+    {id:"WindspeakerBlessing",name:"风语者的祝福",effect:"治疗/护盾提供30-60额外护甲和魔抗持续3秒",set:"WeeWooWeeWoo"},
+    {id:"MysteryPing",name:"???",effect:"敌方问号标记发射导弹造成100-400(+10%已损失生命值)伤害并治疗盟友",set:""}
+  ],
+  gold: [
+    {id:"AllForYou",name:"一切为你",effect:"对盟友的治疗/护盾+30%效果",set:"WeeWooWeeWoo"},
+    {id:"ApexInventor",name:"顶尖发明家",effect:"+100装备急速(50%装备CDR)",set:""},
+    {id:"BigBrain",name:"大脑",effect:"吸收300%AP伤害的护盾,复活时刷新",set:""},
+    {id:"BreadButter_Q",name:"面包黄油·Q",effect:"Q技能获得+100技能急速",set:""},
+    {id:"BreadCheese_E",name:"面包芝士·E",effect:"E技能获得+100技能急速",set:""},
+    {id:"BreadJam_W",name:"面包果酱·W",effect:"W技能获得+100技能急速",set:""},
+    {id:"CelestialBody",name:"星体",effect:"+1500生命值,-10%造成的伤害",set:""},
+    {id:"Cheating",name:"作弊",effect:"可使用回城;出生平台治疗/恢复资源",set:""},
+    {id:"CriticalHealing",name:"暴击治疗",effect:"治疗/护盾有概率(等于暴击率)增强40%;+25%暴击率",set:"WeeWooWeeWoo"},
+    {id:"CriticalMissile",name:"暴击导弹",effect:"暴击发射爆竹;+25%暴击率",set:"Firecracker"},
+    {id:"CriticalRhythm",name:"暴击节奏",effect:"暴击获得+6%攻速每层(最高60%);+25%暴击率",set:""},
+    {id:"DawnbringerResolve",name:"黎明使者的决心",effect:"低于50%生命值时→3秒内治疗30%最大生命值(45秒CD)",set:""},
+    {id:"DemonsDance",name:"恶魔之舞",effect:"获得迅捷步法+不灭之握符文",set:""},
+    {id:"DivineIntervention",name:"神圣干预",effect:"每35秒自动释放塔里克的终极技能(2.5秒无敌)",set:"FullyAutomated"},
+    {id:"Donation",name:"捐款",effect:"获得时+1750金币",set:"MakeItRain"},
+    {id:"DoubleTap",name:"双击",effect:"暴击命中效果触发两次;+25%暴击率",set:""},
+    {id:"EtherealWeapon",name:"虚灵武器",effect:"技能施加命中效果(每目标1秒CD)",set:""},
+    {id:"Executioner",name:"刽子手",effect:"对低于30%生命值敌人+10%伤害;击杀重置基础技能冷却",set:""},
+    {id:"FinalCityTransit",name:"末班车",effect:"死亡时列车冲向击杀者造成巨额物理伤害",set:"Deathknell"},
+    {id:"Firebrand",name:"火印",effect:"普攻施加无限叠加灼烧(0.4%目标最大生命值/秒)",set:""},
+    {id:"Flashy",name:"花式闪现",effect:"闪现3层充能(2秒间隔,120秒全部充能)",set:""},
+    {id:"FromBeginningToEnd",name:"从头到尾",effect:"获得黑暗收割+先攻符文",set:"MakeItRain"},
+    {id:"GetExcited",name:"兴奋起来",effect:"击杀获得+100%移速和+15%总攻速持续4秒",set:""},
+    {id:"GrandmasChiliOil",name:"外婆辣椒油",effect:"攻击/技能/法术留下辣椒油池治疗盟友并灼烧敌人",set:""},
+    {id:"GrowthSpurt",name:"生长突增",effect:"替换召唤师技能:变大,击飞,+300生命值,+50%体型持续7秒",set:""},
+    {id:"HolyFire",name:"圣火",effect:"治疗/护盾发射飞弹对最近敌人施加灼烧(0.2%-0.8%最大生命值/秒)",set:""},
+    {id:"Impassable",name:"不可通行",effect:"获得余震+冰川增幅符文",set:""},
+    {id:"ItsCritical",name:"这很关键",effect:"+50%暴击率",set:""},
+    {id:"ItsKillingTime",name:"杀戮时刻",effect:"释放终极技能时对所有敌人施加劫的死亡印记(存储40%缓解后伤害)",set:""},
+    {id:"KeystoneConjurer",name:"符文召唤师",effect:"获得奥术彗星+召唤艾黎符文",set:""},
+    {id:"LightningStrikes",name:"闪电打击",effect:"所有来源+20%额外攻速;1.75+攻速时,+40魔法命中伤害",set:""},
+    {id:"MagicMissile",name:"魔法飞弹",effect:"伤害性技能发射3个爆竹(真实伤害:0.33%最大生命值每个)",set:"Firecracker"},
+    {id:"Marksmage",name:"射手法师",effect:"普攻造成额外物理伤害=75%AP",set:""},
+    {id:"Minionmancer",name:"召唤物大师",effect:"宠物+40%伤害,+40%生命值和体型",set:""},
+    {id:"Nightstalking",name:"夜行者",effect:"造成伤害后3秒内击杀→1.5秒隐身",set:""},
+    {id:"OKBoomerang",name:"OK回旋镖",effect:"自动对最近敌人释放希维尔的回旋镖",set:"FullyAutomated"},
+    {id:"OutlawsGrit",name:"逃犯的坚韧",effect:"冲刺/闪烁获得+12护甲/魔抗每层(最高60)",set:""},
+    {id:"Overflow",name:"溢出",effect:"法力消耗翻倍但+10%(+0.5%/100最大法力值)伤害和治疗/护盾强度",set:"Archmage"},
+    {id:"Perseverance",name:"坚韧",effect:"+1000%基础生命回复,低于25%生命值时+2000%",set:""},
+    {id:"PhenomenalEvil",name:"超凡邪恶",effect:"获得维迦的AP叠加(技能命中英雄+1AP)",set:"StackosaurusRex"},
+    {id:"Pinball",name:"弹球",effect:"雪球变为弹跳弹球造成额外真实伤害",set:"Snowday"},
+    {id:"PoroBlaster",name:"魄罗发射器",effect:"召唤最多5只魄罗;普攻发射它们造成3%最大生命值真实伤害",set:""},
+    {id:"QuestSteelHeart",name:"钢之心任务",effect:"心之钢任务:+200%巨人消耗生命值",set:"StackosaurusRex"},
+    {id:"QuestUrfChampion",name:"URF冠军任务",effect:"22次击杀→获得金色铲子",set:""},
+    {id:"RabbleRousing",name:"煽动群众",effect:"释放技能治疗5-60(+1%最大生命值)",set:""},
+    {id:"Recursion",name:"递归",effect:"+60技能急速",set:""},
+    {id:"RedEnvelopes",name:"红包",effect:"红包周期性生成提供金币和随机属性",set:"MakeItRain"},
+    {id:"RestlessRestoration",name:"不休恢复",effect:"每移动10单位治疗0.2-1.2(+0.01%最大生命值)",set:""},
+    {id:"ScopierWeapons",name:"中级瞄准镜",effect:"+200攻击距离(近战)/+100攻击距离(远程)",set:""},
+    {id:"SearingDawn",name:"灼热黎明",effect:"获得蕾欧娜的日光被动",set:""},
+    {id:"ShrinkEngine",name:"缩小引擎",effect:"击杀获得层数(+8技能急速,+1%移速,-4%体型每层)",set:"StackosaurusRex"},
+    {id:"ShrinkRay",name:"缩小射线",effect:"普攻减少目标15%伤害和体型",set:""},
+    {id:"SkilledSniper",name:"熟练狙击手",effect:"700+距离命中基础技能→减少80%冷却",set:""},
+    {id:"SlowAndSteady",name:"稳扎稳打",effect:"基础攻速锁定0.625;所有攻速加成→AD;+25AD",set:""},
+    {id:"SnowballRoulette",name:"雪球轮盘",effect:"雪球随机施放有害+有益召唤师技能",set:"Snowday"},
+    {id:"SnowballUpgrade",name:"雪球升级",effect:"雪球在撞击位置引发暴风雪(减速+伤害)",set:"Snowday"},
+    {id:"Sonata",name:"奏鸣曲",effect:"自动交替释放娑娜的W(治疗+护盾)和E(移速加成)",set:"FullyAutomated"},
+    {id:"SoulEater",name:"噬魂者",effect:"定身/禁锢获得+20额外生命值,无限叠加",set:"StackosaurusRex"},
+    {id:"SoulSiphon",name:"灵魂虹吸",effect:"暴击治疗12%缓解后伤害;+25%暴击率",set:""},
+    {id:"SpiritualPurification",name:"灵魂净化",effect:"击杀产生500范围爆炸(15%当前生命值伤害+60%减速区域)",set:""},
+    {id:"StatsOnStats",name:"属性叠加",effect:"获得3个属性铁砧(更高黄金/棱彩概率)",set:"HighRoller"},
+    {id:"TankEngine",name:"坦克引擎",effect:"击杀获得层数(+5%最大生命值和体型每层)",set:""},
+    {id:"ThreadNeedle",name:"穿针引线",effect:"+18%护甲和魔法穿透",set:""},
+    {id:"TransmutePrismatic",name:"棱彩转化",effect:"获得1个随机棱彩增幅",set:"HighRoller"},
+    {id:"TwiceThrice",name:"二次三次",effect:"每第3次普攻再次施加命中效果(150%效果)",set:""},
+    {id:"UpgradeHubris",name:"升级狂妄",effect:"狂妄击杀时治疗+移速加成",set:"StackosaurusRex"},
+    {id:"UpgradeInfinityEdge",name:"升级无尽之刃",effect:"无尽之刃获得神圣之剑的剥皮效果(随机额外暴击伤害)",set:""},
+    {id:"UpgradeMikaels",name:"升级米凯尔的祝福",effect:"范围净化/治疗/韧性,45秒CD",set:"WeeWooWeeWoo"},
+    {id:"UpgradeSheen",name:"升级耀光",effect:"咒刃造成4%目标最大生命值+治疗3.5%自身最大生命值",set:""},
+    {id:"Vampirism",name:"吸血鬼化",effect:"不能被盟友治疗,0生命回复;+25%全能吸血",set:""},
+    {id:"Vulnerability",name:"脆弱",effect:"装备和持续伤害可暴击(145%);+25%暴击率",set:""},
+    {id:"WithHaste",name:"极速",effect:"额外移速=70%技能急速",set:""}
+  ],
+  silver: [
+    {id:"ADAPt",name:"ADAPt",effect:"所有额外AD转化为AP(1AP/0.6额外AD);+15%AP",set:""},
+    {id:"Adamant",name:"坚定",effect:"定身/禁锢获得10护甲+魔抗每层(最高100)",set:""},
+    {id:"BluntForce",name:"钝力",effect:"+20%额外AD",set:""},
+    {id:"BuffBuddies",name:"增益伙伴",effect:"永久获得红buff(减速/灼烧/回复)+蓝buff(技能急速/回蓝)",set:"Archmage"},
+    {id:"CrackOpenEgg",name:"打破蛋壳",effect:"过期护盾爆炸造成100%护盾强度魔法伤害",set:""},
+    {id:"CritnCast",name:"暴击施法",effect:"获得技能急速=40%暴击率",set:""},
+    {id:"Deft",name:"灵巧",effect:"+60%额外攻速",set:""},
+    {id:"DiveBomber",name:"俯冲轰炸机",effect:"死亡时爆炸造成20%最大生命值真实伤害(500范围)",set:"Deathknell"},
+    {id:"DontBlink",name:"别眨眼",effect:"每10移速超过目标+1%伤害",set:""},
+    {id:"Erosion",name:"侵蚀",effect:"每次伤害降低目标1.5%护甲/魔抗(最高30%)",set:""},
+    {id:"EscAPADe",name:"EscAPADe",effect:"AP转化为额外AD(1AD/1.66AP);+15%总AD",set:""},
+    {id:"EscapePlan",name:"逃生计划",effect:"低于35%生命值→65%最大生命值护盾,+150%移速,缩小体型(持续5.5秒衰减)",set:""},
+    {id:"Fetch",name:"接住",effect:"朝标记目标+40%移速;拾取雪球刷新标记(已禁用)",set:""},
+    {id:"Firefox",name:"火狐",effect:"自动释放阿狸的狐火:移速加成+3颗环绕火焰",set:"FullyAutomated"},
+    {id:"FirstAidKit",name:"急救包",effect:"+20%治疗和护盾强度",set:"WeeWooWeeWoo"},
+    {id:"Flash2",name:"闪现2",effect:"替换召唤师技能为闪现;+70召唤师技能急速",set:""},
+    {id:"Flashbang",name:"闪光弹",effect:"闪现产生爆炸造成魔法伤害+减速;闪现CD在死亡时重置",set:""},
+    {id:"FrostWraith",name:"冰霜之魂",effect:"自动释放丽桑卓的冰霜之环(定身,无伤害)",set:"FullyAutomated"},
+    {id:"Goredrink",name:"饮血",effect:"+15%全能吸血",set:""},
+    {id:"GuiltyPleasure",name:"罪恶快感",effect:"定身/禁锢治疗30-250(+1.5%最大生命值)",set:""},
+    {id:"HatOnHat",name:"帽子叠帽子",effect:"每件帽子/头饰装备+15AP和+8魔抗",set:""},
+    {id:"HeavyHitter",name:"重击手",effect:"普攻造成额外物理伤害=3.5%最大生命值",set:""},
+    {id:"HextechSoul",name:"海克斯龙魂",effect:"获得海克斯科技龙魂(已有则获得不同龙魂)",set:""},
+    {id:"Homeguard",name:"家园卫士",effect:"+100%移速(受到英雄伤害后消失6秒)",set:""},
+    {id:"IceCold",name:"冰冷",effect:"你的减速额外减少75移速",set:""},
+    {id:"InfernalSoul",name:"地狱龙魂",effect:"获得地狱龙魂",set:""},
+    {id:"Juiced",name:"魔能灌注",effect:"普攻消耗2.5%最大法力值造成4.5%最大法力值额外魔法伤害",set:"Archmage"},
+    {id:"KillSecured",name:"确保击杀",effect:"朝低于40%生命值敌人+60%移速",set:""},
+    {id:"LegDay",name:"练腿日",effect:"+50移速,+40%减速抗性",set:""},
+    {id:"LightEmUp",name:"点燃它们",effect:"每第4次普攻发射4个爆竹",set:"Firecracker"},
+    {id:"MightyShield",name:"强力护盾",effect:"被护盾时获得40-100自适应之力持续3秒",set:""},
+    {id:"MindToMatter",name:"心意化物",effect:"额外生命值=50%最大法力值",set:"Archmage"},
+    {id:"MountainSoul",name:"山脉龙魂",effect:"获得山脉龙魂",set:""},
+    {id:"OceanSoul",name:"海洋龙魂",effect:"获得海洋龙魂(基础治疗修改为100)",set:"Archmage"},
+    {id:"Poltergeist",name:"骚灵",effect:"替换召唤师技能:对自己施放屏障+幽灵",set:""},
+    {id:"PuristCaster",name:"纯粹施法者",effect:"额外攻速→技能急速(0.65急速/1%攻速);冷却减少10%",set:""},
+    {id:"ReEnergize",name:"再充能",effect:"对新目标充能攻击不消耗层数;满充能攻击造成10%当前生命值额外魔法伤害",set:""},
+    {id:"Repulsor",name:"排斥器",effect:"低于35%生命值→击退敌人750单位,90%减速",set:""},
+    {id:"ScopedWeapons",name:"瞄准镜",effect:"+75攻击距离(近战)/+50攻击距离(远程)",set:""},
+    {id:"SelfDestruct",name:"自毁",effect:"自动炸弹5秒后引爆:20%最大生命值真实伤害+击飞",set:"Deathknell"},
+    {id:"ShadowRunner",name:"暗影跑者",effect:"冲刺/闪烁/潜行后+300移速持续2秒",set:""},
+    {id:"SlapAround",name:"扇巴掌",effect:"定身/禁锢获得6AD或10AP(自适应),无限叠加",set:"StackosaurusRex"},
+    {id:"SonicBoom",name:"音爆",effect:"增益/治疗/护盾盟友→造成30-150真实伤害+30%减速(450范围)",set:""},
+    {id:"SpeedDemon",name:"速度恶魔",effect:"技能造成伤害→+200移速衰减超过0.75秒",set:""},
+    {id:"SpinMeRound",name:"旋转我",effect:"替换召唤师技能为阿克尚的英雄摇摆(已禁用)",set:""},
+    {id:"SpinToWin",name:"旋转制胜",effect:"旋转技能+30%伤害,-30技能急速冷却",set:""},
+    {id:"Stats",name:"属性!",effect:"获得2个属性铁砧",set:"HighRoller"},
+    {id:"SwiftAndSafe",name:"又迅又安",effect:"冲刺/闪烁后获得65-290(+65%AD)(+26%AP)护盾",set:""},
+    {id:"TankItOrLeaveIt",name:"扛或走",effect:"暴击防御几率(每次触发减少20%伤害);+25%暴击率",set:""},
+    {id:"TheBrutalizer",name:"残暴之力",effect:"+20AD,+10技能急速,+5穿甲",set:""},
+    {id:"Tormentor",name:"折磨者",effect:"定身/禁锢施加灼烧0.8%目标最大生命值/秒",set:""},
+    {id:"TransmuteGold",name:"黄金转化",effect:"获得1个随机黄金增幅",set:"HighRoller"},
+    {id:"TwinFire",name:"双重火力",effect:"伤害性技能发射爆竹;+15%暴击率",set:"Firecracker"},
+    {id:"Typhoon",name:"台风",effect:"普攻对附近敌人发射爆竹",set:"Firecracker"},
+    {id:"UltimateUnstoppable",name:"终极不可阻挡",effect:"释放终极技能获得3秒控制免疫(8秒CD)",set:""},
+    {id:"UpgradeImmolate",name:"升级灼烧",effect:"灼烧每跳对每个敌方英雄+12金币",set:"MakeItRain"},
+    {id:"UpgradeThornmail",name:"升级荆棘之甲",effect:"保护壳造成50-250(+30%护甲+魔抗)(+12%最大生命值)伤害",set:""},
+    {id:"UpgradeZhonyas",name:"升级中亚沙漏",effect:"凝滞期间可移动;中亚CD减至45秒",set:""},
+    {id:"VeilOfWarding",name:"守护面纱",effect:"法术护盾(30秒CD)",set:""},
+    {id:"VirtuousCycle",name:"良性循环",effect:"治疗提供护盾(20%治疗量),护盾提供治疗(20%护盾量)",set:""},
+    {id:"WeightedPopoffs",name:"负重弹出",effect:"技能命中获得层数(最高6);基础技能CD每层加快2.5%",set:""},
+    {id:"WindBeneathBlade",name:"刀刃之风",effect:"+1.5移速/1穿甲/固定法穿,+5移速/10%护甲/法穿百分比",set:""},
+    {id:"WitchfulThinking",name:"女巫思维",effect:"+20-80AP(基于等级)",set:""},
+    {id:"Zealot",name:"狂热者",effect:"+35%(+5%/100AP)攻速,+25%(+5%/100AP)暴击率",set:""}
+  ]
+};
+
+// Augment sets
+const AUGMENT_SETS = {
+  "Deathknell":{name:"死亡丧钟",bonus:"-25%死亡时间",members:["ClownCollege","FinalCityTransit","SelfDestruct","DiveBomber"]},
+  "Firecracker":{name:"爆竹",bonus:"2次弹跳(40%伤害)→4件:3次弹跳(80%伤害)",members:["FanTheHammer","MagicMissile","CriticalMissile","LightEmUp","Typhoon","TwinFire"]},
+  "HighRoller":{name:"豪赌",bonus:"小兵掉落属性铁砧→+50%黄金/棱彩概率",members:["TransmuteChaos","PandorasBox","StatsOnStatsOnStats","TransmutePrismatic","StatsOnStats","Stats","TransmuteGold"]},
+  "StackosaurusRex":{name:"叠叠乐霸王龙",bonus:"+50%更多层数→+100%",members:["InfiniteRecursion","MasterDuality","TapDancer","SoulEater","QuestSteelHeart","PhenomenalEvil","ShrinkEngine","UpgradeHubris","SlapAround"]},
+  "WeeWooWeeWoo":{name:"救护车",bonus:"+40%速度,+25%治疗/护盾强度",members:["WindspeakerBlessing","BabyKitty","UpgradeMikaels","AllForYou","CriticalHealing","Sonata","FirstAidKit"]},
+  "FullyAutomated":{name:"全自动",bonus:"-30%自动施法CD→CD随技能急速缩放",members:["PromQueen","QuantumComputing","OKBoomerang","Sonata","DivineIntervention","SelfDestruct","FrostWraith","Firefox"]},
+  "Archmage":{name:"大法师",bonus:"施法时返还30%随机技能CD",members:["Overflow","MindToMatter","BuffBuddies","Juiced","OceanSoul"]},
+  "MakeItRain":{name:"金钱雨",bonus:"+15%来自增幅/击杀的金币→+30%",members:["Goldrend","HeadsUpCupcake","Donation","RedEnvelope","FromBeginningToEnd","UpgradeImmolate"]},
+  "Snowday":{name:"雪天",bonus:"雪球+50技能急速,+30%伤害→+100急速/+50%伤害",members:["BiggestSnowball","HolySnowball","SnowballUpgrade","Pinball","SnowballRoulette"]}
+};
+
+// ============ CHAMPION TIER & BUILD DATA ============
+// Tier: S/A/B/C/D, builds: array of {itemName,rating,core}, runes: {primary:{name,keystone,slots},secondary:{name,slots}}, summoners: [spell1,spell2]
+const CHAMP_META = {};
+
+// Tier list data (ranked)
+const RANKED_TIERS = {
+  S:["Aatrox","Ahri","Akali","Azir","Caitlyn","Ezreal","Fiora","Jhin","Jinx","Kaisa","Kassadin","Katarina","Kayn","Kindred","LeeSin","Lucian","Nidalee","Riven","Sylas","Thresh","Viego","Viktor","Xayah","Yasuo","Yone","Zed"],
+  A:["Akshan","Anivia","Aphelios","Ashe","Belveth","Blitzcrank","Braum","Camille","Cassiopeia","Darius","Diana","Ekko","Elise","Evelynn","Fizz","Galio","Gangplank","Garen","Gnar","Graves","Gwen","Hecarim","Illaoi","Irelia","JarvanIV","Jayce","Jax","KSante","Karma","Kennen","Khazix","Kled","Leblanc","Leona","Lillia","Lissandra","Malphite","Maokai","MissFortune","Mordekaiser","Nami","Nautilus","Neeko","Ornn","Pantheon","Poppy","Pyke","Qiyana","Rakan","RekSai","Renata","Renekton","Rengar","Rumble","Ryze","Samira","Senna","Seraphine","Sett","Shen","Sivir","Skarner","Swain","TahmKench","Taliyah","Talon","Taric","Tristana","Trundle","Tryndamere","TwistedFate","Twitch","Udyr","Urgot","Varus","Vayne","Veigar","Velkoz","Vex","Vi","Vladimir","Volibear","Warwick","Wukong","Xerath","XinZhao","Yorick","Zac","Zeri","Ziggs","Zilean","Zoe","Zyra"],
+  B:["Alistar","Amumu","Annie","AurelionSol","Bard","Brand","Briar","Chogath","Corki","Draven","DrMundo","Fiddlesticks","Heimerdinger","Ivern","Janna","Kalista","Kayle","KogMaw","Lulu","Lux","Malzahar","MasterYi","Milio","Morgana","Naafiri","Nasus","Nilah","Nocturne","Nunu","Olaf","Orianna","Quinn","Rammus","Rell","Sejuani","Shaco","Shyvana","Singed","Sion","Smolder","Sona","Soraka","Teemo","Urgot","Zilean","Zyra"],
+  C:["Corki","DrMundo","Fiddlesticks","Heimerdinger","Ivern","Janna","Kalista","Kayle","KogMaw","Lulu","Lux","Malzahar","MasterYi","Milio","Morgana","Naafiri","Nasus","Nilah","Nocturne","Nunu","Olaf","Orianna","Quinn","Rammus","Rell","Sejuani","Shaco","Shyvana","Singed","Sion","Smolder","Sona","Soraka","Teemo"],
+  D:[]
+};
+// ARAM tiers
+const ARAM_TIERS = {
+  S:["Aatrox","Ashe","Brand","Caitlyn","Ezreal","Fizz","Jhin","Jinx","Kaisa","Katarina","Lux","MissFortune","Morgana","Nidalee","Pyke","Samira","Senna","Seraphine","Sett","Sivir","Sona","Swain","Teemo","Twitch","Varus","Veigar","Velkoz","Vex","Xerath","Ziggs","Zoe","Zyra"],
+  A:["Ahri","Akali","Anivia","Annie","Aphelios","Azir","Blitzcrank","Braum","Cassiopeia","Darius","Diana","Draven","Ekko","Fiora","Galio","Gangplank","Garen","Gnar","Graves","Hecarim","Heimerdinger","Illaoi","Irelia","JarvanIV","Jayce","Jax","KSante","Karma","Karthus","Kayle","Kayn","Kennen","Khazix","Kindred","Leblanc","LeeSin","Leona","Lillia","Lissandra","Lucian","Malphite","Maokai","Mordekaiser","Nami","Nautilus","Neeko","Ornn","Pantheon","Poppy","Qiyana","Rakan","Renekton","Rengar","Riven","Rumble","Ryze","Sejuani","Shen","Singed","Skarner","Sylas","TahmKench","Taliyah","Talon","Taric","Thresh","Tristana","Trundle","Tryndamere","TwistedFate","Udyr","Urgot","Vayne","Viego","Viktor","Vladimir","Volibear","Warwick","Wukong","XinZhao","Yasuo","Yone","Yorick","Zac","Zed","Zeri","Zilean"],
+  B:["Akshan","Alistar","Amumu","AurelionSol","Bard","Belveth","Briar","Camille","Chogath","Corki","DrMundo","Elise","Evelynn","Fiddlesticks","Gwen","Ivern","Janna","Kalista","Kled","KogMaw","Lulu","Malzahar","MasterYi","Milio","Naafiri","Nasus","Nilah","Nocturne","Nunu","Olaf","Orianna","Quinn","Rammus","RekSai","Rell","Renata","Shaco","Shyvana","Sion","Smolder","Soraka","Vi","Yuumi"],
+  C:["DrMundo","Fiddlesticks","Ivern","Janna","Kalista","Kled","KogMaw","Lulu","Malzahar","MasterYi","Milio","Naafiri","Nasus","Nilah","Nocturne","Nunu","Olaf","Orianna","Quinn","Rammus","Rell","Renata","Shaco","Shyvana","Sion","Smolder","Soraka","Vi","Yuumi"],
+  D:[]
+};
+
+// Build templates by role
+const ROLE_BUILDS = {
+  Fighter:[
+    {name:"渴血战斧",rating:5,core:true},{name:"黑色切割者",rating:5,core:true},{name:"死亡之舞",rating:4,core:false},
+    {name:"斯特拉克的挑战护手",rating:4,core:false},{name:"守护天使",rating:4,core:false},{name:"贪欲九头蛇",rating:3,core:false},
+    {name:"振奋盔甲",rating:3,core:false},{name:"兰顿之兆",rating:3,core:false},{name:"铁板靴",rating:5,core:true},{name:"水银之靴",rating:4,core:false}
+  ],
+  Assassin:[
+    {name:"德拉克萨的暮刃",rating:5,core:true},{name:"幽梦之灵",rating:5,core:true},{name:"夜之锋刃",rating:4,core:false},
+    {name:"公理圆弧",rating:4,core:false},{name:"赛瑞尔达的怨恨",rating:4,core:false},{name:"守护天使",rating:4,core:false},
+    {name:"黯影阔剑",rating:3,core:false},{name:"水银弯刀",rating:3,core:false},{name:"明朗之靴",rating:5,core:true},{name:"铁板靴",rating:3,core:false}
+  ],
+  Mage:[
+    {name:"卢登的激荡",rating:5,core:true},{name:"影焰",rating:5,core:true},{name:"灭世者的死亡之帽",rating:5,core:true},
+    {name:"中娅沙漏",rating:5,core:false},{name:"虚空之杖",rating:4,core:false},{name:"大天使之杖",rating:4,core:false},
+    {name:"女妖面纱",rating:3,core:false},{name:"莫雷洛秘典",rating:3,core:false},{name:"法师之靴",rating:5,core:true},{name:"明朗之靴",rating:3,core:false}
+  ],
+  Marksman:[
+    {name:"无尽之刃",rating:5,core:true},{name:"斯塔缇克电刃",rating:5,core:true},{name:"疾射火炮",rating:4,core:false},
+    {name:"幻影之舞",rating:4,core:false},{name:"饮血剑",rating:4,core:false},{name:"多米尼克领主的致意",rating:4,core:false},
+    {name:"守护天使",rating:4,core:false},{name:"界弓",rating:3,core:false},{name:"狂战士胫甲",rating:5,core:true},{name:"水银之靴",rating:3,core:false}
+  ],
+  Support:[
+    {name:"月石再生器",rating:5,core:true},{name:"救赎",rating:5,core:true},{name:"炽热香炉",rating:4,core:false},
+    {name:"流水法杖",rating:4,core:false},{name:"钢铁烈阳之匣",rating:5,core:true},{name:"骑士之誓",rating:4,core:false},
+    {name:"警觉眼石",rating:4,core:false},{name:"米凯尔的祝福",rating:3,core:false},{name:"明朗之靴",rating:5,core:true},{name:"水银之靴",rating:3,core:false}
+  ],
+  Tank:[
+    {name:"心之钢",rating:5,core:true},{name:"荆棘之甲",rating:5,core:true},{name:"振奋盔甲",rating:4,core:false},
+    {name:"兰顿之兆",rating:4,core:false},{name:"日炎圣盾",rating:5,core:true},{name:"千变者贾修",rating:4,core:false},
+    {name:"自然之力",rating:4,core:false},{name:"冰脉护手",rating:3,core:false},{name:"铁板靴",rating:5,core:true},{name:"水银之靴",rating:4,core:false}
+  ]
+};
+
+// Role to build key mapping
+const ROLE_BUILD_KEY = {
+  Assassin:"Assassin",Fighter:"Fighter",Mage:"Mage",Marksman:"Marksman",Support:"Support",Tank:"Tank"
+};
+
+// Rune templates by role
+const ROLE_RUNES = {
+  Fighter:{primary:{name:"精密",keystone:"征服者",slots:["凯旋","传说：韧性","坚毅不倒"]},secondary:{name:"坚决",slots:["爆破","骸骨镀层"]}},
+  Assassin:{primary:{name:"主宰",keystone:"电刑",slots:["猛然冲击","眼球收集器","终极猎人"]},secondary:{name:"精密",slots:["凯旋","致命一击"]}},
+  Mage:{primary:{name:"巫术",keystone:"奥术彗星",slots:["法力流系带","超然","风暴聚集"]},secondary:{name:"启迪",slots:["饼干配送","星界洞悉"]}},
+  Marksman:{primary:{name:"精密",keystone:"致命节奏",slots:["凯旋","传说：欢欣","致命一击"]},secondary:{name:"启迪",slots:["饼干配送","星界洞悉"]}},
+  Support:{primary:{name:"巫术",keystone:"召唤艾黎",slots:["法力流系带","超然","水上行走"]},secondary:{name:"坚决",slots:["生命源泉","复苏"]}},
+  Tank:{primary:{name:"坚决",keystone:"不灭之握",slots:["爆破","调节","过度生长"]},secondary:{name:"精密",slots:["凯旋","传说：韧性"]}}
+};
+
+// Summoner spells by role
+const ROLE_SUMMONERS = {
+  Fighter:{ranked:["闪现","传送"],aram:["闪现","雪球"]},
+  Assassin:{ranked:["闪现","点燃"],aram:["闪现","雪球"]},
+  Mage:{ranked:["闪现","传送"],aram:["闪现","屏障"]},
+  Marksman:{ranked:["闪现","治疗"],aram:["闪现","屏障"]},
+  Support:{ranked:["闪现","引燃"],aram:["闪现","治疗"]},
+  Tank:{ranked:["闪现","传送"],aram:["闪现","雪球"]}
+};
+
+// Champion-specific overrides
+const CHAMP_OVERRIDES = {
+  Yasuo:{tier:{ranked:"S",aram:"A"},builds:[{name:"不朽盾弓",rating:5,core:true},{name:"无尽之刃",rating:5,core:true},{name:"凡性的提醒",rating:4,core:false},{name:"饮血剑",rating:4,core:false},{name:"死亡之舞",rating:5,core:false},{name:"守护天使",rating:4,core:false},{name:"斯特拉克的挑战护手",rating:3,core:false},{name:"智慧末刃",rating:3,core:false},{name:"狂战士胫甲",rating:5,core:true},{name:"水银之靴",rating:4,core:false}],
+    runes:{primary:{name:"精密",keystone:"致命节奏",slots:["凯旋","传说：欢欣","致命一击"]},secondary:{name:"坚决",slots:["复苏之风","坚定"]}},
+    summoners:{ranked:["闪现","传送"],aram:["闪现","雪球"]}},
+  Zed:{tier:{ranked:"S",aram:"A"},builds:[{name:"德拉克萨的暮刃",rating:5,core:true},{name:"幽梦之灵",rating:5,core:true},{name:"公理圆弧",rating:5,core:false},{name:"夜之锋刃",rating:4,core:false},{name:"赛瑞尔达的怨恨",rating:4,core:false},{name:"黯影阔剑",rating:3,core:false},{name:"守护天使",rating:4,core:false},{name:"水银弯刀",rating:3,core:false},{name:"明朗之靴",rating:5,core:true},{name:"铁板靴",rating:3,core:false}],
+    runes:{primary:{name:"主宰",keystone:"电刑",slots:["猛然冲击","眼球收集器","终极猎人"]},secondary:{name:"精密",slots:["凯旋","致命一击"]}},
+    summoners:{ranked:["闪现","传送"],aram:["闪现","雪球"]}},
+  LeeSin:{tier:{ranked:"S",aram:"A"},builds:[{name:"渴血战斧",rating:5,core:true},{name:"黑色切割者",rating:5,core:true},{name:"死亡之舞",rating:5,core:false},{name:"斯特拉克的挑战护手",rating:4,core:false},{name:"守护天使",rating:4,core:false},{name:"振奋盔甲",rating:3,core:false},{name:"兰顿之兆",rating:3,core:false},{name:"铁板靴",rating:5,core:true},{name:"水银之靴",rating:4,core:false},{name:"贪欲九头蛇",rating:3,core:false}],
+    runes:{primary:{name:"精密",keystone:"征服者",slots:["凯旋","传说：韧性","坚毅不倒"]},secondary:{name:"启迪",slots:["饼干配送","星界洞悉"]}},
+    summoners:{ranked:["闪现","惩戒"],aram:["闪现","雪球"]}}
+};
+
+// Tier color helper
+function getTier(tier){return tier||'?'}
+function getTierClass(tier){return 'tier-'+tier.toLowerCase()}
+
+// Get champion meta (tier+builds+runes+summoners)
+function getChampMeta(champId,tags){
+  const ov=CHAMP_OVERRIDES[champId]||{};
+  const role=tags[0]||'Fighter';
+  const buildKey=ROLE_BUILD_KEY[role]||'Fighter';
+  return {
+    tier:{ranked:ov.tier?.ranked||getTierFromList(champId,RANKED_TIERS),aram:ov.tier?.aram||getTierFromList(champId,ARAM_TIERS)},
+    builds:ov.builds||ROLE_BUILDS[buildKey]||ROLE_BUILDS.Fighter,
+    runes:ov.runes||ROLE_RUNES[buildKey]||ROLE_RUNES.Fighter,
+    summoners:ov.summoners||ROLE_SUMMONERS[buildKey]||ROLE_SUMMONERS.Fighter
+  };
+}
+function getTierFromList(id,tiers){
+  for(const[t,list]of Object.entries(tiers)){if(list.includes(id))return t}
+  return 'B';
+}
+
+// ============ DATA LOADING ============
+async function fetchJSON(url){const r=await fetch(url);if(!r.ok)throw Error(`HTTP ${r.status}`);return r.json()}
+
+async function loadData(){
+  try{
+    // Fetch version first, then parallel load everything else
+    const versions=await fetchJSON('https://ddragon.leagueoflegends.com/api/versions.json');
+    S.version=versions[0];
+    const cdn=`https://ddragon.leagueoflegends.com/cdn/${S.version}`;
+
+    const[champData,itemData,runeData,summData]=await Promise.all([
+      fetchJSON(`${cdn}/data/zh_CN/champion.json`),
+      fetchJSON(`${cdn}/data/zh_CN/item.json`),
+      fetchJSON(`${cdn}/data/zh_CN/runesReforged.json`),
+      fetchJSON(`${cdn}/data/zh_CN/summoner.json`)
+    ]);
+
+    S.champions=champData.data;
+    S.runes=runeData;
+    S.summoners=summData.data;
+
+    // Build champion list
+    S.champList=Object.values(S.champions).map(c=>{
+      const meta=getChampMeta(c.id,c.tags);
+      return {
+        id:c.id,key:c.key,name:c.name,title:c.title,blurb:c.blurb,tags:c.tags,
+        partype:c.partype,info:c.info,image:`${cdn}/img/champion/${c.image.full}`,
+        loading:`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${c.id}_0.jpg`,
+        tier:meta.tier,builds:meta.builds,runes:meta.runes,summoners:meta.summoners,
+        searchTokens:buildSearchTokens(c.id,c.name)
+      };
+    });
+
+    // Build item list
+    S.itemList=Object.entries(itemData.data).filter(([_,i])=>i.gold.purchasable&&i.gold.total>=300&&!i.tags.includes('Consumable')&&!i.tags.includes('Trinket'))
+      .map(([id,i])=>({id,name:i.name,description:i.plaintext||i.description.replace(/<[^>]*>/g,'').slice(0,100),gold:i.gold,
+        image:`${cdn}/img/item/${id}.png`}))
+      .sort((a,b)=>b.gold.total-a.gold.total);
+
+    $('#statVersion').textContent=S.version;
+    $('#statChamps').textContent=S.champList.length;
+    renderAll();
+  }catch(e){
+    console.error('Data load failed:',e);
+    $('#mainContent').innerHTML='<div class="no-res"><div class="no-res-icon">⚠</div><div class="no-res-text">数据加载失败，请检查网络连接后刷新页面</div></div>';
+    $('#statVersion').textContent='加载失败';
+  }
+}
+
+// ============ SEARCH ENGINE ============
+function matchChamp(champ,query){
+  if(!query)return true;
+  const q=query.toLowerCase();
+  return champ.searchTokens.some(t=>t.includes(q));
+}
+function filterChamps(){
+  let list=S.champList;
+  if(S.search)list=list.filter(c=>matchChamp(c,S.search));
+  if(S.filter!=='all')list=list.filter(c=>c.tags.includes(S.filter));
+  return list;
+}
+
+// ============ RENDER ============
+function renderSubNav(){
+  const tabs=S.mode==='ranked'?[
+    {key:'tier',label:'📊 英雄梯度'},{key:'build',label:'🛡 出装推荐'},
+    {key:'rune',label:'📜 符文推荐'},{key:'summoner',label:'⚡ 召唤师技能'}
+  ]:[
+    {key:'augment',label:'🔮 海克斯增幅'},{key:'summoner',label:'⚡ 召唤师技能'},
+    {key:'build',label:'🛡 出装推荐'},{key:'combo',label:'🎯 增幅套路'}
+  ];
+  $('#subNav').innerHTML=tabs.map(t=>
+    `<button class="subnav-btn ${S.tab===t.key?'active':''}" data-tab="${t.key}">${t.label}</button>`
+  ).join('');
+  $('#statSection').textContent=tabs.find(t=>t.key===S.tab)?.label.replace(/[^一-鿿]/g,'')||'';
+}
+
+function renderFilters(){
+  const roles=[{key:'all',label:'全部'},{key:'Assassin',label:'刺客'},{key:'Fighter',label:'战士'},
+    {key:'Mage',label:'法师'},{key:'Marksman',label:'射手'},{key:'Support',label:'辅助'},{key:'Tank',label:'坦克'}];
+  $('#filterGroup').innerHTML=roles.map(r=>
+    `<button class="filter-chip ${S.filter===r.key?'active':''}" data-role="${r.key}">${r.label}</button>`
+  ).join('');
+}
+
+function renderStatsBar(){
+  $('#statMode').textContent=S.mode==='ranked'?'峡谷排位':'海克斯乱斗';
+}
+
+function renderTierGrid(mode){
+  const tiers=mode==='ranked'?{S:[],A:[],B:[],C:[],D:[]}:{S:[],A:[],B:[],C:[],D:[]};
+  const tierData=mode==='ranked'?RANKED_TIERS:ARAM_TIERS;
+  const list=filterChamps();
+  list.forEach(c=>{
+    const t=getTierFromList(c.id,tierData);
+    if(tiers[t])tiers[t].push(c);
+  });
+
+  let html='';
+  for(const t of['S','A','B','C','D']){
+    const champs=tiers[t]||[];
+    if(champs.length===0&&t==='D')continue;
+    html+=`<div class="tier-row"><div class="tier-label ${t.toLowerCase()}">${t}</div><div class="tier-champs">`;
+    champs.forEach(c=>{
+      html+=`<div class="tier-champ-chip" data-champ="${c.id}" onclick="window._selectChamp('${c.id}')">
+        <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'" loading="lazy">
+        <span>${c.name}</span>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  }
+  if(!list.length)html='<div class="no-res"><div class="no-res-icon">🔍</div><div class="no-res-text">未找到匹配的英雄</div></div>';
+  $('#mainContent').innerHTML=`<div class="section"><div class="section-header"><h2 class="section-title">${S.mode==='ranked'?'峡谷排位英雄梯度':'海克斯乱斗英雄梯度'} <span class="section-count">(${list.length})</span></h2></div>${html}</div>`;
+}
+
+
+// Look up item image by Chinese name from loaded Data Dragon data
+function getItemImage(name) {
+  const found = S.itemList.find(i => i.name === name);
+  return found ? found.image : null;
+}
+function renderBuildSection(){
+  const list=filterChamps();
+  const selected=S.selectedChamp&&list.find(c=>c.id===S.selectedChamp);
+  if(!selected&&list.length>0)S.selectedChamp=list[0].id;
+
+  const current=list.find(c=>c.id===S.selectedChamp)||list[0];
+  if(!current)return $('#mainContent').innerHTML='<div class="no-res"><div class="no-res-text">请先选择英雄</div></div>';
+
+  const builds=current.builds||[];
+  const mode=S.mode;
+
+  let html=`<div class="build-layout">
+    <div class="build-champ-select">
+      <div class="section-title" style="margin-bottom:10px">选择英雄</div>
+      <div class="build-champ-list">`;
+  list.forEach(c=>{
+    html+=`<div class="build-champ-item ${c.id===current.id?'selected':''}" data-champ="${c.id}">
+      <img src="${c.image}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'">
+      <span class="bci-name">${c.name}</span>
+      <span class="tier-badge ${getTierClass(mode==='ranked'?c.tier.ranked:c.tier.aram)} bci-tier">${mode==='ranked'?c.tier.ranked:c.tier.aram}</span>
+    </div>`;
+  });
+  html+=`</div></div><div class="build-detail">`;
+
+  // Selected champion header
+  html+=`<div class="selected-hero">
+    <img src="${current.loading}" alt="${current.name}" onerror="this.style.display='none'">
+    <div class="sh-info"><h3>${current.name} · ${current.title}</h3>
+    <div class="sh-sub">${current.tags.map(t=>tagLabel(t)).join(' / ')} · 难度 ${current.info.difficulty}/10 · 梯度 <span class="tier-badge ${getTierClass(mode==='ranked'?current.tier.ranked:current.tier.aram)}">${mode==='ranked'?current.tier.ranked:current.tier.aram}</span></div></div>
+  </div>`;
+
+  // Build items
+  html+=`<div class="build-block"><div class="build-block-title">🛡 推荐出装 (${builds.length}件)</div><div class="build-items">`;
+  builds.forEach(b=>{
+    const itemImg=getItemImage(b.name);
+        html+=`<div class="build-item-card ${b.core?'core':''}">
+      ${itemImg?`<img src="${itemImg}" alt="${b.name}" loading="lazy" onerror="this.style.display='none'">`:`<span style="font-size:1.2rem">${b.core?'◆':'◇'}</span>`}
+      <div><div class="bic-name">${b.name}</div><div class="bic-rating">${Array(5).fill(0).map((_,i)=>`<span class="bic-star ${i<b.rating?'on':''}">★</span>`).join('')}</div></div>
+      ${b.core?'<span class="bic-tag core-tag">核心</span>':'<span class="bic-tag" style="background:rgba(0,180,216,0.08);color:var(--hex-bright);border:1px solid rgba(0,180,216,0.2)">可选</span>'}
+    </div>`;
+  });
+  html+=`</div></div></div></div>`;
+  $('#mainContent').innerHTML=html;
+}
+
+function renderRuneSection(){
+  const list=filterChamps();
+  if(!S.selectedChamp||!list.find(c=>c.id===S.selectedChamp))S.selectedChamp=list[0]?.id;
+  const current=list.find(c=>c.id===S.selectedChamp)||list[0];
+  if(!current)return $('#mainContent').innerHTML='<div class="no-res"><div class="no-res-text">请先选择英雄</div></div>';
+
+  const runes=current.runes;
+  let html=`<div class="build-layout">
+    <div class="build-champ-select"><div class="section-title" style="margin-bottom:10px">选择英雄</div><div class="build-champ-list">`;
+  list.forEach(c=>{html+=`<div class="build-champ-item ${c.id===current.id?'selected':''}" data-champ="${c.id}"><img src="${c.image}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'"><span class="bci-name">${c.name}</span><span class="tier-badge ${getTierClass(S.mode==='ranked'?c.tier.ranked:c.tier.aram)} bci-tier">${S.mode==='ranked'?c.tier.ranked:c.tier.aram}</span></div>`});
+  html+=`</div></div><div class="build-detail">`;
+
+  html+=`<div class="selected-hero"><img src="${current.loading}" alt="${current.name}" onerror="this.style.display='none'"><div class="sh-info"><h3>${current.name} · ${current.title}</h3><div class="sh-sub">梯度 <span class="tier-badge ${getTierClass(S.mode==='ranked'?current.tier.ranked:current.tier.aram)}">${S.mode==='ranked'?current.tier.ranked:current.tier.aram}</span></div></div></div>`;
+  html+=`<div class="rune-display">`;
+  ['primary','secondary'].forEach(type=>{
+    const r=runes[type];
+    html+=`<div class="rune-tree ${type}"><div class="rune-tree-title">${type==='primary'?'主系':'副系'}：${r.name}</div>
+      <div class="rune-row"><div class="rune-slot keystone active">★</div></div>
+      <div class="rune-row">${r.slots.map((_,i)=>`<div class="rune-slot active">●</div>`).join('')}</div>
+      <div style="margin-top:12px;font-size:0.75rem;color:var(--text-secondary)">
+        ${type==='primary'?`<strong>基石：${r.keystone}</strong><br>`:''}${r.slots.map((s,i)=>`${i+1}. ${s}`).join('<br>')}
+      </div></div>`;
+  });
+  html+=`</div></div></div>`;
+  $('#mainContent').innerHTML=html;
+}
+
+function renderSummonerSection(){
+  const list=filterChamps();
+  if(!S.selectedChamp||!list.find(c=>c.id===S.selectedChamp))S.selectedChamp=list[0]?.id;
+  const current=list.find(c=>c.id===S.selectedChamp)||list[0];
+  if(!current)return $('#mainContent').innerHTML='<div class="no-res"><div class="no-res-text">请先选择英雄</div></div>';
+
+  const mode=S.mode;
+  const spells=current.summoners[mode]||current.summoners.ranked;
+  let html=`<div class="build-layout">
+    <div class="build-champ-select"><div class="section-title" style="margin-bottom:10px">选择英雄</div><div class="build-champ-list">`;
+  list.forEach(c=>{html+=`<div class="build-champ-item ${c.id===current.id?'selected':''}" data-champ="${c.id}"><img src="${c.image}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'"><span class="bci-name">${c.name}</span><span class="tier-badge ${getTierClass(mode==='ranked'?c.tier.ranked:c.tier.aram)} bci-tier">${mode==='ranked'?c.tier.ranked:c.tier.aram}</span></div>`});
+  html+=`</div></div><div class="build-detail">`;
+  html+=`<div class="selected-hero"><img src="${current.loading}" alt="${current.name}" onerror="this.style.display='none'"><div class="sh-info"><h3>${current.name} · ${current.title}</h3><div class="sh-sub">梯度 <span class="tier-badge ${getTierClass(mode==='ranked'?current.tier.ranked:current.tier.aram)}">${mode==='ranked'?current.tier.ranked:current.tier.aram}</span></div></div></div>`;
+  html+=`<div class="build-block"><div class="build-block-title">⚡ 推荐召唤师技能 (${mode==='ranked'?'峡谷排位':'海克斯乱斗'})</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">`;
+  spells.forEach((s,i)=>{
+    html+=`<div style="padding:16px 28px;background:var(--bg-surface);border:2px solid ${i===0?'var(--gold)':'var(--hex)'};border-radius:var(--radius-md);text-align:center">
+      <div style="font-family:var(--font-chinese);font-size:1rem;font-weight:700;color:${i===0?'var(--gold)':'var(--hex-bright)'}">${s}</div>
+      <div style="font-size:0.65rem;color:var(--text-dim);margin-top:4px">${i===0?'首选':'次选'}</div>
+    </div>`;
+  });
+  html+=`</div></div></div></div>`;
+  $('#mainContent').innerHTML=html;
+}
+
+function renderAugmentSection(){
+  const list=filterChamps();
+  const mode=S.mode;
+  let html='';
+
+  // Hero ranking
+  html+=`<div class="section"><div class="section-header"><h2 class="section-title">英雄增幅推荐 <span class="section-count">(${list.length})</span></h2></div>
+    <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:14px">💡 点击英雄查看该英雄最适合的海克斯增幅装置</p>
+    <div class="champ-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">`;
+  list.forEach(c=>{
+    html+=`<div class="champ-card" data-champ="${c.id}" style="cursor:pointer">
+      <div class="img-wrap"><img src="${c.image}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'"><div class="img-overlay"></div>
+      <div class="card-tier"><span class="tier-badge ${getTierClass(c.tier.aram)}">${c.tier.aram}</span></div></div>
+      <div class="card-body"><div class="card-name">${c.name}</div><div class="card-roles">${c.tags.map(t=>`<span class="card-role">${tagLabel(t)}</span>`).join('')}</div></div>
+    </div>`;
+  });
+  html+=`</div></div>`;
+
+  // All augments list
+  html+=`<div class="section"><div class="section-header"><h2 class="section-title">全部增幅装置 <span class="section-count">(${AUGMENTS.prismatic.length+AUGMENTS.gold.length+AUGMENTS.silver.length})</span></h2></div>`;
+
+  // Augment sets summary
+  html+=`<div class="build-block"><div class="build-block-title">🎯 增幅套装</div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">`;
+  Object.entries(AUGMENT_SETS).forEach(([key,set])=>{
+    html+=`<div style="padding:12px 16px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);min-width:180px">
+      <div style="font-weight:700;color:var(--hex-bright);font-size:0.85rem">${set.name}</div>
+      <div style="font-size:0.65rem;color:var(--text-dim);margin:4px 0">${set.bonus}</div>
+      <div style="font-size:0.6rem;color:var(--text-dim)">${set.members.length}件</div>
+    </div>`;
+  });
+  html+=`</div></div>`;
+
+  // Prismatic
+  html+=renderAugmentTier('prismatic','💎 棱彩增幅',AUGMENTS.prismatic);
+  // Gold
+  html+=renderAugmentTier('gold','🥇 黄金增幅',AUGMENTS.gold);
+  // Silver
+  html+=renderAugmentTier('silver','🥈 白银增幅',AUGMENTS.silver);
+
+  html+=`</div>`;
+  $('#mainContent').innerHTML=html;
+}
+
+function renderAugmentTier(tier,title,augs){
+  let html=`<div class="build-block"><div class="build-block-title">${title} (${augs.length})</div><div class="augment-grid">`;
+  const filtered=S.search?augs.filter(a=>a.name.includes(S.search)||a.effect.includes(S.search)||a.id.toLowerCase().includes(S.search.toLowerCase())):augs;
+  filtered.forEach(a=>{
+    const set=AUGMENT_SETS[a.set];
+    html+=`<div class="augment-card ${tier}">
+      <div class="augment-header"><span class="augment-name">${a.name}</span><span class="augment-tier-tag ${tier}">${tier}</span></div>
+      <div class="augment-effect">${a.effect}</div>
+      ${set?`<span class="augment-set-tag">📦 ${set.name}</span>`:''}
+    </div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+
+function renderComboSection(){
+  const combos=[
+    {name:"🔥 无限火力流",augments:["终极革命","终极觉醒","返璞归真"],desc:"终极技能无限刷新+基础技能CD疯狂减少。适合依赖大招的英雄如卡特琳娜、劫、菲兹。",heroes:"推荐：卡特琳娜、劫、菲兹、阿卡丽、艾克"},
+    {name:"❄ 雪球核弹流",augments:["超级大雪球","神圣雪球","雪球升级"],desc:"雪球套装满配后伤害爆炸+无敌。雪球变成超大追踪导弹，撞击造成范围击飞和巨额伤害。",heroes:"推荐：所有近战斗士/坦克——诺手、剑魔、石头人、蕾欧娜"},
+    {name:"💰 淘金发育流",augments:["淘金热","捐款","从头到尾"],desc:"金钱雨套装提供大量额外金币和属性。每下攻击都获得金币+黑暗收割+先攻，经济碾压。",heroes:"推荐：所有ADC和poke法师——EZ、杰斯、韦鲁斯、泽拉斯"},
+    {name:"💪 无限叠加流",augments:["二元大师","超凡邪恶","扇巴掌"],desc:"叠叠乐霸王龙套装，击杀和攻击无限叠加AP/AD。越打越强，后期无敌。",heroes:"推荐：维迦、塞拉斯、阿卡丽、天使"},
+    {name:"🎆 爆竹盛宴流",augments:["连发火枪","魔法飞弹","暴击导弹"],desc:"爆竹套装全触发时普攻向四面八方发射大量爆竹。配暴击装备伤害爆炸。",heroes:"推荐：金克丝、凯特琳、烬、艾希"},
+    {name:"🏥 不死奶妈流",augments:["小猫咪找妈妈","风语者的祝福","一切为你"],desc:"救护车套装提供巨额治疗/护盾加成。搭配索拉卡/索娜等奶妈，团队不死不灭。",heroes:"推荐：索拉卡、索娜、娜美、迦娜"},
+    {name:"⚡ 全自动战斗流",augments:["量子计算","神圣干预","舞会皇后"],desc:"全自动套装让技能自动释放。不需要操作，技能自动循环释放。",heroes:"推荐：所有英雄通用，特别适合新手或懒惰玩家"},
+    {name:"🔮 大法师爆发流",augments:["溢出","心意化物","增益伙伴"],desc:"大法师套装提供极高法力值转化+红蓝双buff。法师的终极选择。",heroes:"推荐：瑞兹、卡萨丁、安妮、辛德拉"},
+    {name:"🎲 赌狗豪赌流",augments:["潘多拉魔盒","混沌转化","属性叠叠乐"],desc:"豪赌套装让你随机获得多个棱彩增幅。高风险高回报，运气好直接起飞。",heroes:"推荐：所有英雄通用，欧皇必备"},
+    {name:"🗡 斩杀刺客流",augments:["飞踢","玻璃大炮","刽子手"],desc:"斩杀阈值+真实伤害+技能刷新。适合刺客的极限爆发出装。",heroes:"推荐：劫、泰隆、卡特琳娜、雷恩加尔"},
+    {name:"🛡 铁壁坦克流",augments:["星体","巨人勇气","歌利亚"],desc:"超高生命值+护盾+体型。站在前面无人能撼动。",heroes:"推荐：墨菲特、奥恩、慎、塞恩"},
+    {name:"🏹 远程狙击流",augments:["超级瞄准镜","精准弹幕天才","熟练狙击手"],desc:"攻击距离叠满+远程技能CD大减。在千里之外输出。",heroes:"推荐：凯特琳、艾希、泽拉斯、韦鲁斯"}
+  ];
+
+  let html=`<div class="section"><div class="section-header"><h2 class="section-title">增幅套路推荐 <span class="section-count">(${combos.length})</span></h2></div>
+    <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:16px">💡 海克斯乱斗中增幅装置的协同搭配套路，按套装效果组合发挥最大战力</p>
+    <div class="combo-grid">`;
+  const filtered=S.search?combos.filter(c=>c.name.includes(S.search)||c.desc.includes(S.search)||c.heroes.includes(S.search)||c.augments.some(a=>a.includes(S.search))):combos;
+  filtered.forEach(c=>{
+    html+=`<div class="combo-card"><div class="combo-title">${c.name}</div>
+      <div class="combo-augments">${c.augments.map(a=>`<span class="combo-aug-tag">${a}</span>`).join('')}</div>
+      <div class="combo-desc">${c.desc}</div><div class="combo-heroes">${c.heroes}</div></div>`;
+  });
+  html+=`</div></div>`;
+  $('#mainContent').innerHTML=html;
+}
+
+// ============ RENDER ALL ============
+function renderAll(){
+  renderSubNav();
+  renderStatsBar();
+  if(S.mode==='ranked'){
+    if(S.tab==='tier')renderTierGrid('ranked');
+    else if(S.tab==='build')renderBuildSection();
+    else if(S.tab==='rune')renderRuneSection();
+    else if(S.tab==='summoner')renderSummonerSection();
+  }else{
+    if(S.tab==='augment')renderAugmentSection();
+    else if(S.tab==='build')renderBuildSection();
+    else if(S.tab==='summoner')renderSummonerSection();
+    else if(S.tab==='combo')renderComboSection();
+  }
+  bindEvents();
+}
+
+// ============ TAG LABEL ============
+function tagLabel(t){const m={Assassin:'刺客',Fighter:'战士',Mage:'法师',Marksman:'射手',Support:'辅助',Tank:'坦克'};return m[t]||t}
+
+// ============ EVENT BINDING ============
+function bindEvents(){
+  // Subnav tabs
+  $$('#subNav .subnav-btn').forEach(b=>{b.onclick=()=>{S.tab=b.dataset.tab;renderAll()}});
+
+  // Mode switch
+  $$('#modeSwitch .mode-btn').forEach(b=>{b.onclick=()=>{
+    S.mode=b.dataset.mode;S.tab=S.mode==='ranked'?'tier':'augment';S.filter='all';
+    renderFilters();renderAll();
+    $$('#modeSwitch .mode-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  }});
+
+  // Filters
+  $$('#filterGroup .filter-chip').forEach(c=>{c.onclick=()=>{S.filter=c.dataset.role;renderFilters();renderAll()}});
+
+  // Search
+  $('#searchInput').oninput=function(){S.search=this.value.trim();renderAll()};
+
+  // Champion selection in build/rune/summoner views
+  $$('.build-champ-item').forEach(item=>{item.onclick=()=>{S.selectedChamp=item.dataset.champ;renderAll()}});
+
+  // Champion cards in tier/augment view
+  $$('.champ-card').forEach(card=>{card.onclick=()=>{S.selectedChamp=card.dataset.champ;
+    if(S.mode==='ranked')S.tab='build';else S.tab='build';renderAll()}});
+}
+
+// ============ GLOBAL FUNCTIONS ============
+window._selectChamp=function(id){S.selectedChamp=id;
+  if(S.mode==='ranked'){if(S.tab==='tier')S.tab='build'}else{if(S.tab==='augment')S.tab='build'}
+  renderAll()};
+
+// ============ EXTERNAL LINKS ============
+function renderExtLinks(){
+  const links=[
+    {name:'101.qq.com',url:'https://101.qq.com/#/hero-rank-5v5?tier=200&queue=420',desc:'腾讯官方数据'},
+    {name:'lolstats.gg',url:'https://lolstats.gg/zh',desc:'英雄统计'},
+    {name:'esports.op.gg',url:'https://esports.op.gg/stats/champion?hl=zh_CN',desc:'电竞数据'},
+    {name:'champsight.com',url:'https://champsight.com/zh-cn/',desc:'英雄洞察'},
+    {name:'u.gg',url:'https://u.gg/',desc:'出装胜率'},
+    {name:'op.gg',url:'https://op.gg/',desc:'韩服数据'},
+    {name:'metasrc.com',url:'https://www.metasrc.com/lol/mayhem/na/26.9/tier-list/augments',desc:'ARAM增幅梯度'},
+    {name:'blitz.gg',url:'https://blitz.gg/lol/aram-mayhem-augments',desc:'增幅推荐'}
+  ];
+  $('#extLinks').innerHTML=links.map(l=>
+    `<a href="${l.url}" target="_blank" rel="noopener" class="ext-link">
+      <svg viewBox="0 0 16 16"><path d="M3 2v2h8.586L2.293 13.293l1.414 1.414L13 5.414V14h2V2z"/></svg>
+      <span><strong>${l.name}</strong> <span style="font-size:0.65rem;color:var(--text-dim)">${l.desc}</span></span>
+    </a>`
+  ).join('');
+}
+
+// ============ INIT ============
+function init(){
+  renderFilters();
+  renderExtLinks();
+  loadData();
+}
+init();
+})();
+</script>
+</body>
+</html>

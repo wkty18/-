@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* ===== 设计令牌 ===== */
+:root {
+  --bg: #F5F5F7;
+  --bg-canvas: #FFFFFF;
+  --bg-glass: rgba(255, 255, 255, 0.78);
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --text: #1A1A2E;
+  --text-secondary: #86868B;
+  --border: #E5E5E7;
+  --accent: #6366F1;
+  --accent-hover: #5558E8;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.dark {
+  --bg: #0D0D0D;
+  --bg-canvas: #1A1A1A;
+  --bg-glass: rgba(30, 30, 30, 0.78);
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --text: #E5E5E7;
+  --text-secondary: #98989D;
+  --border: #2C2C2E;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-tauri-drag-region] {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+/* ===== 毛玻璃效果 ===== */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+.glass-strong {
+  background: var(--bg-glass);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--border);
+}
+
+/* ===== 滚动条 ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+/* ===== Tailwind 扩展 ===== */
+@theme {
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+}

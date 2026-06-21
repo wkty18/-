@@ -1,0 +1,806 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - list [ref=e5]:
+      - listitem [ref=e6]:
+        - link "首页" [ref=e7] [cursor=pointer]:
+          - /url: //www.bilibili.com
+          - img [ref=e8]
+          - generic [ref=e10]:
+            - generic [ref=e11]: 首页
+            - img [ref=e12]
+      - listitem [ref=e15]:
+        - link "番剧" [ref=e16] [cursor=pointer]:
+          - /url: //www.bilibili.com/anime/
+      - listitem [ref=e17]:
+        - link "直播" [ref=e18] [cursor=pointer]:
+          - /url: //live.bilibili.com
+      - listitem [ref=e19]:
+        - link "游戏中心" [ref=e20] [cursor=pointer]:
+          - /url: //game.bilibili.com/platform
+      - listitem [ref=e21]:
+        - link "会员购" [ref=e22] [cursor=pointer]:
+          - /url: //show.bilibili.com/platform/home.html?msource=pc_web
+      - listitem [ref=e23]:
+        - link "漫画" [ref=e24] [cursor=pointer]:
+          - /url: //manga.bilibili.com?from=bill_top_mnav
+      - listitem [ref=e25]:
+        - link "赛事" [ref=e26] [cursor=pointer]:
+          - /url: //www.bilibili.com/match/home/
+      - listitem
+    - list [ref=e27]:
+      - listitem [ref=e28] [cursor=pointer]:
+        - listitem [ref=e29]:
+          - generic [ref=e31]: 登录
+      - listitem [ref=e32] [cursor=pointer]:
+        - listitem [ref=e34]:
+          - link [ref=e35]:
+            - /url: //account.bilibili.com/big
+            - img [ref=e36]
+      - listitem [ref=e40] [cursor=pointer]:
+        - img [ref=e42]
+      - listitem [ref=e45] [cursor=pointer]:
+        - img [ref=e47]
+      - listitem [ref=e53] [cursor=pointer]:
+        - img [ref=e55]
+      - listitem [ref=e58] [cursor=pointer]:
+        - img [ref=e60]
+      - listitem [ref=e62] [cursor=pointer]:
+        - img [ref=e64]
+      - listitem [ref=e68] [cursor=pointer]:
+        - listitem [ref=e69]:
+          - img [ref=e72]
+  - generic [ref=e77]:
+    - generic [ref=e78]:
+      - generic [ref=e82]:
+        - img [ref=e83]
+        - img [ref=e86] [cursor=pointer]
+        - textbox "输入关键字搜索" [ref=e88]: 我的世界
+        - button "搜索" [ref=e89] [cursor=pointer]
+      - navigation [ref=e92]:
+        - list [ref=e93]:
+          - listitem [ref=e94]:
+            - generic [ref=e96] [cursor=pointer]: 综合
+          - listitem [ref=e97]:
+            - generic [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: 视频
+              - generic [ref=e100]: 99+
+          - listitem [ref=e101]:
+            - generic [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]: 番剧
+              - generic [ref=e104]: "0"
+          - listitem [ref=e105]:
+            - generic [ref=e106] [cursor=pointer]:
+              - generic [ref=e107]: 影视
+              - generic [ref=e108]: "0"
+          - listitem [ref=e109]:
+            - generic [ref=e110] [cursor=pointer]:
+              - generic [ref=e111]: 直播
+              - generic [ref=e112]: 99+
+          - listitem [ref=e113]:
+            - generic [ref=e114] [cursor=pointer]:
+              - generic [ref=e115]: 专栏
+              - generic [ref=e116]: 99+
+          - listitem [ref=e117]:
+            - generic [ref=e118] [cursor=pointer]:
+              - generic [ref=e119]: 用户
+              - generic [ref=e120]: 99+
+      - separator [ref=e122]
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - button "综合排序" [ref=e127] [cursor=pointer]
+          - button "最多播放" [ref=e128] [cursor=pointer]
+          - button "最新发布" [ref=e129] [cursor=pointer]
+          - button "最多弹幕" [ref=e130] [cursor=pointer]
+          - button "最多收藏" [ref=e131] [cursor=pointer]
+        - button "更多筛选" [ref=e132] [cursor=pointer]:
+          - text: 更多筛选
+          - img [ref=e133]
+    - generic [ref=e137]:
+      - generic [ref=e138]:
+        - generic [ref=e141]:
+          - link "【EVA】感谢你曾来过我的世界:│▌ One Last Kiss 3343.5万 26.2万 04:43" [ref=e142] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1254y187SE/
+            - generic [ref=e143]:
+              - img "【EVA】感谢你曾来过我的世界:│▌ One Last Kiss" [ref=e146]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 3343.5万
+                    - generic:
+                      - img
+                      - generic: 26.2万
+                  - generic: 04:43
+          - generic [ref=e148]:
+            - link "【EVA】感谢你曾来过我的世界:│▌ One Last Kiss" [ref=e149] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1254y187SE/
+              - heading "【EVA】感谢你曾来过我的世界:│▌ One Last Kiss" [level=3] [ref=e150]:
+                - text: 【EVA】感谢你曾来过
+                - emphasis [ref=e151]: 我的世界
+                - text: :│▌ One Last Kiss
+            - link "阿虚子KYONKO · 2021-03-29" [ref=e153] [cursor=pointer]:
+              - /url: //space.bilibili.com/6957562
+              - img [ref=e154]
+              - generic [ref=e158]: 阿虚子KYONKO
+              - generic [ref=e159]: · 2021-03-29
+        - generic [ref=e162]:
+          - link "床 2656.1万 11.4万 12:15" [ref=e163] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1Mh411m7sA/
+            - generic [ref=e164]:
+              - img "床" [ref=e167]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2656.1万
+                    - generic:
+                      - img
+                      - generic: 11.4万
+                  - generic: 12:15
+          - generic [ref=e169]:
+            - link "床" [ref=e170] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1Mh411m7sA/
+              - heading "床" [level=3] [ref=e171]
+            - link "小潮院长 · 2021-04-30" [ref=e173] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e174]
+              - generic [ref=e178]: 小潮院长
+              - generic [ref=e179]: · 2021-04-30
+        - generic [ref=e182]:
+          - link "“生 死 之 交” 2602.6万 1.3万 01:54" [ref=e183] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1SBPCe6ENp/
+            - generic [ref=e184]:
+              - img "“生 死 之 交”" [ref=e187]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2602.6万
+                    - generic:
+                      - img
+                      - generic: 1.3万
+                  - generic: 01:54
+          - generic [ref=e189]:
+            - link "“生 死 之 交”" [ref=e190] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1SBPCe6ENp/
+              - heading "“生 死 之 交”" [level=3] [ref=e191]
+            - link "星雨Starrain · 2025-02-05" [ref=e193] [cursor=pointer]:
+              - /url: //space.bilibili.com/1042277203
+              - img [ref=e194]
+              - generic [ref=e198]: 星雨Starrain
+              - generic [ref=e199]: · 2025-02-05
+        - generic [ref=e202]:
+          - link "我的世界克苏鲁全集：一口气看完 2532.6万 1.4万 01:10:36" [ref=e203] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1GyZYYNErW/
+            - generic [ref=e204]:
+              - img "我的世界克苏鲁全集：一口气看完" [ref=e207]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2532.6万
+                    - generic:
+                      - img
+                      - generic: 1.4万
+                  - generic: 01:10:36
+          - generic [ref=e209]:
+            - link "我的世界克苏鲁全集：一口气看完" [ref=e210] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1GyZYYNErW/
+              - heading "我的世界克苏鲁全集：一口气看完" [level=3] [ref=e211]:
+                - emphasis [ref=e212]: 我的世界
+                - text: 克苏鲁全集：一口气看完
+            - link "这名玩家 · 2025-03-30" [ref=e214] [cursor=pointer]:
+              - /url: //space.bilibili.com/411581408
+              - img [ref=e215]
+              - generic [ref=e219]: 这名玩家
+              - generic [ref=e220]: · 2025-03-30
+        - generic [ref=e223]:
+          - link "我建造了3座最困难的迷宫！并让我的朋友挑战通关... 2524.5万 1.8万 24:00" [ref=e224] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1TG1MBjEqG/
+            - generic [ref=e225]:
+              - img "我建造了3座最困难的迷宫！并让我的朋友挑战通关..." [ref=e228]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2524.5万
+                    - generic:
+                      - img
+                      - generic: 1.8万
+                  - generic: 24:00
+          - generic [ref=e230]:
+            - link "我建造了3座最困难的迷宫！并让我的朋友挑战通关..." [ref=e231] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1TG1MBjEqG/
+              - heading "我建造了3座最困难的迷宫！并让我的朋友挑战通关..." [level=3] [ref=e232]
+            - link "埋栈Maizhan · 2025-11-01" [ref=e234] [cursor=pointer]:
+              - /url: //space.bilibili.com/1086168795
+              - img [ref=e235]
+              - generic [ref=e239]: 埋栈Maizhan
+              - generic [ref=e240]: · 2025-11-01
+        - generic [ref=e243]:
+          - link "三人核污水海上集装箱极限生存！！！！ 2512.2万 1.3万 51:28" [ref=e244] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1XgnGzdEfX/
+            - generic [ref=e245]:
+              - img "三人核污水海上集装箱极限生存！！！！" [ref=e248]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2512.2万
+                    - generic:
+                      - img
+                      - generic: 1.3万
+                  - generic: 51:28
+          - generic [ref=e250]:
+            - link "三人核污水海上集装箱极限生存！！！！" [ref=e251] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1XgnGzdEfX/
+              - heading "三人核污水海上集装箱极限生存！！！！" [level=3] [ref=e252]
+            - link "吃年糕的安sir · 2025-09-26" [ref=e254] [cursor=pointer]:
+              - /url: //space.bilibili.com/3493141216758082
+              - img [ref=e255]
+              - generic [ref=e259]: 吃年糕的安sir
+              - generic [ref=e260]: · 2025-09-26
+        - generic [ref=e263]:
+          - link "狼人傻 2402.4万 12.8万 11:43" [ref=e264] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1zd4y1Q7BE/
+            - generic [ref=e265]:
+              - img "狼人傻" [ref=e268]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2402.4万
+                    - generic:
+                      - img
+                      - generic: 12.8万
+                  - generic: 11:43
+          - generic [ref=e270]:
+            - link "狼人傻" [ref=e271] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1zd4y1Q7BE/
+              - heading "狼人傻" [level=3] [ref=e272]
+            - link "小潮院长 · 2022-07-20" [ref=e274] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e275]
+              - generic [ref=e279]: 小潮院长
+              - generic [ref=e280]: · 2022-07-20
+        - generic [ref=e283]:
+          - link "小潮别死 2332.7万 8.3万 14:35" [ref=e284] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1gN411C7Dn/
+            - generic [ref=e285]:
+              - img "小潮别死" [ref=e288]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2332.7万
+                    - generic:
+                      - img
+                      - generic: 8.3万
+                  - generic: 14:35
+          - generic [ref=e290]:
+            - link "小潮别死" [ref=e291] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1gN411C7Dn/
+              - heading "小潮别死" [level=3] [ref=e292]
+            - link "小潮院长 · 2023-06-03" [ref=e294] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e295]
+              - generic [ref=e299]: 小潮院长
+              - generic [ref=e300]: · 2023-06-03
+        - generic [ref=e303]:
+          - link "起床战争 2325.4万 6.7万 19:53" [ref=e304] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1oe4y1Y7n5/
+            - generic [ref=e305]:
+              - img "起床战争" [ref=e308]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2325.4万
+                    - generic:
+                      - img
+                      - generic: 6.7万
+                  - generic: 19:53
+          - generic [ref=e310]:
+            - link "起床战争" [ref=e311] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1oe4y1Y7n5/
+              - heading "起床战争" [level=3] [ref=e312]
+            - link "小潮院长 · 2022-10-20" [ref=e314] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e315]
+              - generic [ref=e319]: 小潮院长
+              - generic [ref=e320]: · 2022-10-20
+        - generic [ref=e323]:
+          - link "一口气看完MC消失的月亮 2287.0万 3.4万 38:35" [ref=e324] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1v8gBzkEh5/
+            - generic [ref=e325]:
+              - img "一口气看完MC消失的月亮" [ref=e328]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2287.0万
+                    - generic:
+                      - img
+                      - generic: 3.4万
+                  - generic: 38:35
+          - generic [ref=e330]:
+            - link "一口气看完MC消失的月亮" [ref=e331] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1v8gBzkEh5/
+              - heading "一口气看完MC消失的月亮" [level=3] [ref=e332]
+            - link "橪韭Ran · 2025-07-21" [ref=e334] [cursor=pointer]:
+              - /url: //space.bilibili.com/299810153
+              - img [ref=e335]
+              - generic [ref=e339]: 橪韭Ran
+              - generic [ref=e340]: · 2025-07-21
+        - generic [ref=e343]:
+          - link "脏 鱼 游 戏 2259.1万 26.5万 18:10" [ref=e344] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1Gv411G7E1/
+            - generic [ref=e345]:
+              - img "脏 鱼 游 戏" [ref=e348]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2259.1万
+                    - generic:
+                      - img
+                      - generic: 26.5万
+                  - generic: 18:10
+          - generic [ref=e350]:
+            - link "脏 鱼 游 戏" [ref=e351] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1Gv411G7E1/
+              - heading "脏 鱼 游 戏" [level=3] [ref=e352]
+            - link "小潮院长 · 2021-10-03" [ref=e354] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e355]
+              - generic [ref=e359]: 小潮院长
+              - generic [ref=e360]: · 2021-10-03
+        - generic [ref=e363]:
+          - link "马路傻手 2156.9万 33.7万 13:19" [ref=e364] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV18Y4y1H7Gd/
+            - generic [ref=e365]:
+              - img "马路傻手" [ref=e368]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2156.9万
+                    - generic:
+                      - img
+                      - generic: 33.7万
+                  - generic: 13:19
+          - generic [ref=e370]:
+            - link "马路傻手" [ref=e371] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV18Y4y1H7Gd/
+              - heading "马路傻手" [level=3] [ref=e372]
+            - link "小潮院长 · 2022-04-09" [ref=e374] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e375]
+              - generic [ref=e379]: 小潮院长
+              - generic [ref=e380]: · 2022-04-09
+        - generic [ref=e383]:
+          - link "狼人傻2 2135.8万 13.0万 25:31" [ref=e384] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1nd4y1R7UB/
+            - generic [ref=e385]:
+              - img "狼人傻2" [ref=e388]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2135.8万
+                    - generic:
+                      - img
+                      - generic: 13.0万
+                  - generic: 25:31
+          - generic [ref=e390]:
+            - link "狼人傻2" [ref=e391] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1nd4y1R7UB/
+              - heading "狼人傻2" [level=3] [ref=e392]
+            - link "小潮院长 · 2022-09-01" [ref=e394] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e395]
+              - generic [ref=e399]: 小潮院长
+              - generic [ref=e400]: · 2022-09-01
+        - generic [ref=e403]:
+          - link "“未 闻 花 名” 2129.4万 2397 02:08" [ref=e404] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1HbeBz2EjL/
+            - generic [ref=e405]:
+              - img "“未 闻 花 名”" [ref=e408]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2129.4万
+                    - generic:
+                      - img
+                      - generic: "2397"
+                  - generic: 02:08
+          - generic [ref=e410]:
+            - link "“未 闻 花 名”" [ref=e411] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1HbeBz2EjL/
+              - heading "“未 闻 花 名”" [level=3] [ref=e412]
+            - link "星雨Starrain · 2025-08-23" [ref=e414] [cursor=pointer]:
+              - /url: //space.bilibili.com/1042277203
+              - img [ref=e415]
+              - generic [ref=e419]: 星雨Starrain
+              - generic [ref=e420]: · 2025-08-23
+        - generic [ref=e423]:
+          - link "“时 间 刺 客” 2118.9万 1.4万 02:07" [ref=e424] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1cJN9etEDm/
+            - generic [ref=e425]:
+              - img "“时 间 刺 客”" [ref=e428]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2118.9万
+                    - generic:
+                      - img
+                      - generic: 1.4万
+                  - generic: 02:07
+          - generic [ref=e430]:
+            - link "“时 间 刺 客”" [ref=e431] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1cJN9etEDm/
+              - heading "“时 间 刺 客”" [level=3] [ref=e432]
+            - link "星雨Starrain · 2025-02-10" [ref=e434] [cursor=pointer]:
+              - /url: //space.bilibili.com/1042277203
+              - img [ref=e435]
+              - generic [ref=e439]: 星雨Starrain
+              - generic [ref=e440]: · 2025-02-10
+        - generic [ref=e443]:
+          - link "“告诉我，神会流血吗？” 2089.0万 15.4万 02:40" [ref=e444] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV14K4y1e7PZ/
+            - generic [ref=e445]:
+              - img "“告诉我，神会流血吗？”" [ref=e448]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2089.0万
+                    - generic:
+                      - img
+                      - generic: 15.4万
+                  - generic: 02:40
+          - generic [ref=e450]:
+            - link "“告诉我，神会流血吗？”" [ref=e451] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV14K4y1e7PZ/
+              - heading "“告诉我，神会流血吗？”" [level=3] [ref=e452]
+            - link "-Aguage- · 2020-09-04" [ref=e454] [cursor=pointer]:
+              - /url: //space.bilibili.com/299312121
+              - img [ref=e455]
+              - generic [ref=e459]: "-Aguage-"
+              - generic [ref=e460]: · 2020-09-04
+        - generic [ref=e463]:
+          - link "鸡王争霸赛（上） 2057.2万 5.3万 09:10" [ref=e464] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1Hp4y1z7jp/
+            - generic [ref=e465]:
+              - img "鸡王争霸赛（上）" [ref=e468]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2057.2万
+                    - generic:
+                      - img
+                      - generic: 5.3万
+                  - generic: 09:10
+          - generic [ref=e470]:
+            - link "鸡王争霸赛（上）" [ref=e471] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1Hp4y1z7jp/
+              - heading "鸡王争霸赛（上）" [level=3] [ref=e472]
+            - link "小潮院长 · 2020-12-07" [ref=e474] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e475]
+              - generic [ref=e479]: 小潮院长
+              - generic [ref=e480]: · 2020-12-07
+        - generic [ref=e483]:
+          - link "我的世界：耗时3000带你一口气看完极限孤岛生存！ 2045.0万 1.1万 48:43" [ref=e484] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1QH4y1n7Xb/
+            - generic [ref=e485]:
+              - img "我的世界：耗时3000带你一口气看完极限孤岛生存！" [ref=e488]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2045.0万
+                    - generic:
+                      - img
+                      - generic: 1.1万
+                  - generic: 48:43
+          - generic [ref=e490]:
+            - link "我的世界：耗时3000带你一口气看完极限孤岛生存！" [ref=e491] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1QH4y1n7Xb/
+              - heading "我的世界：耗时3000带你一口气看完极限孤岛生存！" [level=3] [ref=e492]:
+                - emphasis [ref=e493]: 我的世界
+                - text: ：耗时3000带你一口气看完极限孤岛生存！
+            - link "傲安咕咕 · 2024-03-27" [ref=e495] [cursor=pointer]:
+              - /url: //space.bilibili.com/501488800
+              - img [ref=e496]
+              - generic [ref=e500]: 傲安咕咕
+              - generic [ref=e501]: · 2024-03-27
+        - generic [ref=e504]:
+          - link "当代学生真实的精神状态 15.0 2016.0万 4672 01:02" [ref=e505] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1ax4y1b78n/
+            - generic [ref=e506]:
+              - img "当代学生真实的精神状态 15.0" [ref=e509]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 2016.0万
+                    - generic:
+                      - img
+                      - generic: "4672"
+                  - generic: 01:02
+          - generic [ref=e511]:
+            - link "当代学生真实的精神状态 15.0" [ref=e512] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1ax4y1b78n/
+              - heading "当代学生真实的精神状态 15.0" [level=3] [ref=e513]
+            - link "碧月狐 · 2024-06-08" [ref=e515] [cursor=pointer]:
+              - /url: //space.bilibili.com/289475254
+              - img [ref=e516]
+              - generic [ref=e520]: 碧月狐
+              - generic [ref=e521]: · 2024-06-08
+        - generic [ref=e524]:
+          - link "我 从 地狱 归来。 1920.1万 3828 05:45" [ref=e525] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1oGVNzdEZJ/
+            - generic [ref=e526]:
+              - img "我 从 地狱 归来。" [ref=e529]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 1920.1万
+                    - generic:
+                      - img
+                      - generic: "3828"
+                  - generic: 05:45
+          - generic [ref=e531]:
+            - link "我 从 地狱 归来。" [ref=e532] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1oGVNzdEZJ/
+              - heading "我 从 地狱 归来。" [level=3] [ref=e533]
+            - link "稽木白柏cypress · 2025-05-04" [ref=e535] [cursor=pointer]:
+              - /url: //space.bilibili.com/454557163
+              - img [ref=e536]
+              - generic [ref=e540]: 稽木白柏cypress
+              - generic [ref=e541]: · 2025-05-04
+        - generic [ref=e544]:
+          - link "我的世界向前冲！闯关赢取电冰箱？冲冲冲不要停下来！我的世界Minecraft 1894.8万 4436 03:34" [ref=e545] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1Te4y1Z7Gq/
+            - generic [ref=e546]:
+              - img "我的世界向前冲！闯关赢取电冰箱？冲冲冲不要停下来！我的世界Minecraft" [ref=e549]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 1894.8万
+                    - generic:
+                      - img
+                      - generic: "4436"
+                  - generic: 03:34
+          - generic [ref=e551]:
+            - link "我的世界向前冲！闯关赢取电冰箱？冲冲冲不要停下来！我的世界Minecraft" [ref=e552] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1Te4y1Z7Gq/
+              - heading "我的世界向前冲！闯关赢取电冰箱？冲冲冲不要停下来！我的世界Minecraft" [level=3] [ref=e553]:
+                - emphasis [ref=e554]: 我的世界
+                - text: 向前冲！闯关赢取电冰箱？冲冲冲不要停下来！
+                - emphasis [ref=e555]: 我的世界
+                - text: Minecraft
+            - link "椒盐蛋 · 2022-08-26" [ref=e557] [cursor=pointer]:
+              - /url: //space.bilibili.com/176256777
+              - img [ref=e558]
+              - generic [ref=e562]: 椒盐蛋
+              - generic [ref=e563]: · 2022-08-26
+        - generic [ref=e566]:
+          - link "“绝世好兄弟”#2 1880.5万 5.1万 07:25" [ref=e567] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV11K4y187rT/
+            - generic [ref=e568]:
+              - img "“绝世好兄弟”#2" [ref=e571]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 1880.5万
+                    - generic:
+                      - img
+                      - generic: 5.1万
+                  - generic: 07:25
+          - generic [ref=e573]:
+            - link "“绝世好兄弟”#2" [ref=e574] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV11K4y187rT/
+              - heading "“绝世好兄弟”#2" [level=3] [ref=e575]
+            - link "小潮院长 · 2020-10-03" [ref=e577] [cursor=pointer]:
+              - /url: //space.bilibili.com/5970160
+              - img [ref=e578]
+              - generic [ref=e582]: 小潮院长
+              - generic [ref=e583]: · 2020-10-03
+        - generic [ref=e586]:
+          - link "家 里 有 矿 ！ 1871.0万 10.9万 12:19" [ref=e587] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1S54y197uX/
+            - generic [ref=e588]:
+              - img "家 里 有 矿 ！" [ref=e591]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 1871.0万
+                    - generic:
+                      - img
+                      - generic: 10.9万
+                  - generic: 12:19
+          - generic [ref=e593]:
+            - link "家 里 有 矿 ！" [ref=e594] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1S54y197uX/
+              - heading "家 里 有 矿 ！" [level=3] [ref=e595]
+            - link "徐大虾咯 · 2020-04-16" [ref=e597] [cursor=pointer]:
+              - /url: //space.bilibili.com/13354765
+              - img [ref=e598]
+              - generic [ref=e602]: 徐大虾咯
+              - generic [ref=e603]: · 2020-04-16
+        - generic [ref=e606]:
+          - link "“向 死 而 生” 1853.4万 1441 02:01" [ref=e607] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1yAgwzsEQ7/
+            - generic [ref=e608]:
+              - img "“向 死 而 生”" [ref=e611]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: 1853.4万
+                    - generic:
+                      - img
+                      - generic: "1441"
+                  - generic: 02:01
+          - generic [ref=e613]:
+            - link "“向 死 而 生”" [ref=e614] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1yAgwzsEQ7/
+              - heading "“向 死 而 生”" [level=3] [ref=e615]
+            - link "星雨Starrain · 2025-07-17" [ref=e617] [cursor=pointer]:
+              - /url: //space.bilibili.com/1042277203
+              - img [ref=e618]
+              - generic [ref=e622]: 星雨Starrain
+              - generic [ref=e623]: · 2025-07-17
+      - generic [ref=e626]:
+        - button "上一页" [disabled] [ref=e627]
+        - button "1" [ref=e628] [cursor=pointer]
+        - button "2" [ref=e629] [cursor=pointer]
+        - button "3" [ref=e630] [cursor=pointer]
+        - button "4" [ref=e631] [cursor=pointer]
+        - button "5" [ref=e632] [cursor=pointer]
+        - button "6" [ref=e633] [cursor=pointer]
+        - button "7" [ref=e634] [cursor=pointer]
+        - generic [ref=e635]: ...
+        - button "42" [ref=e636] [cursor=pointer]
+        - button "下一页" [ref=e637] [cursor=pointer]
+  - generic [ref=e642]:
+    - generic [ref=e643]:
+      - generic [ref=e644]:
+        - generic [ref=e645]: bilibili
+        - generic [ref=e646]:
+          - link "关于我们" [ref=e647] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/aboutUs.html
+          - link "联系我们" [ref=e648] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/contact.html
+          - link "用户协议" [ref=e649] [cursor=pointer]:
+            - /url: //www.bilibili.com/protocal/licence.html
+          - link "加入我们" [ref=e650] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/join.html
+          - link "隐私协议" [ref=e651] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/privacy-pc.html
+          - link "bilibili认证" [ref=e652] [cursor=pointer]:
+            - /url: //account.bilibili.com/account/official/home
+          - link "Investor Relations" [ref=e653] [cursor=pointer]:
+            - /url: //ir.bilibili.com/
+      - generic [ref=e654]:
+        - generic [ref=e655]: 传送门
+        - generic [ref=e656]:
+          - link "协议汇总" [ref=e657] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/topic/activity-cn8bxPLzz.html
+          - link "活动中心" [ref=e658] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/activity-list.html
+          - link "活动专题页" [ref=e659] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/topic_list.html
+          - link "侵权申诉" [ref=e660] [cursor=pointer]:
+            - /url: //www.bilibili.com/v/copyright/intro/
+          - link "帮助中心" [ref=e661] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/help.html
+          - link "社区中心" [ref=e662] [cursor=pointer]:
+            - /url: https://www.bilibili.com/blackboard/activity-5zJxM3spoS.html
+          - link "壁纸站" [ref=e663] [cursor=pointer]:
+            - /url: //space.bilibili.com/6823116#/album
+          - link "广告合作" [ref=e664] [cursor=pointer]:
+            - /url: //e.bilibili.com/
+          - link "名人堂" [ref=e665] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/activity-S1jfy69Jz.html
+          - link "MCN管理中心" [ref=e666] [cursor=pointer]:
+            - /url: //mcn.bilibili.com/studio/mcn/entry
+          - link "高级弹幕" [ref=e667] [cursor=pointer]:
+            - /url: //www.bilibili.com/video/BV1Xx411c7cH/
+          - link "品牌号官网" [ref=e668] [cursor=pointer]:
+            - /url: //b.bilibili.com/
+      - generic [ref=e669]:
+        - link "下载APP" [ref=e671] [cursor=pointer]:
+          - /url: //app.bilibili.com/
+          - img [ref=e673]
+          - paragraph [ref=e675]: 下载APP
+        - link "公益" [ref=e677] [cursor=pointer]:
+          - /url: //love.bilibili.com/
+          - img [ref=e679]
+          - paragraph [ref=e684]: 公益
+        - link "官方微博" [ref=e686] [cursor=pointer]:
+          - /url: //weibo.com/bilibiliweb
+          - img [ref=e688]
+          - paragraph [ref=e690]: 官方微博
+        - generic [ref=e692]:
+          - img [ref=e694]
+          - paragraph [ref=e696]: 官方微信
+    - generic [ref=e699]:
+      - generic [ref=e700]:
+        - link "营业执照" [ref=e701] [cursor=pointer]:
+          - /url: //i0.hdslb.com/bfs/activity-plat/static/20240516/9ccf041718e5d6d6dfaebc91b85c791c/gd85E6tDco.jpg
+        - text: 信息网络传播视听节目许可证：0910417
+        - link "网络文化经营许可证 沪网文【2025】0258-085号" [ref=e702] [cursor=pointer]:
+          - /url: //i0.hdslb.com/bfs/activity-plat/static/20260209/3b3c5705bda98d50983f6f47df360fef/K4t52YryBV.jpeg
+        - text: 广播电视节目制作经营许可证：（沪）字第01248号增值电信业务经营许可证 沪B2-20100043
+      - generic [ref=e703]:
+        - link "互联网ICP备案：沪ICP备13002172号-3" [ref=e704] [cursor=pointer]:
+          - /url: //beian.miit.gov.cn/
+        - link "出版物经营许可证 沪批字第U6699 号" [ref=e705] [cursor=pointer]:
+          - /url: //i0.hdslb.com/bfs/activity-plat/static/20240516/9ccf041718e5d6d6dfaebc91b85c791c/4ainzbFKao.jpg
+        - text: 互联网药品信息服务资格证 沪-非经营性-2022-0011营业性演出许可证 沪市文演（经）00-2253 |
+      - generic [ref=e706]:
+        - link "不良信息举报邮箱：help@bilibili.com" [ref=e707] [cursor=pointer]:
+          - /url: mailto:help@bilibili.com
+        - link "涉未成年举报邮箱：teenprotect@bilibili.com" [ref=e708] [cursor=pointer]:
+          - /url: mailto:teenprotect@bilibili.com
+        - text: 不良信息举报电话：4006262233转3
+        - link "上海互联网举报中心 |" [ref=e710] [cursor=pointer]:
+          - /url: http://www.shjbzx.cn/
+        - link "12345政务服务便民热线 |" [ref=e711] [cursor=pointer]:
+          - /url: http://www.sh12345.gov.cn/
+      - generic [ref=e712]:
+        - link "沪公网安备31011002002436号 |" [ref=e714] [cursor=pointer]:
+          - /url: http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011002002436
+        - link "儿童色情信息举报专区 |" [ref=e715] [cursor=pointer]:
+          - /url: mailto:userreport@bilibili.com
+        - link "扫黄打非举报" [ref=e716] [cursor=pointer]:
+          - /url: https://bzpt.shdf.gov.cn/www/shouye/gzfw/wsjb/index.shtml
+      - generic [ref=e717]:
+        - link "网信算备310110764385705230011号" [ref=e718] [cursor=pointer]:
+          - /url: https://beian.cac.gov.cn/api/static/fileUpload/principalOrithm/additional/user_699bbd78-36f4-459c-aeb0-bf98a2a562d8_6185ea2c-c84c-404a-9280-c5465af05948.pdf
+        - link "网信算备310110764385702230013号" [ref=e719] [cursor=pointer]:
+          - /url: https://beian.cac.gov.cn/api/static/fileUpload/principalOrithm/additional/user_699bbd78-36f4-459c-aeb0-bf98a2a562d8_e03e6855-76a6-43fb-b799-d090e7fce25d.pdf
+      - generic [ref=e720]:
+        - text: 网上有害信息举报专区：
+        - link "中国互联网违法和不良信息举报中心" [ref=e722] [cursor=pointer]:
+          - /url: https://www.12377.cn/
+        - text: 亲爱的市民朋友，上海警方反诈劝阻电话"96110"系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。
+      - generic [ref=e723]: 公司名称：上海宽娱数码科技有限公司 |公司地址：上海市杨浦区政立路489号 |电话：021-25099888
+    - generic [ref=e724]:
+      - img [ref=e725]
+      - img [ref=e726]
+      - img [ref=e727]

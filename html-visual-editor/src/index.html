@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML可视化编辑器</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <!-- 顶部工具栏 -->
+  <header class="toolbar">
+    <div class="toolbar-left">
+      <button class="tb-btn" id="btn-new" title="新建 (Ctrl+N)">📄 新建</button>
+      <button class="tb-btn" id="btn-open" title="打开 (Ctrl+O)">📂 打开</button>
+      <button class="tb-btn" id="btn-save" title="保存 (Ctrl+S)">💾 保存</button>
+      <button class="tb-btn" id="btn-save-as" title="另存为 (Ctrl+Shift+S)">📋 另存为</button>
+      <span class="tb-sep"></span>
+      <button class="tb-btn" id="btn-undo" title="撤销 (Ctrl+Z)">↩</button>
+      <button class="tb-btn" id="btn-redo" title="重做 (Ctrl+Y)">↪</button>
+    </div>
+    <div class="toolbar-center">
+      <span class="file-name" id="file-name">未命名页面</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="tb-btn" id="btn-preview" title="在浏览器中预览">👁 预览</button>
+      <div class="zoom-control">
+        <button class="tb-btn" id="btn-zoom-out">−</button>
+        <span class="zoom-label" id="zoom-label">100%</span>
+        <button class="tb-btn" id="btn-zoom-in">+</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主体三栏布局 -->
+  <div class="main-container">
+    <!-- 左侧面板 — 组件库 + DOM树 -->
+    <aside class="panel panel-left" id="panel-left">
+      <div class="panel-tabs">
+        <button class="panel-tab active" data-tab="components">组件库</button>
+        <button class="panel-tab" data-tab="dom-tree">DOM 树</button>
+      </div>
+      <div class="panel-content" id="tab-components">
+        <div class="component-categories" id="component-categories">
+          <!-- JS 动态生成 -->
+        </div>
+      </div>
+      <div class="panel-content hidden" id="tab-dom-tree">
+        <div class="dom-tree-container" id="dom-tree">
+          <!-- JS 动态生成 -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- 中间画布 -->
+    <main class="canvas-wrapper">
+      <div class="canvas-controls">
+        <div class="breadcrumb" id="breadcrumb">
+          <span class="breadcrumb-item">body</span>
+        </div>
+        <div class="canvas-actions">
+          <label class="canvas-mode-btn" title="选择模式">
+            <input type="radio" name="canvasMode" value="select" checked> 🖱 选择
+          </label>
+          <label class="canvas-mode-btn" title="编辑模式">
+            <input type="radio" name="canvasMode" value="edit"> ✏️ 编辑
+          </label>
+          <label class="canvas-mode-btn" title="移动模式">
+            <input type="radio" name="canvasMode" value="move"> ↕ 移动
+          </label>
+        </div>
+      </div>
+      <div class="canvas-container" id="canvas-container">
+        <iframe id="design-canvas"
+          sandbox="allow-scripts allow-same-origin"
+          title="设计画布"></iframe>
+      </div>
+    </main>
+
+    <!-- 右侧面板 — 属性 + CSS -->
+    <aside class="panel panel-right" id="panel-right">
+      <div class="panel-tabs">
+        <button class="panel-tab active" data-tab="properties">属性</button>
+        <button class="panel-tab" data-tab="styles">样式</button>
+        <button class="panel-tab" data-tab="css-vars">CSS 变量</button>
+      </div>
+
+      <!-- 属性面板 -->
+      <div class="panel-content" id="tab-properties">
+        <div class="prop-section">
+          <h3 class="section-title">元素</h3>
+          <div class="prop-row">
+            <label>标签名</label>
+            <input type="text" id="prop-tag" placeholder="div">
+          </div>
+          <div class="prop-row">
+            <label>ID</label>
+            <input type="text" id="prop-id" placeholder="element-id">
+          </div>
+          <div class="prop-row">
+            <label>Class</label>
+            <input type="text" id="prop-class" placeholder="class-1 class-2">
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">文本内容</h3>
+          <div class="prop-row">
+            <textarea id="prop-text" rows="3" placeholder="元素文本内容..."></textarea>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">常用属性</h3>
+          <div class="prop-row" id="prop-href-row" style="display:none">
+            <label>href</label>
+            <input type="text" id="prop-href" placeholder="https://...">
+          </div>
+          <div class="prop-row" id="prop-src-row" style="display:none">
+            <label>src</label>
+            <input type="text" id="prop-src" placeholder="image.png">
+          </div>
+          <div class="prop-row" id="prop-alt-row" style="display:none">
+            <label>alt</label>
+            <input type="text" id="prop-alt" placeholder="描述">
+          </div>
+          <div class="prop-row" id="prop-placeholder-row" style="display:none">
+            <label>placeholder</label>
+            <input type="text" id="prop-placeholder" placeholder="提示文字...">
+          </div>
+          <div class="prop-row" id="prop-type-row" style="display:none">
+            <label>type</label>
+            <select id="prop-type">
+              <option value="text">text</option>
+              <option value="email">email</option>
+              <option value="password">password</option>
+              <option value="number">number</option>
+              <option value="submit">submit</option>
+              <option value="button">button</option>
+              <option value="checkbox">checkbox</option>
+              <option value="radio">radio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">自定义属性</h3>
+          <div id="custom-attrs">
+            <!-- JS 动态生成 -->
+          </div>
+          <button class="add-attr-btn" id="btn-add-attr">+ 添加属性</button>
+        </div>
+      </div>
+
+      <!-- 样式面板 -->
+      <div class="panel-content hidden" id="tab-styles">
+        <div class="prop-section">
+          <h3 class="section-title">布局</h3>
+          <div class="prop-row">
+            <label>Display</label>
+            <select id="style-display">
+              <option value="">默认</option>
+              <option value="block">block</option>
+              <option value="inline">inline</option>
+              <option value="inline-block">inline-block</option>
+              <option value="flex">flex</option>
+              <option value="grid">grid</option>
+              <option value="none">none</option>
+            </select>
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>宽度</label>
+            <input type="text" id="style-width" placeholder="auto">
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>高度</label>
+            <input type="text" id="style-height" placeholder="auto">
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">间距 — Margin</h3>
+          <div class="spacing-grid">
+            <div class="spacing-item">
+              <label>上</label><input type="text" id="style-margin-top" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>右</label><input type="text" id="style-margin-right" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>下</label><input type="text" id="style-margin-bottom" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>左</label><input type="text" id="style-margin-left" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">间距 — Padding</h3>
+          <div class="spacing-grid">
+            <div class="spacing-item">
+              <label>上</label><input type="text" id="style-padding-top" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>右</label><input type="text" id="style-padding-right" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>下</label><input type="text" id="style-padding-bottom" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>左</label><input type="text" id="style-padding-left" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">文字</h3>
+          <div class="prop-row">
+            <label>字体</label>
+            <input type="text" id="style-font-family" placeholder="默认">
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>字号</label>
+            <div class="input-with-unit">
+              <input type="text" id="style-font-size" placeholder="16">
+              <select id="style-font-size-unit">
+                <option value="px">px</option>
+                <option value="rem">rem</option>
+                <option value="em">em</option>
+                <option value="%">%</option>
+              </select>
+            </div>
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>字重</label>
+            <select id="style-font-weight">
+              <option value="">默认</option>
+              <option value="300">300 Light</option>
+              <option value="400">400 Normal</option>
+              <option value="500">500 Medium</option>
+              <option value="600">600 Semibold</option>
+              <option value="700">700 Bold</option>
+              <option value="800">800 Extrabold</option>
+              <option value="900">900 Black</option>
+            </select>
+          </div>
+          <div class="prop-row">
+            <label>文字颜色</label>
+            <div class="color-picker-row">
+              <input type="color" id="style-color">
+              <input type="text" id="style-color-hex" placeholder="#1d1d1f">
+            </div>
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>行高</label>
+            <input type="text" id="style-line-height" placeholder="1.5">
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>对齐</label>
+            <select id="style-text-align">
+              <option value="">默认</option>
+              <option value="left">左</option>
+              <option value="center">中</option>
+              <option value="right">右</option>
+              <option value="justify">两端</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">背景</h3>
+          <div class="prop-row">
+            <label>背景色</label>
+            <div class="color-picker-row">
+              <input type="color" id="style-bg-color">
+              <input type="text" id="style-bg-color-hex" placeholder="transparent">
+            </div>
+          </div>
+          <div class="prop-row">
+            <label>背景图片</label>
+            <input type="text" id="style-bg-image" placeholder="url(...) 或留空">
+          </div>
+          <div class="prop-row">
+            <label>渐变</label>
+            <select id="style-bg-gradient-preset" class="preset-select">
+              <option value="">无渐变</option>
+              <option value="linear-gradient(135deg, #007aff, #5856d6)">蓝紫</option>
+              <option value="linear-gradient(135deg, #ff375f, #ff9f0a)">橙红</option>
+              <option value="linear-gradient(135deg, #30d158, #5ac8fa)">绿蓝</option>
+              <option value="linear-gradient(135deg, #bf5af2, #5ac8fa)">紫青</option>
+              <option value="linear-gradient(180deg, #f5f5f7, #e5e5ea)">灰白</option>
+              <option value="linear-gradient(135deg, #f5c6a0, #f0a8b8)">蜜桃</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">边框 & 圆角</h3>
+          <div class="prop-row prop-row-half">
+            <label>边框宽</label>
+            <input type="text" id="style-border-width" placeholder="0">
+          </div>
+          <div class="prop-row prop-row-half">
+            <label>边框色</label>
+            <div class="color-picker-row">
+              <input type="color" id="style-border-color">
+              <input type="text" id="style-border-color-hex" placeholder="transparent">
+            </div>
+          </div>
+          <div class="prop-row">
+            <label>边框样式</label>
+            <select id="style-border-style">
+              <option value="">默认</option>
+              <option value="solid">实线</option>
+              <option value="dashed">虚线</option>
+              <option value="dotted">点线</option>
+              <option value="double">双线</option>
+            </select>
+          </div>
+          <div class="prop-row">
+            <label>圆角</label>
+            <input type="range" id="style-border-radius" min="0" max="60" value="0" class="slider">
+            <span class="range-val" id="border-radius-val">0px</span>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">阴影</h3>
+          <div class="spacing-grid">
+            <div class="spacing-item">
+              <label>X偏移</label><input type="text" id="style-shadow-x" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>Y偏移</label><input type="text" id="style-shadow-y" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>模糊</label><input type="text" id="style-shadow-blur" placeholder="0">
+            </div>
+            <div class="spacing-item">
+              <label>扩散</label><input type="text" id="style-shadow-spread" placeholder="0">
+            </div>
+          </div>
+          <div class="prop-row">
+            <label>阴影颜色</label>
+            <div class="color-picker-row">
+              <input type="color" id="style-shadow-color">
+              <input type="text" id="style-shadow-color-hex" placeholder="rgba(0,0,0,0.1)">
+            </div>
+          </div>
+          <div class="prop-row">
+            <label>常用预设</label>
+            <select id="style-shadow-preset" class="preset-select">
+              <option value="">自定义</option>
+              <option value="0 2px 8px rgba(0,0,0,0.06)">微阴影</option>
+              <option value="0 4px 16px rgba(0,0,0,0.08)">小阴影</option>
+              <option value="0 8px 32px rgba(0,0,0,0.10)">中阴影</option>
+              <option value="0 16px 48px rgba(0,0,0,0.12)">大阴影</option>
+              <option value="0 2px 16px rgba(126,203,161,0.15)">绿色辉光</option>
+              <option value="0 2px 16px rgba(0,122,255,0.20)">蓝色辉光</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="prop-section">
+          <h3 class="section-title">效果</h3>
+          <div class="prop-row prop-row-half">
+            <label>不透明度</label>
+            <input type="range" id="style-opacity" min="0" max="100" value="100" class="slider">
+            <span class="range-val" id="opacity-val">100%</span>
+          </div>
+          <div class="prop-row">
+            <label>过渡动画</label>
+            <input type="text" id="style-transition" placeholder="all 0.3s ease">
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS 变量面板 -->
+      <div class="panel-content hidden" id="tab-css-vars">
+        <div class="prop-section">
+          <h3 class="section-title">:root CSS 变量</h3>
+          <div id="css-vars-list">
+            <!-- JS 动态生成 -->
+          </div>
+          <button class="add-attr-btn" id="btn-add-css-var">+ 添加 CSS 变量</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 状态栏 -->
+  <footer class="statusbar">
+    <span id="status-element">未选中元素</span>
+    <span id="status-file">未保存</span>
+  </footer>
+
+  <!-- 右键菜单 (自定义) -->
+  <div class="context-menu" id="context-menu" style="display:none;">
+    <div class="ctx-item" data-action="edit-text">✏️ 编辑文本</div>
+    <div class="ctx-item" data-action="edit-html">📝 编辑 HTML</div>
+    <div class="ctx-item" data-action="duplicate">📋 复制元素</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" data-action="add-before">⬆ 在上方插入</div>
+    <div class="ctx-item" data-action="add-after">⬇ 在下方插入</div>
+    <div class="ctx-item" data-action="wrap-with">📦 包裹元素</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item ctx-danger" data-action="delete">🗑 删除元素</div>
+  </div>
+
+  <!-- 模态对话框 -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title"></h3>
+        <button class="modal-close" id="modal-close">×</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- 脚本 -->
+  <script src="component-templates.js"></script>
+  <script src="undo-manager.js"></script>
+  <script src="file-manager.js"></script>
+  <script src="canvas-bridge.js"></script>
+  <script src="components-panel.js"></script>
+  <script src="properties-panel.js"></script>
+  <script src="editor.js"></script>
+</body>
+</html>

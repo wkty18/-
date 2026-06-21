@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微信模拟器</title>
+<style>
+  :root {
+    --bg: #ededed;
+    --bg-chat: #f5f5f5;
+    --header-bg: #ededed;
+    --text-primary: #191919;
+    --text-secondary: #888;
+    --text-muted: #b0b0b0;
+    --bubble-self: #95ec69;
+    --bubble-other: #fff;
+    --border: #e0e0e0;
+    --tab-active: #07c160;
+    --tab-inactive: #999;
+    --badge: #f35353;
+    --search-bg: #e0e0e0;
+    --overlay: rgba(0,0,0,0.04);
+    --divider: #f0f0f0;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .dark {
+    --bg: #111;
+    --bg-chat: #1a1a1a;
+    --header-bg: #1a1a1a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #888;
+    --text-muted: #666;
+    --bubble-self: #2d6b3f;
+    --bubble-other: #2c2c2c;
+    --border: #2a2a2a;
+    --search-bg: #2a2a2a;
+    --overlay: rgba(255,255,255,0.03);
+    --divider: #222;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.15);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    background: #1a1a2e;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    user-select: none; -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Phone Frame */
+  .phone-wrapper {
+    position: relative;
+    padding: 18px 12px;
+    background: linear-gradient(145deg, #2d2d2d, #1a1a1a);
+    border-radius: 44px;
+    box-shadow:
+      0 0 0 2px #333,
+      0 0 0 4px #1a1a1a,
+      0 0 0 6px #2a2a2a,
+      0 20px 60px rgba(0,0,0,0.5),
+      0 8px 20px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .phone {
+    width: 375px; height: 812px;
+    background: var(--bg);
+    border-radius: 28px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+  }
+  /* Notch */
+  .notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 140px; height: 32px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+  /* Status Bar */
+  .status-bar {
+    height: 44px; padding: 14px 24px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; font-weight: 600;
+    color: var(--text-primary);
+    flex-shrink: 0;
+    position: relative; z-index: 101;
+    background: var(--header-bg); transition: background 0.3s;
+  }
+  .status-icons { display: flex; gap: 4px; align-items: center; font-size: 11px; }
+  .status-icons svg { width: 14px; height: 14px; fill: var(--text-primary); }
+  /* Dark mode toggle in status bar */
+  .dark-toggle {
+    background: none; border: 1px solid var(--border); color: var(--text-secondary);
+    font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .dark-toggle:hover { border-color: var(--tab-active); color: var(--tab-active); }
+  /* Header */
+  .app-header {
+    height: 44px; padding: 0 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-shrink: 0;
+    background: var(--header-bg); transition: background 0.3s;
+  }
+  .app-header .title {
+    font-size: 17px; font-weight: 600; color: var(--text-primary);
+    transition: color 0.3s;
+  }
+  .app-header .actions { display: flex; gap: 16px; }
+  .app-header .actions svg { width: 20px; height: 20px; fill: var(--text-primary); cursor: pointer; transition: opacity 0.15s; }
+  .app-header .actions svg:hover { opacity: 0.7; }
+  /* Search Bar */
+  .search-bar-wrap { padding: 0 16px 8px; background: var(--header-bg); transition: background 0.3s; flex-shrink: 0; }
+  .search-bar {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--search-bg); border-radius: 8px;
+    padding: 8px 12px; transition: background 0.3s;
+  }
+  .search-bar svg { width: 14px; height: 14px; fill: var(--text-muted); flex-shrink: 0; }
+  .search-bar span { font-size: 14px; color: var(--text-muted); transition: color 0.3s; }
+  /* Content Area */
+  .content-area { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .content-area::-webkit-scrollbar { width: 0; }
+  /* Tab Content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  /* Chat List */
+  .chat-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+  .chat-item:active { background: var(--overlay); }
+  .chat-item .avatar {
+    width: 48px; height: 48px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: #fff; font-weight: 600;
+  }
+  .chat-item .info { flex: 1; min-width: 0; }
+  .chat-item .info .top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .chat-item .info .name { font-size: 16px; color: var(--text-primary); font-weight: 500; transition: color 0.3s; }
+  .chat-item .info .time { font-size: 12px; color: var(--text-muted); flex-shrink: 0; transition: color 0.3s; }
+  .chat-item .info .preview { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s; }
+  .chat-item .badge {
+    min-width: 18px; height: 18px; padding: 0 5px;
+    background: var(--badge); color: #fff; font-size: 11px;
+    border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    position: absolute; top: 30px; right: 16px;
+    font-weight: 500;
+  }
+  /* Chat View */
+  .chat-header {
+    height: 44px; padding: 0 60px 0 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; position: relative;
+    background: var(--header-bg); transition: background 0.3s;
+    border-bottom: 1px solid var(--border); transition: border-color 0.3s;
+  }
+  .chat-header .back {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .chat-header .back svg { width: 22px; height: 22px; fill: var(--text-primary); }
+  .chat-header .chat-title { font-size: 17px; font-weight: 600; color: var(--text-primary); transition: color 0.3s; }
+  .messages-area {
+    flex: 1; overflow-y: auto; padding: 12px 16px;
+    background: var(--bg-chat); transition: background 0.3s;
+    display: flex; flex-direction: column;
+    gap: 8px;
+  }
+  .messages-area::-webkit-scrollbar { width: 0; }
+  .msg-time-label { text-align: center; font-size: 11px; color: var(--text-muted); padding: 8px 0; transition: color 0.3s; }
+  .msg-row { display: flex; align-items: flex-start; gap: 8px; max-width: 75%; }
+  .msg-row.self { align-self: flex-end; flex-direction: row-reverse; }
+  .msg-row .msg-avatar {
+    width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: #fff; font-weight: 600;
+  }
+  .msg-row.self .msg-avatar { display: none; }
+  .msg-bubble {
+    padding: 9px 13px; border-radius: 6px;
+    font-size: 15px; line-height: 1.5; word-break: break-word;
+    position: relative;
+    color: var(--text-primary); transition: background 0.3s, color 0.3s;
+  }
+  .msg-row.other .msg-bubble { background: var(--bubble-other); }
+  .msg-row.self .msg-bubble { background: var(--bubble-self); color: #191919; }
+  .dark .msg-row.self .msg-bubble { color: #e8e8e8; }
+  .msg-bubble::before {
+    content: ''; position: absolute; top: 10px;
+    width: 0; height: 0;
+    border: 5px solid transparent;
+  }
+  .msg-row.other .msg-bubble::before {
+    left: -8px; border-right-color: var(--bubble-other);
+    border-left: none; transition: border-color 0.3s;
+  }
+  .msg-row.self .msg-bubble::before {
+    right: -8px; border-left-color: var(--bubble-self);
+    border-right: none; transition: border-color 0.3s;
+  }
+  /* Input Area */
+  .input-area {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; flex-shrink: 0;
+    background: var(--header-bg); transition: background 0.3s;
+    border-top: 1px solid var(--border); transition: border-color 0.3s;
+  }
+  .input-area .input-extra { display: flex; gap: 4px; }
+  .input-area .input-extra svg { width: 24px; height: 24px; fill: var(--text-secondary); cursor: pointer; transition: fill 0.15s; }
+  .input-area .input-extra svg:hover { fill: var(--tab-active); }
+  .input-area input {
+    flex: 1; padding: 9px 12px; border: none; border-radius: 6px;
+    font-size: 15px; outline: none;
+    background: var(--search-bg); color: var(--text-primary);
+    transition: background 0.3s, color 0.3s;
+  }
+  .input-area input::placeholder { color: var(--text-muted); }
+  .input-area .send-btn {
+    background: var(--tab-active); color: #fff; border: none;
+    padding: 9px 16px; border-radius: 6px; font-size: 14px;
+    cursor: pointer; font-weight: 500; transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .input-area .send-btn:hover { opacity: 0.85; }
+  .input-area .send-btn:active { opacity: 0.7; }
+  /* Bottom Nav */
+  .bottom-nav {
+    display: flex; height: 50px; flex-shrink: 0;
+    background: var(--header-bg); transition: background 0.3s;
+    border-top: 1px solid var(--border); transition: border-color 0.3s;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; transition: color 0.2s; gap: 2px;
+    position: relative;
+  }
+  .nav-item svg { width: 22px; height: 22px; fill: var(--tab-inactive); transition: fill 0.2s; }
+  .nav-item span { font-size: 10px; color: var(--tab-inactive); transition: color 0.2s; }
+  .nav-item.active svg { fill: var(--tab-active); }
+  .nav-item.active span { color: var(--tab-active); }
+  .nav-item .nav-badge {
+    position: absolute; top: 2px; right: 50%;
+    transform: translateX(130%);
+    min-width: 16px; height: 16px; padding: 0 4px;
+    background: var(--badge); color: #fff; font-size: 10px;
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+  /* Contacts */
+  .contact-item {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .contact-item:active { background: var(--overlay); }
+  .contact-item .avatar {
+    width: 44px; height: 44px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #fff; font-weight: 600;
+  }
+  .contact-item .contact-name { font-size: 16px; color: var(--text-primary); font-weight: 500; }
+  .contact-section-header { padding: 8px 16px; font-size: 12px; color: var(--text-muted); background: var(--bg); }
+  /* Discover */
+  .discover-item {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+    cursor: pointer; transition: background 0.15s;
+    border-bottom: 1px solid var(--divider);
+  }
+  .discover-item:active { background: var(--overlay); }
+  .discover-item .icon {
+    width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .discover-item .info { flex: 1; }
+  .discover-item .info .label { font-size: 16px; color: var(--text-primary); }
+  .discover-item .info .sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .discover-item .arrow { color: var(--text-muted); font-size: 14px; }
+  /* Me */
+  .profile-card {
+    display: flex; align-items: center; gap: 16px; padding: 20px 16px;
+    cursor: pointer;
+  }
+  .profile-card:active { background: var(--overlay); }
+  .profile-card .avatar {
+    width: 64px; height: 64px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; color: #fff; font-weight: 600;
+  }
+  .profile-card .info .name { font-size: 20px; color: var(--text-primary); font-weight: 600; }
+  .profile-card .info .wxid { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .profile-card .arrow { color: var(--text-muted); margin-left: auto; }
+  .me-item {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+    cursor: pointer; transition: background 0.15s;
+    border-bottom: 1px solid var(--divider);
+  }
+  .me-item:active { background: var(--overlay); }
+  .me-item .icon {
+    width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .me-item .label { flex: 1; font-size: 16px; color: var(--text-primary); }
+  .me-item .arrow { color: var(--text-muted); font-size: 14px; }
+  /* Animations */
+  @keyframes msgIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .msg-row { animation: msgIn 0.25s ease-out; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  .tab-content.active { animation: slideIn 0.2s ease-out; }
+  /* Responsive on small screens */
+  @media (max-width: 420px) {
+    .phone-wrapper { padding: 0; background: none; border-radius: 0; box-shadow: none; }
+    .phone { width: 100vw; height: 100vh; border-radius: 0; }
+  }
+</style>
+</head>
+<body class="">
+
+<div class="phone-wrapper">
+<div class="phone" id="app">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <button class="dark-toggle" onclick="toggleDark()" title="切换暗色模式">🌙</button>
+    <div class="status-icons">
+      <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C17.93 4.07 6.07 4.07 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-6-6l2 2c2.76-2.76 7.24-2.76 10 0l2-2C13.14 7.14 5.86 7.14 3 11z"/></svg>
+      <span style="font-size:12px">▮▮▮▮</span>
+    </div>
+  </div>
+
+  <!-- Main Screen -->
+  <div style="display:flex;flex-direction:column;flex:1;overflow:hidden" id="mainScreen">
+    <!-- Chat List Header -->
+    <div class="app-header" id="listHeader">
+      <span class="title">微信</span>
+      <div class="actions">
+        <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 8c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2H9zm-3-3v-3h3v-2H6V7H4v3H1v2h3v3z"/></svg>
+      </div>
+    </div>
+
+    <!-- Chat Header (hidden by default) -->
+    <div class="chat-header" id="chatHeader" style="display:none">
+      <button class="back" onclick="goBack()">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <span class="chat-title" id="chatTitle"></span>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar-wrap" id="searchWrap">
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <span>搜索</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-area" id="contentArea">
+      <!-- Tab: Chats -->
+      <div class="tab-content active" id="tab-chats">
+        <div id="chatList"></div>
+      </div>
+      <!-- Tab: Contacts -->
+      <div class="tab-content" id="tab-contacts">
+        <div id="contactList"></div>
+      </div>
+      <!-- Tab: Discover -->
+      <div class="tab-content" id="tab-discover">
+        <div id="discoverList"></div>
+      </div>
+      <!-- Tab: Me -->
+      <div class="tab-content" id="tab-me">
+        <div id="meContent"></div>
+      </div>
+    </div>
+
+    <!-- Chat Messages (hidden by default) -->
+    <div class="messages-area" id="messagesArea" style="display:none"></div>
+
+    <!-- Chat Input (hidden by default) -->
+    <div class="input-area" id="inputArea" style="display:none">
+      <div class="input-extra">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+      </div>
+      <input type="text" id="msgInput" placeholder="输入消息..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="send-btn" onclick="sendMsg()">发送</button>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav" id="bottomNav">
+      <div class="nav-item active" data-tab="chats" onclick="switchTab('chats')">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg>
+        <span>微信</span>
+        <div class="nav-badge">3</div>
+      </div>
+      <div class="nav-item" data-tab="contacts" onclick="switchTab('contacts')">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span>通讯录</span>
+      </div>
+      <div class="nav-item" data-tab="discover" onclick="switchTab('discover')">
+        <svg viewBox="0 0 24 24"><path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/></svg>
+        <span>发现</span>
+        <div class="nav-badge" style="min-width:8px;height:8px;padding:0;border-radius:50%;top:4px;"></div>
+      </div>
+      <div class="nav-item" data-tab="me" onclick="switchTab('me')">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <span>我</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// ============ DATA ============
+const AVATARS = [
+  'linear-gradient(135deg,#ff6b6b,#ee5a24)', // 红
+  'linear-gradient(135deg,#ffa502,#ff6348)', // 橙
+  'linear-gradient(135deg,#ffd32a,#f9ca24)', // 黄
+  'linear-gradient(135deg,#7bed9f,#2ed573)', // 绿
+  'linear-gradient(135deg,#70a1ff,#1e90ff)', // 蓝
+  'linear-gradient(135deg,#5352ed,#3742fa)', // 靛
+  'linear-gradient(135deg,#a55eea,#8854d0)', // 紫
+  'linear-gradient(135deg,#ff6b81,#ff4757)', // 粉
+  'linear-gradient(135deg,#26de81,#20bf6b)', // 翠
+  'linear-gradient(135deg,#2bcbba,#0fb9b1)', // 青
+];
+
+const ME = { name: 'RadiantSoul', wxid: 'wxid_radiant2024', avatar: AVATARS[3] };
+
+const CONTACTS = [
+  { id: 'c1', name: '妈妈', avatar: AVATARS[6], lastMsg: '好的，周末回家吃饭', time: '18:30', badge: 0, msgs: [
+    { from:'other', text:'儿子，这周末回来吃饭吗？', time:'17:20' },
+    { from:'other', text:'我包了你爱吃的饺子🥟', time:'17:21' },
+    { from:'self', text:'好的妈，周六中午回去', time:'18:25' },
+    { from:'other', text:'好的，周末回家吃饭', time:'18:30' },
+  ]},
+  { id: 'c2', name: '张伟 (产品经理)', avatar: AVATARS[0], lastMsg: '收到，明天给你方案', time: '17:45', badge: 5, msgs: [
+    { from:'other', text:'Radiant，那个新功能的需求文档更新好了吗？', time:'15:00' },
+    { from:'self', text:'还在改，今天下班前给你', time:'15:10' },
+    { from:'other', text:'好的，尽快哈，老板在催', time:'15:12' },
+    { from:'other', text:'对了，UI那边说要确认一下图标方案', time:'16:30' },
+    { from:'other', text:'你看看这几个哪个合适', time:'16:31' },
+    { from:'other', text:'[图片]', time:'16:31' },
+    { from:'self', text:'第三个吧，简洁大气', time:'17:20' },
+    { from:'other', text:'收到，明天给你方案', time:'17:45' },
+  ]},
+  { id: 'c3', name: '李思涵', avatar: AVATARS[4], lastMsg: '哈哈哈笑死我了🤣', time: '16:20', badge: 0, msgs: [
+    { from:'self', text:'给你看个好东西', time:'16:10' },
+    { from:'self', text:'[搞笑视频]', time:'16:10' },
+    { from:'other', text:'哈哈哈笑死我了🤣', time:'16:20' },
+    { from:'other', text:'这猫也太聪明了吧', time:'16:21' },
+  ]},
+  { id: 'c4', name: '技术交流群', avatar: AVATARS[2], lastMsg: '有人用过Flutter吗？', time: '15:50', badge: 99, msgs: [
+    { from:'other', text:'老铁们，有人用过Flutter吗？', time:'15:30', sender:'码农小李' },
+    { from:'other', text:'用过，跨平台还行，但有些坑', time:'15:32', sender:'全栈老王' },
+    { from:'self', text:'我们项目在用，性能比RN好一些', time:'15:35' },
+    { from:'other', text:'有没有好的状态管理方案推荐？', time:'15:38', sender:'前端阿杰' },
+    { from:'other', text:'Riverpod，直接上，别问', time:'15:40', sender:'Flutter大佬' },
+    { from:'other', text:'+1 Riverpod确实香', time:'15:42', sender:'移动端小陈' },
+    { from:'other', text:'Provider不够用吗？', time:'15:45', sender:'新人小白' },
+    { from:'other', text:'Provider已经过时了兄弟，醒醒', time:'15:50', sender:'Flutter大佬' },
+  ]},
+  { id: 'c5', name: '陈晓雨', avatar: AVATARS[7], lastMsg: '嗯嗯，晚安~', time: '昨天', badge: 0, msgs: [
+    { from:'other', text:'今天加班了吗？', time:'21:00' },
+    { from:'self', text:'刚到家，累死了😩', time:'21:15' },
+    { from:'other', text:'辛苦了，早点休息吧', time:'21:16' },
+    { from:'other', text:'明天给你带早餐？', time:'21:17' },
+    { from:'self', text:'好呀！要豆浆油条', time:'21:20' },
+    { from:'other', text:'嗯嗯，晚安~', time:'21:22' },
+  ]},
+  { id: 'c6', name: '项目组 (8人)', avatar: AVATARS[8], lastMsg: '明天10点会议室302', time: '昨天', badge: 2, msgs: [
+    { from:'other', text:'@所有人 明天晨会改到10点了', time:'19:00', sender:'项目经理' },
+    { from:'other', text:'收到', time:'19:01', sender:'后端小赵' },
+    { from:'self', text:'好的，会把周报带上', time:'19:05' },
+    { from:'other', text:'明天10点会议室302，别走错了', time:'19:10', sender:'项目经理' },
+  ]},
+  { id: 'c7', name: '王大力 (健身搭子)', avatar: AVATARS[5], lastMsg: '明天练腿，别鸽啊', time: '昨天', badge: 0, msgs: [
+    { from:'other', text:'明天去不去健身房？', time:'16:00' },
+    { from:'self', text:'去啊，什么部位', time:'16:05' },
+    { from:'other', text:'明天练腿，别鸽啊', time:'16:08' },
+    { from:'self', text:'...每次练完腿都废三天', time:'16:10' },
+    { from:'other', text:'💪就是要这个效果', time:'16:11' },
+  ]},
+  { id: 'c8', name: '快递小哥', avatar: AVATARS[1], lastMsg: '快递放门口了', time: '周一', badge: 0, msgs: [
+    { from:'other', text:'您好，有您的快递', time:'14:00' },
+    { from:'self', text:'好的，放门口就行', time:'14:02' },
+    { from:'other', text:'快递放门口了', time:'14:05' },
+  ]},
+];
+
+// ============ STATE ============
+let currentTab = 'chats';
+let currentChatId = null;
+
+// ============ RENDER ============
+function getInitial(name) { return name.charAt(0); }
+
+function renderChatList() {
+  const container = document.getElementById('chatList');
+  container.innerHTML = CONTACTS.map(c => `
+    <div class="chat-item" onclick="openChat('${c.id}')">
+      <div class="avatar" style="background:${c.avatar}">${getInitial(c.name)}</div>
+      <div class="info">
+        <div class="top">
+          <span class="name">${c.name}</span>
+          <span class="time">${c.time}</span>
+        </div>
+        <div class="preview">${c.lastMsg}</div>
+      </div>
+      ${c.badge > 0 ? `<div class="badge">${c.badge > 99 ? '99+' : c.badge}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function renderContacts() {
+  const container = document.getElementById('contactList');
+  const groups = [
+    { letter: '⭐', items: [
+      { name: '新的朋友', icon: AVATARS[0], initial: '新' },
+      { name: '群聊', icon: AVATARS[2], initial: '群' },
+      { name: '标签', icon: AVATARS[9], initial: '标' },
+      { name: '公众号', icon: AVATARS[8], initial: '公' },
+    ]},
+    { letter: 'C', items: [{ name: '陈晓雨', icon: AVATARS[7], initial: '陈' }]},
+    { letter: 'J', items: [{ name: '技术交流群', icon: AVATARS[2], initial: '技' }]},
+    { letter: 'K', items: [{ name: '快递小哥', icon: AVATARS[1], initial: '快' }]},
+    { letter: 'L', items: [{ name: '李思涵', icon: AVATARS[4], initial: '李' }]},
+    { letter: 'M', items: [{ name: '妈妈', icon: AVATARS[6], initial: '妈' }]},
+    { letter: 'W', items: [{ name: '王大力 (健身搭子)', icon: AVATARS[5], initial: '王' }]},
+    { letter: 'X', items: [{ name: '项目组 (8人)', icon: AVATARS[8], initial: '项' }]},
+    { letter: 'Z', items: [{ name: '张伟 (产品经理)', icon: AVATARS[0], initial: '张' }]},
+  ];
+  container.innerHTML = groups.map(g => `
+    <div class="contact-section-header">${g.letter}</div>
+    ${g.items.map(c => `
+      <div class="contact-item">
+        <div class="avatar" style="background:${c.icon}">${c.initial}</div>
+        <span class="contact-name">${c.name}</span>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function renderDiscover() {
+  const container = document.getElementById('discoverList');
+  const items = [
+    { icon: 'linear-gradient(135deg,#70a1ff,#1e90ff)', label: '朋友圈', sub: '', dot: true },
+    { icon: 'linear-gradient(135deg,#ffa502,#ff6348)', label: '视频号', sub: '', dot: false },
+    { icon: 'linear-gradient(135deg,#7bed9f,#2ed573)', label: '扫一扫', sub: '', dot: false },
+    { icon: 'linear-gradient(135deg,#ff6b81,#ff4757)', label: '摇一摇', sub: '', dot: false },
+    { icon: 'linear-gradient(135deg,#a55eea,#8854d0)', label: '看一看', sub: '', dot: false },
+    { icon: 'linear-gradient(135deg,#5352ed,#3742fa)', label: '搜一搜', sub: '', dot: false },
+    { icon: 'linear-gradient(135deg,#2bcbba,#0fb9b1)', label: '小程序', sub: '', dot: false },
+  ];
+  container.innerHTML = items.map(i => `
+    <div class="discover-item">
+      <div class="icon" style="background:${i.icon}"></div>
+      <div class="info">
+        <div class="label">${i.label}</div>
+        ${i.sub ? `<div class="sub">${i.sub}</div>` : ''}
+      </div>
+      ${i.dot ? '<div style="width:8px;height:8px;background:#f35353;border-radius:50%;margin-right:4px;" title="有新内容"></div>' : ''}
+      <span class="arrow">›</span>
+    </div>
+  `).join('');
+}
+
+function renderMe() {
+  const container = document.getElementById('meContent');
+  container.innerHTML = `
+    <div class="profile-card">
+      <div class="avatar" style="background:${ME.avatar}">${getInitial(ME.name)}</div>
+      <div class="info">
+        <div class="name">${ME.name}</div>
+        <div class="wxid">微信号：${ME.wxid}</div>
+      </div>
+      <span class="arrow">›</span>
+    </div>
+    <div class="me-item">
+      <div class="icon" style="background:linear-gradient(135deg,#7bed9f,#2ed573)"></div>
+      <span class="label">支付</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="me-item">
+      <div class="icon" style="background:linear-gradient(135deg,#70a1ff,#1e90ff)"></div>
+      <span class="label">收藏</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="me-item">
+      <div class="icon" style="background:linear-gradient(135deg,#ffd32a,#f9ca24)"></div>
+      <span class="label">相册</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="me-item">
+      <div class="icon" style="background:linear-gradient(135deg,#ff6b81,#ff4757)"></div>
+      <span class="label">卡包</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="me-item">
+      <div class="icon" style="background:linear-gradient(135deg,#a55eea,#8854d0)"></div>
+      <span class="label">表情</span>
+      <span class="arrow">›</span>
+    </div>
+    <div style="margin-top:8px">
+      <div class="me-item">
+        <div class="icon" style="background:linear-gradient(135deg,#5352ed,#3742fa)"></div>
+        <span class="label">设置</span>
+        <span class="arrow">›</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderChatMessages(contact) {
+  const container = document.getElementById('messagesArea');
+  let lastTime = '';
+  container.innerHTML = contact.msgs.map((m, i) => {
+    const showTime = m.time !== lastTime;
+    lastTime = m.time;
+    return (showTime ? `<div class="msg-time-label">${m.time}</div>` : '') + `
+      <div class="msg-row ${m.from === 'self' ? 'self' : 'other'}" style="animation-delay:${i*0.03}s">
+        <div class="msg-avatar" style="background:${contact.avatar}">${getInitial(m.sender || contact.name)}</div>
+        <div>
+          ${m.sender ? `<div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">${m.sender}</div>` : ''}
+          <div class="msg-bubble">${m.text}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+// ============ ACTIONS ============
+function openChat(id) {
+  const contact = CONTACTS.find(c => c.id === id);
+  if (!contact) return;
+  currentChatId = id;
+  document.getElementById('chatTitle').textContent = contact.name;
+  // Toggle visibility
+  document.getElementById('listHeader').style.display = 'none';
+  document.getElementById('searchWrap').style.display = 'none';
+  document.getElementById('contentArea').style.display = 'none';
+  document.getElementById('chatHeader').style.display = 'flex';
+  document.getElementById('messagesArea').style.display = 'flex';
+  document.getElementById('inputArea').style.display = 'flex';
+  // Clear badge
+  contact.badge = 0;
+  renderChatMessages(contact);
+  renderChatList();
+}
+
+function goBack() {
+  currentChatId = null;
+  document.getElementById('listHeader').style.display = 'flex';
+  document.getElementById('searchWrap').style.display = 'block';
+  document.getElementById('contentArea').style.display = 'block';
+  document.getElementById('chatHeader').style.display = 'none';
+  document.getElementById('messagesArea').style.display = 'none';
+  document.getElementById('inputArea').style.display = 'none';
+  refreshCurrentTab();
+}
+
+function sendMsg() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text || !currentChatId) return;
+  const contact = CONTACTS.find(c => c.id === currentChatId);
+  if (!contact) return;
+  const now = new Date();
+  const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  contact.msgs.push({ from: 'self', text, time });
+  contact.lastMsg = text;
+  contact.time = time;
+  input.value = '';
+  renderChatMessages(contact);
+  renderChatList();
+  // Auto reply
+  setTimeout(() => {
+    const replies = [
+      '嗯嗯好的', '收到！', '哈哈', '👍', '这个可以有', '回头聊',
+      '不错不错', '行吧', '我去', '笑死', '厉害了', 'OK~',
+    ];
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+    const replyTime = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    contact.msgs.push({ from: 'other', text: reply, time: replyTime, sender: contact.name });
+    contact.lastMsg = reply;
+    contact.time = replyTime;
+    renderChatMessages(contact);
+    renderChatList();
+  }, 800 + Math.random() * 1200);
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.toggle('active', t.id === `tab-${tab}`));
+  // Ensure chat view is hidden
+  if (currentChatId) goBack();
+}
+
+function refreshCurrentTab() {
+  switch (currentTab) {
+    case 'chats': renderChatList(); break;
+    case 'contacts': renderContacts(); break;
+    case 'discover': renderDiscover(); break;
+    case 'me': renderMe(); break;
+  }
+}
+
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  const btn = document.querySelector('.dark-toggle');
+  btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+}
+
+// ============ INIT ============
+renderChatList();
+renderContacts();
+renderDiscover();
+renderMe();
+</script>
+</body>
+</html>

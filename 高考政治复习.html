@@ -1,0 +1,2643 @@
+<!--
+  高考政治 · 必修4 + 选必3 · 复习系统
+  Designed with care — 墨韵书香 · Jade Ink
+  24 pages of comprehensive review content
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高考政治 · 必修4 + 选必3 · 复习系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+/* ============ CSS CUSTOM PROPERTIES ============ */
+:root {
+  --ink: #2c2416;
+  --ink-light: #5c5240;
+  --ink-lighter: #8c8070;
+  --paper: #faf8f3;
+  --paper-warm: #f5f0e8;
+  --jade: #5b8c5a;
+  --jade-light: #e8f0e4;
+  --jade-dark: #3d6b3c;
+  --gold: #b8860b;
+  --gold-light: #fdf0d0;
+  --cinnabar: #c44d34;
+  --cinnabar-light: #fce8e3;
+  --sky: #6b9ac4;
+  --sky-light: #e8f0f8;
+  --plum: #8b5e8b;
+  --plum-light: #f0e8f0;
+  --shadow-sm: 0 1px 3px rgba(44,36,22,0.06), 0 1px 2px rgba(44,36,22,0.04);
+  --shadow-md: 0 4px 16px rgba(44,36,22,0.08), 0 2px 4px rgba(44,36,22,0.04);
+  --shadow-lg: 0 12px 40px rgba(44,36,22,0.12), 0 4px 12px rgba(44,36,22,0.06);
+  --shadow-xl: 0 20px 60px rgba(44,36,22,0.16), 0 8px 20px rgba(44,36,22,0.08);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --transition-fast: 0.2s cubic-bezier(0.4,0,0.2,1);
+  --transition-smooth: 0.4s cubic-bezier(0.4,0,0.2,1);
+  --transition-spring: 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  --font-display: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-accent: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
+}
+
+/* ============ RESET & BASE ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ============ PARTICLE CANVAS ============ */
+#particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ============ BACKGROUND TEXTURE ============ */
+.bg-texture {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(91,140,90,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(184,134,11,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(107,154,196,0.03) 0%, transparent 60%),
+    linear-gradient(180deg, #faf8f3 0%, #f5f0e8 50%, #faf8f3 100%);
+}
+
+/* ============ TOP BAR ============ */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(250,248,243,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(44,36,22,0.06);
+}
+
+.top-bar-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-bar-title .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--jade);
+  box-shadow: 0 0 8px rgba(91,140,90,0.4);
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(44,36,22,0.1);
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  color: var(--ink-light);
+  font-size: 1.1rem;
+  backdrop-filter: blur(10px);
+}
+.top-btn:hover {
+  background: var(--jade-light);
+  border-color: var(--jade);
+  color: var(--jade-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.top-btn.active {
+  background: var(--jade);
+  border-color: var(--jade);
+  color: white;
+}
+
+/* ============ MAIN CONTAINER ============ */
+.main-container {
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 2000px;
+}
+
+/* ============ PAGE STACK ============ */
+.page-stack {
+  position: relative;
+  width: min(92vw, 1100px);
+  height: calc(100vh - 120px);
+  max-height: 820px;
+}
+
+.page {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(44,36,22,0.08);
+  box-shadow: var(--shadow-lg);
+  padding: 36px 40px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 0;
+  transform: translateX(60px) scale(0.96);
+  pointer-events: none;
+  transition: all 0.55s cubic-bezier(0.4,0,0.2,1);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(44,36,22,0.15) transparent;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: all;
+}
+
+.page.exit-left {
+  opacity: 0;
+  transform: translateX(-40px) scale(0.94);
+}
+
+.page.exit-right {
+  opacity: 0;
+  transform: translateX(80px) scale(0.92);
+}
+
+.page::-webkit-scrollbar { width: 5px; }
+.page::-webkit-scrollbar-track { background: transparent; }
+.page::-webkit-scrollbar-thumb { background: rgba(44,36,22,0.12); border-radius: 10px; }
+.page::-webkit-scrollbar-thumb:hover { background: rgba(44,36,22,0.22); }
+
+/* ============ PAGE HEADER ============ */
+.page-header {
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.page-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+  font-family: var(--font-body);
+}
+
+.badge-philosophy { background: var(--jade-light); color: var(--jade-dark); }
+.badge-culture { background: var(--gold-light); color: #8b6914; }
+.badge-logic { background: var(--sky-light); color: #3d6b9e; }
+.badge-template { background: var(--cinnabar-light); color: var(--cinnabar); }
+.badge-predict { background: var(--plum-light); color: var(--plum); }
+.badge-tips { background: #f0e8d8; color: #8b6914; }
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.page-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--ink-lighter);
+  margin-top: 6px;
+  font-weight: 400;
+}
+
+.page-decoration {
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--jade));
+  opacity: 0.5;
+}
+
+/* ============ CONTENT CARDS ============ */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.content-card {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(44,36,22,0.06);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.content-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(44,36,22,0.12);
+}
+
+.content-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.card-jade::before { background: var(--jade); }
+.card-gold::before { background: var(--gold); }
+.card-sky::before { background: var(--sky); }
+.card-cinnabar::before { background: var(--cinnabar); }
+.card-plum::before { background: var(--plum); }
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.card-text {
+  font-size: 0.88rem;
+  color: var(--ink-light);
+  line-height: 1.7;
+}
+
+.card-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.tag-key { background: var(--cinnabar-light); color: var(--cinnabar); }
+.tag-method { background: var(--jade-light); color: var(--jade-dark); }
+.tag-compare { background: var(--gold-light); color: #8b6914; }
+.tag-exam { background: #f0e0f0; color: var(--plum); }
+
+/* ============ KNOWLEDGE LIST ============ */
+.knowledge-list {
+  list-style: none;
+  padding: 0;
+}
+
+.knowledge-list li {
+  padding: 10px 16px;
+  margin-bottom: 6px;
+  background: rgba(255,255,255,0.5);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(44,36,22,0.04);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-light);
+  transition: all var(--transition-fast);
+  cursor: default;
+  position: relative;
+  padding-left: 36px;
+}
+
+.knowledge-list li::before {
+  content: '';
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--jade);
+  opacity: 0.6;
+}
+
+.knowledge-list li:hover {
+  background: rgba(255,255,255,0.8);
+  border-color: rgba(44,36,22,0.1);
+  box-shadow: var(--shadow-sm);
+}
+
+.knowledge-list li strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ============ HIGHLIGHT BOX ============ */
+.highlight-box {
+  padding: 18px 22px;
+  border-radius: var(--radius-md);
+  margin: 16px 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  position: relative;
+  border-left: 4px solid;
+}
+
+.highlight-box h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.hl-green { background: var(--jade-light); border-color: var(--jade); }
+.hl-green h4 { color: var(--jade-dark); }
+.hl-gold { background: var(--gold-light); border-color: var(--gold); }
+.hl-gold h4 { color: #8b6914; }
+.hl-red { background: var(--cinnabar-light); border-color: var(--cinnabar); }
+.hl-red h4 { color: var(--cinnabar); }
+.hl-blue { background: var(--sky-light); border-color: var(--sky); }
+.hl-blue h4 { color: #3d6b9e; }
+
+/* ============ COMPARISON TABLE ============ */
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 12px 0;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(44,36,22,0.08);
+}
+
+.compare-table th {
+  background: rgba(44,36,22,0.04);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+.compare-table td {
+  padding: 10px 14px;
+  border-top: 1px solid rgba(44,36,22,0.05);
+  color: var(--ink-light);
+  line-height: 1.6;
+}
+
+.compare-table tr:hover td {
+  background: rgba(91,140,90,0.03);
+}
+
+/* ============ FORMULA BOX ============ */
+.formula-box {
+  display: inline-block;
+  background: linear-gradient(135deg, #faf8f3, #f0ece4);
+  border: 1.5px solid rgba(184,134,11,0.3);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-family: var(--font-accent);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: #8b6914;
+  margin: 4px;
+}
+
+/* ============ NAVIGATION BAR ============ */
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 20px;
+  background: rgba(250,248,243,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(44,36,22,0.06);
+}
+
+.nav-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(44,36,22,0.12);
+  background: rgba(255,255,255,0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  color: var(--ink);
+  font-size: 1.2rem;
+  backdrop-filter: blur(10px);
+}
+.nav-btn:hover {
+  background: var(--jade);
+  border-color: var(--jade);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(91,140,90,0.3);
+}
+.nav-btn:active { transform: scale(0.95); }
+
+.page-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  min-width: 100px;
+  justify-content: center;
+}
+
+.page-indicator .current {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.page-indicator .sep {
+  color: var(--ink-lighter);
+  margin: 0 2px;
+}
+
+/* ============ PAGE DOTS ============ */
+.page-dots {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 300px;
+}
+
+.page-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(44,36,22,0.15);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.page-dot:hover { background: var(--jade); transform: scale(1.3); }
+.page-dot.active { background: var(--jade); width: 20px; border-radius: 10px; }
+.page-dot.special { background: var(--cinnabar); }
+.page-dot.special.active { background: var(--cinnabar); }
+
+/* ============ TABLE OF CONTENTS OVERLAY ============ */
+.toc-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 200;
+  background: rgba(44,36,22,0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.toc-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.toc-panel {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(30px);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(44,36,22,0.08);
+  box-shadow: var(--shadow-xl);
+  padding: 32px;
+  width: min(90vw, 700px);
+  max-height: 80vh;
+  overflow-y: auto;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.toc-overlay.open .toc-panel {
+  transform: translateY(0) scale(1);
+}
+
+.toc-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--ink);
+}
+
+.toc-section {
+  margin-bottom: 20px;
+}
+
+.toc-section-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--jade-dark);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(44,36,22,0.06);
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.88rem;
+  color: var(--ink-light);
+}
+
+.toc-item:hover {
+  background: var(--jade-light);
+  color: var(--ink);
+}
+
+.toc-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--jade-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--jade-dark);
+  flex-shrink: 0;
+}
+
+.toc-item.special .toc-num { background: var(--cinnabar-light); color: var(--cinnabar); }
+
+/* ============ COVER PAGE ============ */
+.cover-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.cover-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--jade-dark) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cover-subtitle {
+  font-family: var(--font-accent);
+  font-size: 1.15rem;
+  color: var(--ink-lighter);
+  margin-bottom: 28px;
+  letter-spacing: 0.08em;
+}
+
+.cover-features {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cover-feat {
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 24px;
+  border: 1px solid rgba(44,36,22,0.08);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  font-family: var(--font-body);
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* ============ CHAPTER DIVIDER ============ */
+.chapter-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0 16px;
+}
+
+.chapter-divider::before,
+.chapter-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(44,36,22,0.12), transparent);
+}
+
+.chapter-label {
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  color: var(--ink-lighter);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* ============ BRAND LOGO ============ */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  transition: all var(--transition-spring);
+  padding: 4px 0;
+}
+.brand-logo:hover { transform: scale(1.04); }
+.brand-logo:active { transform: scale(0.96); }
+
+.crown-icon {
+  position: relative;
+  width: 36px; height: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.crown-base {
+  width: 34px; height: 14px;
+  background: linear-gradient(180deg, #e2b04a 0%, #b8860b 50%, #8b6914 100%);
+  border-radius: 3px 3px 0 0;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(184,134,11,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.crown-spike {
+  position: absolute;
+  bottom: 14px;
+  width: 0; height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 14px solid #d4a030;
+  filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.15));
+}
+.crown-spike.left { left: 2px; }
+.crown-spike.center { left: 50%; transform: translateX(-50%); border-bottom-width: 18px; border-left-width: 8px; border-right-width: 8px; border-bottom-color: #e2b04a; }
+.crown-spike.right { right: 2px; }
+
+.crown-diamond {
+  position: absolute;
+  top: -6px; left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 7px; height: 7px;
+  background: #f0d060;
+  box-shadow: 0 0 6px rgba(240,208,96,0.8);
+}
+
+.brand-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-name {
+  font-family: var(--font-accent);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #8b6914;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.brand-tagline {
+  font-size: 0.58rem;
+  color: var(--ink-lighter);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+/* Bilibili button */
+.bili-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(251,114,153,0.3);
+  background: linear-gradient(135deg, rgba(251,114,153,0.06), rgba(35,183,229,0.06));
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-spring);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fb7299;
+  font-family: var(--font-body);
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+.bili-btn:hover {
+  background: linear-gradient(135deg, rgba(251,114,153,0.15), rgba(35,183,229,0.15));
+  border-color: rgba(251,114,153,0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(251,114,153,0.2);
+}
+.bili-btn:active { transform: scale(0.95); }
+
+.bili-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  background: #fb7299;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+
+/* Corner branding watermark on each page */
+.page-watermark {
+  position: absolute;
+  bottom: 16px; right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.18;
+  font-family: var(--font-accent);
+  font-size: 0.68rem;
+  color: var(--ink);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.page:hover .page-watermark { opacity: 0.28; }
+
+.page-watermark .wm-crown {
+  font-size: 0.85rem;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 20px;
+    border-radius: var(--radius-md);
+  }
+  .page-title { font-size: 1.35rem; }
+  .cover-title { font-size: 1.8rem; }
+  .content-grid { grid-template-columns: 1fr; }
+  .page-stack { width: 96vw; height: calc(100vh - 130px); }
+  .nav-bar { height: 56px; gap: 10px; }
+  .nav-btn { width: 38px; height: 38px; }
+  .page-dots { max-width: 200px; gap: 4px; }
+  .page-dot { width: 5px; height: 5px; }
+  .toc-panel { padding: 20px; }
+  .brand-name { font-size: 0.78rem !important; }
+  .brand-tagline { display: none; }
+  .bili-btn { padding: 0 10px; font-size: 0.7rem; height: 32px; }
+  .bili-btn .bili-icon { width: 16px; height: 16px; font-size: 0.6rem; }
+  .crown-icon { width: 28px !important; height: 22px !important; }
+}
+
+@media (max-width: 480px) {
+  .top-bar { padding: 0 8px; }
+  .top-bar-title { font-size: 0.9rem; }
+  .page { padding: 18px 14px; }
+  .page-title { font-size: 1.2rem; }
+  .cover-title { font-size: 1.5rem; }
+  .compare-table { font-size: 0.72rem; }
+  .compare-table th, .compare-table td { padding: 6px 8px; }
+  .bili-btn span:not(.bili-icon) { display: none; }
+  .bili-btn { padding: 0 8px; border-radius: 50%; width: 32px; justify-content: center; }
+  .brand-tagline { display: none; }
+  .brand-name { font-size: 0.7rem !important; }
+}
+
+/* ============ PRINT ============ */
+@media print {
+  body { overflow: auto; background: white; }
+  .page { position: static; opacity: 1; transform: none; break-inside: avoid; page-break-after: always; box-shadow: none; border: none; }
+  .nav-bar, .top-bar, #particles, .bg-texture, .toc-overlay { display: none !important; }
+  .main-container { position: static; }
+  .page-stack { position: static; width: 100%; height: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-texture"></div>
+<canvas id="particles"></canvas>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-title">
+    <a class="brand-logo" href="https://space.bilibili.com/524744175" target="_blank" title="幼儿园霸王 - B站主页">
+      <div class="crown-icon">
+        <div class="crown-spike left"></div>
+        <div class="crown-spike center"><div class="crown-diamond"></div></div>
+        <div class="crown-spike right"></div>
+        <div class="crown-base"></div>
+      </div>
+      <div class="brand-text-group">
+        <span class="brand-name">幼儿园霸王</span>
+        <span class="brand-tagline">BILIBILI · 524744175</span>
+      </div>
+    </a>
+  </div>
+  <div class="top-bar-actions">
+    <a class="bili-btn" href="https://space.bilibili.com/524744175" target="_blank" title="访问B站主页">
+      <span class="bili-icon">B</span> B站主页
+    </a>
+    <button class="top-btn" id="btnToc" title="目录">☰</button>
+    <button class="top-btn" id="btnBookmark" title="书签">☆</button>
+    <button class="top-btn" id="btnSearch" title="搜索">🔍</button>
+  </div>
+</div>
+
+<!-- Main Container -->
+<div class="main-container">
+  <div class="page-stack" id="pageStack">
+
+    <!-- ===== PAGE 0: COVER ===== -->
+    <div class="page active" data-page="0" data-book="cover">
+      <div class="cover-container">
+        <!-- Brand logo on cover -->
+        <a class="brand-logo" href="https://space.bilibili.com/524744175" target="_blank" style="display:flex;justify-content:center;margin-bottom:10px;text-decoration:none;">
+          <div class="crown-icon" style="width:56px;height:42px;">
+            <div class="crown-spike left" style="bottom:20px;border-left-width:10px;border-right-width:10px;border-bottom-width:20px;"></div>
+            <div class="crown-spike center" style="bottom:20px;border-left-width:12px;border-right-width:12px;border-bottom-width:26px;"><div class="crown-diamond" style="width:9px;height:9px;top:-8px;"></div></div>
+            <div class="crown-spike right" style="bottom:20px;border-left-width:10px;border-right-width:10px;border-bottom-width:20px;"></div>
+            <div class="crown-base" style="position:absolute;bottom:0;left:1px;right:1px;width:54px;height:20px;background:linear-gradient(180deg, #e2b04a 0%, #b8860b 50%, #8b6914 100%);border-radius:3px 3px 0 0;box-shadow:0 2px 6px rgba(184,134,11,0.4), inset 0 1px 0 rgba(255,255,255,0.3);"></div>
+          </div>
+          <div class="brand-text-group" style="margin-left:4px;">
+            <span class="brand-name" style="font-size:1.3rem;">幼儿园霸王</span>
+            <span class="brand-tagline" style="font-size:0.7rem;">BILIBILI · 524744175</span>
+          </div>
+        </a>
+        <div class="cover-icon">📜</div>
+        <h1 class="cover-title">高考政治复习全书</h1>
+        <p class="cover-subtitle">必修4 · 哲学与文化 &nbsp;|&nbsp; 选必3 · 逻辑与思维</p>
+        <div class="cover-features">
+          <span class="cover-feat">📖 24页精讲</span>
+          <span class="cover-feat">📝 答题模板</span>
+          <span class="cover-feat">🎯 押题预测</span>
+          <span class="cover-feat">⚡ 考点速记</span>
+        </div>
+        <p style="margin-top:32px;color:var(--ink-lighter);font-size:0.85rem;">点击下方按钮开始复习 →</p>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 1: 目录 ===== -->
+    <div class="page" data-page="1" data-book="toc">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">导览</span>
+        <h2 class="page-title">全书目录</h2>
+        <p class="page-subtitle">点击目录项快速跳转，或使用底部导航浏览</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="toc-section">
+        <div class="toc-section-title">📗 必修4 · 哲学与文化</div>
+        <div class="toc-item" onclick="goToPage(2)"><span class="toc-num">1</span>第一课 · 时代精神的精华 —— 哲学基本问题</div>
+        <div class="toc-item" onclick="goToPage(3)"><span class="toc-num">2</span>第二课 · 探究世界的本质 —— 唯物论</div>
+        <div class="toc-item" onclick="goToPage(4)"><span class="toc-num">3</span>第三课(上) · 把握世界的规律 —— 联系观</div>
+        <div class="toc-item" onclick="goToPage(5)"><span class="toc-num">4</span>第三课(中) · 把握世界的规律 —— 发展观</div>
+        <div class="toc-item" onclick="goToPage(6)"><span class="toc-num">5</span>第三课(下) · 把握世界的规律 —— 矛盾观</div>
+        <div class="toc-item" onclick="goToPage(7)"><span class="toc-num">6</span>第四课 · 探索认识的奥秘 —— 认识论</div>
+        <div class="toc-item" onclick="goToPage(8)"><span class="toc-num">7</span>第五课 · 寻觅社会的真谛 —— 唯物史观</div>
+        <div class="toc-item" onclick="goToPage(9)"><span class="toc-num">8</span>第六课 · 实现人生的价值 —— 价值观</div>
+        <div class="toc-item" onclick="goToPage(10)"><span class="toc-num">9</span>第七课 · 继承发展中华优秀传统文化</div>
+        <div class="toc-item" onclick="goToPage(11)"><span class="toc-num">10</span>第八课 · 学习借鉴外来文化的有益成果</div>
+        <div class="toc-item" onclick="goToPage(12)"><span class="toc-num">11</span>第九课 · 发展中国特色社会主义文化</div>
+      </div>
+
+      <div class="toc-section">
+        <div class="toc-section-title">📘 选必3 · 逻辑与思维</div>
+        <div class="toc-item" onclick="goToPage(13)"><span class="toc-num">12</span>第一单元 · 树立科学思维观念</div>
+        <div class="toc-item" onclick="goToPage(14)"><span class="toc-num">13</span>第二单元(上) · 概念与判断</div>
+        <div class="toc-item" onclick="goToPage(15)"><span class="toc-num">14</span>第二单元(下) · 演绎推理与归纳类比</div>
+        <div class="toc-item" onclick="goToPage(16)"><span class="toc-num">15</span>第三单元 · 运用辩证思维方法</div>
+        <div class="toc-item" onclick="goToPage(17)"><span class="toc-num">16</span>第四单元 · 提高创新思维能力</div>
+      </div>
+
+      <div class="toc-section">
+        <div class="toc-section-title">🎯 冲刺专题</div>
+        <div class="toc-item special" onclick="goToPage(18)"><span class="toc-num">17</span>答题模板(一) · 哲学与文化主观题</div>
+        <div class="toc-item special" onclick="goToPage(19)"><span class="toc-num">18</span>答题模板(二) · 逻辑与思维主观题</div>
+        <div class="toc-item special" onclick="goToPage(20)"><span class="toc-num">19</span>押题预测(一) · 哲学部分</div>
+        <div class="toc-item special" onclick="goToPage(21)"><span class="toc-num">20</span>押题预测(二) · 逻辑与文化部分</div>
+        <div class="toc-item special" onclick="goToPage(22)"><span class="toc-num">21</span>易错点汇总 · 常见陷阱一网打尽</div>
+        <div class="toc-item special" onclick="goToPage(23)"><span class="toc-num">22</span>考前锦囊 · 时间分配与应试技巧</div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 2: 必修4 第一课 ===== -->
+    <div class="page" data-page="2" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第一单元</span>
+        <h2 class="page-title">第一课 · 时代精神的精华</h2>
+        <p class="page-subtitle">哲学的基本问题 | 哲学与具体科学 | 哲学的作用</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">🔑 哲学的基本问题</div>
+          <div class="card-text">
+            哲学的基本问题是<strong>思维和存在的关系问题</strong>（意识和物质的关系问题）。<br><br>
+            包括两个方面：<br>
+            ① <strong>思维和存在何者是本原</strong>——划分唯物主义和唯心主义的唯一标准<br>
+            ② <strong>思维能否正确认识存在</strong>——划分可知论和不可知论的标准
+          </div>
+          <span class="card-tag tag-key">必考考点</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-2">
+          <div class="card-title">⚖️ 唯物主义 vs 唯心主义</div>
+          <div class="card-text">
+            <strong>唯物主义</strong>：物质是本原，意识是派生的<br>
+            • 古代朴素唯物主义：金木水火土<br>
+            • 近代形而上学唯物主义：原子<br>
+            • 辩证唯物主义和历史唯物主义<br><br>
+            <strong>唯心主义</strong>：意识是本原<br>
+            • 主观唯心主义：人的精神（心、感觉）<br>
+            • 客观唯心主义：客观精神（上帝、理念）
+          </div>
+          <span class="card-tag tag-compare">对比辨析</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-3">
+          <div class="card-title">🔬 哲学与具体科学</div>
+          <div class="card-text">
+            <strong>区别</strong>：具体科学揭示某一具体领域的规律；哲学揭示整个世界最一般的本质和最普遍的规律。<br><br>
+            <strong>联系</strong>：<br>
+            ① 具体科学是哲学的基础，具体科学的进步推动哲学的发展<br>
+            ② 哲学为具体科学提供世界观和方法论的指导
+          </div>
+          <span class="card-tag tag-method">方法论</span>
+        </div>
+
+        <div class="content-card card-plum animate-in stagger-4">
+          <div class="card-title">🌟 哲学的作用</div>
+          <div class="card-text">
+            ① 哲学是<strong>世界观和方法论的统一</strong><br>
+            ② 真正的哲学是时代精神的精华<br>
+            ③ 哲学具有批判功能和激励功能<br>
+            ④ 学习马克思主义哲学可以帮助我们树立正确的世界观、人生观和价值观
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-green">
+        <h4>📌 核心记忆口诀</h4>
+        "思维存在谁本原，唯物唯心两军分；可知不可知要辨清，哲学基本问题记心间。"
+      </div>
+    </div>
+
+    <!-- ===== PAGE 3: 必修4 第二课 ===== -->
+    <div class="page" data-page="3" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第一单元</span>
+        <h2 class="page-title">第二课 · 探究世界的本质</h2>
+        <p class="page-subtitle">物质观 | 世界的物质性 | 意识的本质 | 物质与意识的辩证关系</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">🌍 物质的概念</div>
+          <div class="card-text">
+            <strong>物质</strong>是不依赖于人的意识，并能为人的意识所反映的<strong>客观实在</strong>。<br><br>
+            物质的唯一特性是<strong>客观实在性</strong>。<br>
+            物质与物质具体形态是<strong>共性与个性</strong>的关系。
+          </div>
+          <span class="card-tag tag-key">基础概念</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-2">
+          <div class="card-title">🧠 意识的本质</div>
+          <div class="card-text">
+            ① 意识是<strong>物质世界长期发展的产物</strong><br>
+            ② 意识是<strong>人脑的机能</strong>——人脑是意识活动的物质器官<br>
+            ③ 意识是<strong>客观存在的主观映象</strong>——内容是客观的，形式是主观的
+          </div>
+          <span class="card-tag tag-key">高频考点</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-3">
+          <div class="card-title">⚡ 物质与意识的辩证关系</div>
+          <div class="card-text">
+            <strong>原理</strong>：<br>
+            ① 物质决定意识——意识是物质的反映<br>
+            ② 意识对物质具有能动作用——正确的意识促进事物发展，错误的意识阻碍事物发展<br><br>
+            <strong>方法论</strong>：一切从实际出发，实事求是；重视意识的作用，树立正确的思想意识
+          </div>
+          <span class="card-tag tag-method">原理+方法论</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-4">
+          <div class="card-title">🏔️ 世界的物质性</div>
+          <div class="card-text">
+            ① <strong>自然界</strong>的物质性——自然界中的事物是按照自身规律形成和发展的<br>
+            ② <strong>人类社会</strong>的物质性——人类社会是物质世界长期发展的产物<br>
+            ③ <strong>人的意识</strong>是社会的产物——意识一开始就是劳动的产物
+          </div>
+          <span class="card-tag tag-compare">全面理解</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-green">
+        <h4>📌 主观题高分模板</h4>
+        "物质决定意识 + 意识对物质具有能动作用 + 一切从实际出发 + 重视意识作用 = 唯物论完整框架"
+      </div>
+    </div>
+
+    <!-- ===== PAGE 4: 必修4 第三课(上) 联系观 ===== -->
+    <div class="page" data-page="4" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第一单元</span>
+        <h2 class="page-title">第三课(上) · 联系观</h2>
+        <p class="page-subtitle">联系的普遍性 | 客观性 | 多样性 | 整体与部分 | 系统优化</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">🔗 联系的特征</div>
+          <div class="card-text">
+            <strong>① 普遍性</strong>：一切事物都与周围其他事物联系着，孤立的事物不存在<br>
+            — 方法论：用联系的观点看问题<br><br>
+            <strong>② 客观性</strong>：联系是事物本身固有的，不以人的意志为转移<br>
+            — 方法论：从事物固有的联系中把握事物<br><br>
+            <strong>③ 多样性</strong>：联系是多种多样的<br>
+            — 方法论：分析和把握事物存在和发展的各种条件
+          </div>
+          <span class="card-tag tag-key">三大特征</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-2">
+          <div class="card-title">🧩 整体与部分</div>
+          <div class="card-text">
+            <strong>整体居于主导地位</strong>，统率着部分；<strong>关键部分的功能及其变化</strong>甚至对整体的功能起决定作用。<br><br>
+            <strong>方法论</strong>：<br>
+            ① 树立全局观念，立足整体，实现最优目标<br>
+            ② 重视部分的作用，用局部的发展推动整体的发展
+          </div>
+          <span class="card-tag tag-method">辩证关系</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-3">
+          <div class="card-title">💻 系统优化方法</div>
+          <div class="card-text">
+            系统的三个基本特征：<br>
+            ① <strong>整体性</strong>——整体功能大于部分功能之和<br>
+            ② <strong>有序性</strong>——各要素按照一定的顺序和方向发生作用<br>
+            ③ <strong>内部结构的优化趋向</strong><br><br>
+            <strong>方法论</strong>：用综合的思维方式认识事物
+          </div>
+          <span class="card-tag tag-method">重点掌握</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 5: 必修4 第三课(中) 发展观 ===== -->
+    <div class="page" data-page="5" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第一单元</span>
+        <h2 class="page-title">第三课(中) · 发展观</h2>
+        <p class="page-subtitle">发展的实质 | 量变与质变 | 前进性与曲折性</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">📈 发展的实质</div>
+          <div class="card-text">
+            发展的实质是<strong>事物的前进和上升</strong>，是<strong>新事物的产生和旧事物的灭亡</strong>。<br><br>
+            新事物是指<strong>符合客观规律、具有强大生命力和远大前途</strong>的事物。<br>
+            判断新旧事物的标准：是否同事物发展的必然趋势相符合。
+          </div>
+          <span class="card-tag tag-key">核心概念</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-2">
+          <div class="card-title">📊 量变与质变</div>
+          <div class="card-text">
+            <strong>量变</strong>是质变的必要准备；<strong>质变</strong>是量变的必然结果。<br>
+            质变又为新的量变开辟道路，如此循环往复，不断前进。<br><br>
+            <strong>方法论</strong>：<br>
+            ① 重视量的积累，为实现质变创造条件<br>
+            ② 抓住时机，促成质变，实现飞跃<br>
+            ③ 坚持适度原则
+          </div>
+          <span class="card-tag tag-method">重点原理</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">🎢 前进性与曲折性</div>
+          <div class="card-text">
+            <strong>原理</strong>：事物发展的前途是光明的，道路是曲折的。<br><br>
+            <strong>方法论</strong>：<br>
+            ① 对未来充满信心，热情支持和悉心保护新事物<br>
+            ② 做好充分的思想准备，不断克服前进道路上的困难
+          </div>
+          <span class="card-tag tag-compare">辩证统一</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-blue">
+        <h4>📌 三大规律的定位</h4>
+        联系观→回答"事物处于什么状态"（唯物辩证法的<strong>总特征</strong>之一）<br>
+        发展观→回答"事物向何处去"（唯物辩证法的<strong>总特征</strong>之二）<br>
+        矛盾观→回答"事物为什么变化、怎样变化"（唯物辩证法的<strong>实质与核心</strong>）
+      </div>
+    </div>
+
+    <!-- ===== PAGE 6: 必修4 第三课(下) 矛盾观 ===== -->
+    <div class="page" data-page="6" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第一单元</span>
+        <h2 class="page-title">第三课(下) · 矛盾观</h2>
+        <p class="page-subtitle">矛盾对立统一 | 普遍性特殊性 | 主次矛盾 | 矛盾主次方面</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-cinnabar animate-in stagger-1">
+          <div class="card-title">⚔️ 矛盾即对立统一</div>
+          <div class="card-text">
+            <strong>矛盾</strong>是反映事物内部对立和统一关系的哲学范畴。<br><br>
+            矛盾双方既对立又统一，由此推动事物的运动、变化和发展。<br>
+            <strong>方法论</strong>：坚持一分为二的观点，坚持两点论、两分法。
+          </div>
+          <span class="card-tag tag-key">核心概念</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-2">
+          <div class="card-title">🎯 矛盾的普遍性与特殊性</div>
+          <div class="card-text">
+            <strong>普遍性</strong>：事事有矛盾，时时有矛盾<br>
+            — 方法论：承认矛盾、分析矛盾、解决矛盾<br><br>
+            <strong>特殊性</strong>：矛盾着的事物及其每个侧面各有特点<br>
+            — 方法论：<strong>具体问题具体分析</strong><br><br>
+            二者是<strong>共性与个性</strong>、一般与个别的关系。<br>
+            这一原理是马克思主义普遍真理与中国具体实际相结合的哲学基础。
+          </div>
+          <span class="card-tag tag-exam">必考大题</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">⚖️ 主次矛盾 vs 矛盾主次方面</div>
+          <div class="card-text">
+            <strong>主要矛盾</strong>：在事物发展过程中处于支配地位、起决定作用<br>
+            — 方法论：抓重点、抓关键、抓中心工作<br><br>
+            <strong>矛盾的主要方面</strong>：在矛盾双方中处于支配地位、起主导作用<br>
+            — 方法论：抓主流，把握事物的性质<br><br>
+            <strong>区分技巧</strong>：主次矛盾→"做事"；矛盾主次方面→"看问题"
+          </div>
+          <span class="card-tag tag-compare">易错辨析</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 7: 必修4 第四课 认识论 ===== -->
+    <div class="page" data-page="7" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第二单元</span>
+        <h2 class="page-title">第四课 · 探索认识的奥秘</h2>
+        <p class="page-subtitle">实践与认识 | 真理 | 认识的反复性与无限性</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-sky animate-in stagger-1">
+          <div class="card-title">🔬 实践及其特征</div>
+          <div class="card-text">
+            <strong>实践</strong>是人们改造客观世界的物质性活动。<br><br>
+            三个特征：<br>
+            ① <strong>客观物质性</strong>——主体、对象、手段都是客观的<br>
+            ② <strong>能动性</strong>——有目的、有意识的活动<br>
+            ③ <strong>社会历史性</strong>——在一定的社会关系中进行，受历史条件制约
+          </div>
+          <span class="card-tag tag-key">基础概念</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-2">
+          <div class="card-title">🔄 实践与认识的辩证关系</div>
+          <div class="card-text">
+            <strong>① 实践决定认识</strong>（实践是认识的基础）：<br>
+            实践是认识的<strong>来源、发展动力、检验标准和目的</strong><br><br>
+            <strong>② 认识反作用于实践</strong>：<br>
+            正确的认识促进实践发展，错误的认识阻碍实践发展<br><br>
+            <strong>方法论</strong>：坚持实践第一的观点；重视科学理论的指导作用
+          </div>
+          <span class="card-tag tag-exam">高频大题</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">🎯 真理</div>
+          <div class="card-text">
+            <strong>真理</strong>是标志主观同客观相符合的哲学范畴。<br><br>
+            ① 真理是<strong>客观的</strong>——内容客观，检验标准客观<br>
+            ② 真理是<strong>具体的有条件的</strong>——任何真理都有自己适用的条件和范围<br>
+            ③ 真理与谬误<strong>相伴而行</strong>，在一定条件下相互转化
+          </div>
+          <span class="card-tag tag-key">核心考点</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-4">
+          <div class="card-title">♾️ 认识的反复性与无限性</div>
+          <div class="card-text">
+            <strong>反复性</strong>：人们对一个事物的正确认识往往要经过从实践到认识、再从认识到实践的多次反复才能完成<br><br>
+            <strong>无限性</strong>：人类认识是无限发展的，追求真理是一个永无止境的过程<br><br>
+            <strong>方法论</strong>：与时俱进，开拓创新，在实践中认识和发现真理，在实践中检验和发展真理
+          </div>
+          <span class="card-tag tag-method">方法论</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 8: 必修4 第五课 社会历史观 ===== -->
+    <div class="page" data-page="8" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第二单元</span>
+        <h2 class="page-title">第五课 · 寻觅社会的真谛</h2>
+        <p class="page-subtitle">社会存在与社会意识 | 社会基本矛盾 | 人民群众</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">🏛️ 社会存在与社会意识</div>
+          <div class="card-text">
+            <strong>社会存在决定社会意识</strong>——社会意识是对社会存在的反映<br>
+            <strong>社会意识具有相对独立性</strong>：<br>
+            ① 社会意识与社会存在的变化发展不完全同步<br>
+            ② 社会意识对社会存在具有能动的反作用（最突出表现）
+          </div>
+          <span class="card-tag tag-key">核心原理</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-2">
+          <div class="card-title">⚙️ 社会基本矛盾</div>
+          <div class="card-text">
+            <strong>生产力与生产关系</strong>的矛盾——决定社会发展的根本动力<br>
+            生产力<strong>决定</strong>生产关系，生产关系对生产力具有<strong>反作用</strong><br><br>
+            <strong>经济基础与上层建筑</strong>的矛盾<br>
+            经济基础<strong>决定</strong>上层建筑，上层建筑对经济基础具有<strong>反作用</strong>
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">👥 人民群众是历史的创造者</div>
+          <div class="card-text">
+            ① 人民群众是<strong>社会物质财富的创造者</strong><br>
+            ② 人民群众是<strong>社会精神财富的创造者</strong><br>
+            ③ 人民群众是<strong>社会变革的决定力量</strong><br><br>
+            <strong>方法论</strong>：坚持群众观点和群众路线
+          </div>
+          <span class="card-tag tag-method">必考原理</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-red">
+        <h4>⚠️ 易错警示</h4>
+        社会基本矛盾≠社会主要矛盾。<br>
+        社会基本矛盾（生产力与生产关系、经济基础与上层建筑）贯穿人类社会始终；<br>
+        社会主要矛盾在不同社会形态中不同（新时代：人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾）。
+      </div>
+    </div>
+
+    <!-- ===== PAGE 9: 必修4 第六课 价值观 ===== -->
+    <div class="page" data-page="9" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-philosophy">必修4 · 第二单元</span>
+        <h2 class="page-title">第六课 · 实现人生的价值</h2>
+        <p class="page-subtitle">价值观 | 价值判断与价值选择 | 人生价值的实现</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">💎 价值观及其导向作用</div>
+          <div class="card-text">
+            <strong>价值观</strong>是人们对事物价值的总的看法和根本观点。<br><br>
+            价值观对人们<strong>认识世界和改造世界</strong>具有导向作用<br>
+            价值观对<strong>人生道路的选择</strong>具有导向作用<br><br>
+            <strong>方法论</strong>：树立正确的价值观，践行社会主义核心价值观
+          </div>
+          <span class="card-tag tag-key">基础原理</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-2">
+          <div class="card-title">✅ 价值判断与价值选择</div>
+          <div class="card-text">
+            <strong>标准</strong>：<br>
+            ① 自觉遵循<strong>社会发展的客观规律</strong><br>
+            ② 自觉站在最广大<strong>人民的立场</strong>上<br><br>
+            <strong>特征</strong>：<br>
+            ① 社会历史性——因时间、地点、条件的变化而不同<br>
+            ② 主体差异性——因人而异
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-3">
+          <div class="card-title">🌟 人生价值的实现</div>
+          <div class="card-text">
+            ① 在<strong>劳动和奉献</strong>中创造价值（根本途径）<br>
+            ② 在<strong>个人与社会的统一</strong>中实现价值（客观条件）<br>
+            ③ 在<strong>砥砺自我</strong>中走向成功（主观条件）：<br>
+            &nbsp;&nbsp;• 充分发挥主观能动性<br>
+            &nbsp;&nbsp;• 全面提高个人素质<br>
+            &nbsp;&nbsp;• 坚定理想信念，锤炼品德修为
+          </div>
+          <span class="card-tag tag-method">完整框架</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 10: 必修4 第七课 传统文化 ===== -->
+    <div class="page" data-page="10" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-culture">必修4 · 第三单元</span>
+        <h2 class="page-title">第七课 · 继承发展中华优秀传统文化</h2>
+        <p class="page-subtitle">传统文化的特点 | 对待传统文化的态度 | 创造性转化与创新性发展</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-gold animate-in stagger-1">
+          <div class="card-title">🏛️ 中华传统文化的特点</div>
+          <div class="card-text">
+            ① <strong>源远流长</strong>——汉字、史书典籍是重要见证<br>
+            ② <strong>博大精深</strong>——独树一帜的文学艺术、科学技术<br>
+            ③ <strong>包容性</strong>——求同存异、兼收并蓄
+          </div>
+          <span class="card-tag tag-key">三大特点</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-2">
+          <div class="card-title">📜 传统文化的继承</div>
+          <div class="card-text">
+            传统文化的表现形式：<br>
+            ① 传统习俗的继承 ② 传统建筑的继承<br>
+            ③ 传统文艺的继承 ④ 传统思想的继承<br><br>
+            传统文化的<strong>双重性</strong>：既有精华也有糟粕<br>
+            <strong>正确态度</strong>：取其精华、去其糟粕，批判继承、古为今用
+          </div>
+          <span class="card-tag tag-method">核心态度</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-3">
+          <div class="card-title">✨ 创造性转化与创新性发展</div>
+          <div class="card-text">
+            <strong>创造性转化</strong>：按照时代特点和要求，对传统文化中有借鉴意义的内涵和陈旧的表达形式加以改造<br><br>
+            <strong>创新性发展</strong>：按照时代的新进步新进展，对传统文化的内涵加以补充、拓展、完善<br><br>
+            <strong>民族精神</strong>：以爱国主义为核心，团结统一、爱好和平、勤劳勇敢、自强不息
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 11: 必修4 第八课 外来文化 ===== -->
+    <div class="page" data-page="11" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-culture">必修4 · 第三单元</span>
+        <h2 class="page-title">第八课 · 学习借鉴外来文化的有益成果</h2>
+        <p class="page-subtitle">文化多样性 | 文化交流 | 文化交融 | 正确对待外来文化</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-sky animate-in stagger-1">
+          <div class="card-title">🌍 文化多样性</div>
+          <div class="card-text">
+            文化多样性是<strong>人类社会的基本特征</strong>，也是<strong>人类文明进步的重要动力</strong>。<br><br>
+            对待文化多样性的正确态度：<br>
+            ① 认同<strong>本民族</strong>文化<br>
+            ② 尊重<strong>其他民族</strong>文化<br>
+            ③ 遵循<strong>各民族文化一律平等</strong>的原则
+          </div>
+          <span class="card-tag tag-key">基本原则</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-2">
+          <div class="card-title">🔄 文化交流与文化交融</div>
+          <div class="card-text">
+            <strong>文化交流</strong>：不同民族文化之间的相互交流、借鉴和融合<br>
+            文化交流是文化发展的重要动力<br><br>
+            <strong>文化交融</strong>：不同文化在交流中相互融合、取长补短，形成新的文化形态<br><br>
+            我们应当维护各国各民族文化多样性，加强相互交流、相互学习、相互借鉴
+          </div>
+          <span class="card-tag tag-compare">辨析理解</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-3">
+          <div class="card-title">🎯 正确对待外来文化</div>
+          <div class="card-text">
+            ① 坚持<strong>以我为主、为我所用</strong>的原则<br>
+            ② 坚持<strong>科学分析</strong>的态度——分清精华与糟粕<br>
+            ③ 反对两种错误倾向：<br>
+            &nbsp;&nbsp;• <strong>文化复古主义</strong>（一味排斥外来文化）<br>
+            &nbsp;&nbsp;• <strong>全盘西化论</strong>（盲目崇拜外来文化）<br>
+            ④ 立足国情，交流互鉴，取长补短
+          </div>
+          <span class="card-tag tag-exam">必考考点</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 12: 必修4 第九课 中国特色社会主义文化 ===== -->
+    <div class="page" data-page="12" data-book="b4">
+      <div class="page-header">
+        <span class="page-badge badge-culture">必修4 · 第三单元</span>
+        <h2 class="page-title">第九课 · 发展中国特色社会主义文化</h2>
+        <p class="page-subtitle">文化发展路径 | 文化自信 | 建设文化强国</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-cinnabar animate-in stagger-1">
+          <div class="card-title">🛤️ 中国特色社会主义文化发展道路</div>
+          <div class="card-text">
+            ① 坚持<strong>马克思主义</strong>在意识形态领域的指导地位<br>
+            ② 坚守<strong>中华文化立场</strong>，立足当代中国现实<br>
+            ③ 结合<strong>新时代条件</strong>，推动社会主义精神文明和物质文明协调发展<br>
+            ④ 坚持<strong>为人民服务、为社会主义服务</strong>的方向<br>
+            ⑤ 坚持<strong>百花齐放、百家争鸣</strong>的方针
+          </div>
+          <span class="card-tag tag-key">完整路径</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-2">
+          <div class="card-title">💪 文化自信</div>
+          <div class="card-text">
+            <strong>含义</strong>：一个国家、一个民族对自身文化价值的充分肯定和积极践行<br><br>
+            <strong>来源</strong>：<br>
+            ① 中华优秀传统文化<br>
+            ② 革命文化<br>
+            ③ 社会主义先进文化<br><br>
+            <strong>意义</strong>：文化自信是一个国家、一个民族发展中更基本、更深沉、更持久的力量
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-3">
+          <div class="card-title">🏗️ 建设文化强国</div>
+          <div class="card-text">
+            ① 培育和践行<strong>社会主义核心价值观</strong><br>
+            ② 提高全民族<strong>思想道德素质</strong>和科学文化素质<br>
+            ③ 推动文化事业和文化产业<strong>协调发展</strong><br>
+            ④ 加强<strong>国际传播能力</strong>建设，讲好中国故事<br>
+            ⑤ 增强中华文明<strong>传播力影响力</strong>
+          </div>
+          <span class="card-tag tag-method">实践路径</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-gold">
+        <h4>📌 文化单元知识逻辑链</h4>
+        不忘本来（传承传统文化）→ 吸收外来（借鉴外来文化）→ 面向未来（发展中国特色社会主义文化）→ 坚定文化自信
+      </div>
+    </div>
+
+    <!-- ===== PAGE 13: 选必3 第一单元 科学思维 ===== -->
+    <div class="page" data-page="13" data-book="b3">
+      <div class="page-header">
+        <span class="page-badge badge-logic">选必3 · 第一单元</span>
+        <h2 class="page-title">第一单元 · 树立科学思维观念</h2>
+        <p class="page-subtitle">思维的特征 | 科学思维的含义与特征 | 学习科学思维的意义</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-sky animate-in stagger-1">
+          <div class="card-title">🧠 思维的特征</div>
+          <div class="card-text">
+            ① <strong>间接性</strong>——借助已有的知识经验，认识无法直接感知的事物<br>
+            ② <strong>概括性</strong>——从多种事物的各种各样的属性中，把握一类事物的共同本质<br>
+            ③ <strong>能动性</strong>——思维能够能动地反映客观对象，又能够能动地反作用于客观对象
+          </div>
+          <span class="card-tag tag-key">三大特征</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-2">
+          <div class="card-title">🔬 科学思维的含义与特征</div>
+          <div class="card-text">
+            <strong>科学思维</strong>：符合认识规律、遵循逻辑规则、能够达到正确认识结果的思维。<br><br>
+            特征：<br>
+            ① <strong>客观性</strong>——内容来源于客观实际<br>
+            ② <strong>精确性</strong>——概念明确、判断恰当、推理合乎逻辑<br>
+            ③ <strong>可检验性</strong>——思维结果可以在实践中得到检验
+          </div>
+          <span class="card-tag tag-key">核心概念</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">📚 学习科学思维的意义</div>
+          <div class="card-text">
+            ① 有利于提高<strong>逻辑思维能力</strong>，正确认识事物<br>
+            ② 有利于提高<strong>辩证思维能力</strong>，全面动态地看问题<br>
+            ③ 有利于提高<strong>创新思维能力</strong>，创造性地解决问题<br>
+            ④ 有利于<strong>正确表达思想</strong>，有效进行交流和辩论<br>
+            ⑤ 有利于<strong>辨别是非</strong>，反对诡辩和谬误
+          </div>
+          <span class="card-tag tag-method">综合意义</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 14: 选必3 第二单元(上) 概念与判断 ===== -->
+    <div class="page" data-page="14" data-book="b3">
+      <div class="page-header">
+        <span class="page-badge badge-logic">选必3 · 第二单元</span>
+        <h2 class="page-title">第二单元(上) · 概念与判断</h2>
+        <p class="page-subtitle">概念的内涵与外延 | 概念间关系 | 判断及其类型</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-sky animate-in stagger-1">
+          <div class="card-title">📐 概念的内涵与外延</div>
+          <div class="card-text">
+            <strong>内涵</strong>：概念所反映的事物的<strong>特有属性</strong>（质的规定性）<br>
+            <strong>外延</strong>：具有概念所反映的特有属性的<strong>事物范围</strong>（量的规定性）<br><br>
+            内涵和外延是<strong>反比关系</strong>：内涵越多，外延越小；内涵越少，外延越大
+          </div>
+          <span class="card-tag tag-key">基础概念</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-2">
+          <div class="card-title">🔗 概念间的关系</div>
+          <div class="card-text">
+            <strong>相容关系</strong>：<br>
+            ① 全同关系 ② 属种关系（包含关系）③ 交叉关系<br><br>
+            <strong>不相容关系（全异关系）</strong>：<br>
+            ① 矛盾关系（A+非A=整体）② 反对关系（A+B<整体）<br><br>
+            <strong>区分口诀</strong>：矛盾"非此即彼"，反对"中间存在"
+          </div>
+          <span class="card-tag tag-compare">重点辨析</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">📝 判断及其类型</div>
+          <div class="card-text">
+            <strong>判断</strong>是对事物情况有所断定的思维形式。<br><br>
+            ① <strong>简单判断</strong>：<br>
+            &nbsp;&nbsp;• 性质判断（直言判断）：所有/有的S是/不是P<br>
+            &nbsp;&nbsp;• 关系判断：a大于b<br>
+            ② <strong>复合判断</strong>：<br>
+            &nbsp;&nbsp;• 联言判断（p且q）• 选言判断（p或q）<br>
+            &nbsp;&nbsp;• 假言判断（如果p则q）
+          </div>
+          <span class="card-tag tag-key">体系框架</span>
+        </div>
+      </div>
+
+      <table class="compare-table">
+        <tr><th>关系类型</th><th>特征</th><th>例子</th></tr>
+        <tr><td>矛盾关系</td><td>两概念外延之和等于属概念外延</td><td>正义战争 / 非正义战争</td></tr>
+        <tr><td>反对关系</td><td>两概念外延之和小于属概念外延</td><td>黑色 / 白色（还有红蓝等）</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== PAGE 15: 选必3 第二单元(下) 推理 ===== -->
+    <div class="page" data-page="15" data-book="b3">
+      <div class="page-header">
+        <span class="page-badge badge-logic">选必3 · 第二单元</span>
+        <h2 class="page-title">第二单元(下) · 演绎推理与归纳类比</h2>
+        <p class="page-subtitle">演绎推理 | 三段论 | 归纳推理 | 类比推理</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-cinnabar animate-in stagger-1">
+          <div class="card-title">🔺 演绎推理（三段论）</div>
+          <div class="card-text">
+            <strong>三段论</strong>是从两个前提推出一个结论的演绎推理。<br><br>
+            结构：大前提 + 小前提 → 结论<br>
+            例：所有M是P（大前提），所有S是M（小前提），所以所有S是P（结论）<br><br>
+            <strong>规则</strong>：<br>
+            ① 中项在前提中至少<strong>周延一次</strong><br>
+            ② 前提中不周延的项，结论中<strong>不得周延</strong><br>
+            ③ 两个否定前提<strong>不能</strong>得出必然结论
+          </div>
+          <span class="card-tag tag-key">核心考点</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-2">
+          <div class="card-title">📊 归纳推理</div>
+          <div class="card-text">
+            <strong>完全归纳推理</strong>：考察全部对象后得出结论（必然推理）<br>
+            <strong>不完全归纳推理</strong>：考察部分对象后得出结论（或然推理）<br><br>
+            提高不完全归纳推理可靠性的方法：<br>
+            ① 增加考察对象的数量<br>
+            ② 扩大考察对象的范围<br>
+            ③ 寻找反例去检验
+          </div>
+          <span class="card-tag tag-method">方法要点</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">🔄 类比推理</div>
+          <div class="card-text">
+            类比推理是根据两个或两类对象在一些属性上相同或相似，推出它们在其他属性上也相同或相似的推理。<br><br>
+            类比推理是<strong>或然推理</strong>——结论不一定为真<br>
+            提高可靠性的方法：<br>
+            ① 类比的根据越多越好（增加相同属性的数量）<br>
+            ② 相同属性与推出属性之间的相关程度越高越好
+          </div>
+          <span class="card-tag tag-compare">辨析理解</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-blue">
+        <h4>📌 推理类型一览</h4>
+        <strong>必然推理</strong>：演绎推理（三段论）、完全归纳推理<br>
+        <strong>或然推理</strong>：不完全归纳推理、类比推理
+      </div>
+    </div>
+
+    <!-- ===== PAGE 16: 选必3 第三单元 辩证思维 ===== -->
+    <div class="page" data-page="16" data-book="b3">
+      <div class="page-header">
+        <span class="page-badge badge-logic">选必3 · 第三单元</span>
+        <h2 class="page-title">第三单元 · 运用辩证思维方法</h2>
+        <p class="page-subtitle">分析与综合 | 质量互变 | 肯定与否定 | 抽象与具体</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-jade animate-in stagger-1">
+          <div class="card-title">🔍 分析与综合</div>
+          <div class="card-text">
+            <strong>分析</strong>：把认识对象分解为各个部分、各个要素、各个层次，分别加以认识<br>
+            <strong>综合</strong>：把认识对象的各个部分、各个要素、各个层次联结成一个整体加以认识<br><br>
+            分析与综合是<strong>辩证统一</strong>的：<br>
+            分析是综合的基础，综合是分析的完成<br>
+            <strong>方法论</strong>：在分析的基础上综合，在综合的指导下分析
+          </div>
+          <span class="card-tag tag-key">核心方法</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-2">
+          <div class="card-title">📈 质量互变规律</div>
+          <div class="card-text">
+            <strong>量变</strong>：事物数量的增减和场所的变更（渐进性）<br>
+            <strong>质变</strong>：事物根本性质的变化（飞跃性）<br><br>
+            量变是质变的<strong>必要准备</strong>，质变是量变的<strong>必然结果</strong><br>
+            <strong>方法论</strong>：把握适度原则，在量变达到一定程度时抓住时机促成质变
+          </div>
+          <span class="card-tag tag-method">辩证规律</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-3">
+          <div class="card-title">🔄 肯定与否定</div>
+          <div class="card-text">
+            <strong>辩证否定</strong>是事物的<strong>自我否定</strong>，是事物<strong>发展的环节</strong>和<strong>联系的环节</strong><br>
+            辩证否定的实质是<strong>"扬弃"</strong>——既克服又保留<br><br>
+            <strong>方法论</strong>：<br>
+            ① 对待传统文化：取其精华，去其糟粕<br>
+            ② 对待外来文化：有鉴别地加以吸收<br>
+            ③ 对任何事物都应采取科学分析的态度
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-4">
+          <div class="card-title">🎯 从抽象上升到具体</div>
+          <div class="card-text">
+            认识发展的路径：<br>
+            <strong>感性具体</strong> → <strong>思维抽象</strong> → <strong>思维具体</strong><br><br>
+            思维具体是<strong>多样性的统一</strong>，是对事物本质和规律的全面把握<br>
+            这是辩证思维的重要方法
+          </div>
+          <span class="card-tag tag-compare">认识路径</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 17: 选必3 第四单元 创新思维 ===== -->
+    <div class="page" data-page="17" data-book="b3">
+      <div class="page-header">
+        <span class="page-badge badge-logic">选必3 · 第四单元</span>
+        <h2 class="page-title">第四单元 · 提高创新思维能力</h2>
+        <p class="page-subtitle">发散与聚合 | 逆向思维 | 超前思维 | 联想思维</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-sky animate-in stagger-1">
+          <div class="card-title">💡 发散思维与聚合思维</div>
+          <div class="card-text">
+            <strong>发散思维</strong>：从一个出发点向<strong>多个方向</strong>思考（扩散性）<br>
+            — 方法：头脑风暴法、列举法<br><br>
+            <strong>聚合思维</strong>：从<strong>多个信息</strong>中归纳出一个结论（收敛性）<br>
+            — 方法：归纳法、演绎法<br><br>
+            发散思维和聚合思维是<strong>相辅相成</strong>的——发散是聚合的基础，聚合是发散的归宿
+          </div>
+          <span class="card-tag tag-key">核心思维</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-2">
+          <div class="card-title">🔄 逆向思维</div>
+          <div class="card-text">
+            <strong>逆向思维</strong>是从<strong>反向</strong>或<strong>对立面</strong>思考问题的思维方式。<br><br>
+            常用方法：<br>
+            ① 结构反转（上下、左右、前后颠倒）<br>
+            ② 功能反转（变废为宝）<br>
+            ③ 状态反转（动静互变）<br>
+            ④ 因果反转（以果推因，以因推果）<br><br>
+            逆向思维<strong>必须合乎规律</strong>，不能随意逆反
+          </div>
+          <span class="card-tag tag-method">创新方法</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-3">
+          <div class="card-title">🔮 超前思维</div>
+          <div class="card-text">
+            <strong>超前思维</strong>是在分析历史和现状的基础上，对事物<strong>未来的发展趋势</strong>作出预测的思维。<br><br>
+            特征：<br>
+            ① <strong>前瞻性</strong>——眼光向前看<br>
+            ② <strong>不确定性</strong>——预测不等于事实<br>
+            ③ <strong>可检验性</strong>——可以在未来实践中检验<br><br>
+            方法：趋势分析法、类比预测法、因果推断法
+          </div>
+          <span class="card-tag tag-exam">高频考点</span>
+        </div>
+
+        <div class="content-card card-plum animate-in stagger-4">
+          <div class="card-title">🧩 联想思维</div>
+          <div class="card-text">
+            <strong>联想思维</strong>是由一事物想到另一事物的思维活动。<br><br>
+            形式：<br>
+            ① <strong>相似联想</strong>（外形或性质相似）<br>
+            ② <strong>对比联想</strong>（正反对比）<br>
+            ③ <strong>接近联想</strong>（时空上接近）<br>
+            ④ <strong>因果联想</strong><br><br>
+            联想是创新思维的<strong>起点</strong>
+          </div>
+          <span class="card-tag tag-compare">思维基础</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 18: 答题模板(一) 哲学大题 ===== -->
+    <div class="page" data-page="18" data-book="template">
+      <div class="page-header">
+        <span class="page-badge badge-template">答题模板</span>
+        <h2 class="page-title">答题模板(一) · 哲学与文化主观题</h2>
+        <p class="page-subtitle">唯物论 | 辩证法 | 认识论 | 唯物史观 | 价值观 | 文化 万能答题框架</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="highlight-box hl-green">
+        <h4>📝 哲学题万能答题结构</h4>
+        <strong>第一步</strong>：写原理名称（如"物质决定意识"）<br>
+        <strong>第二步</strong>：展开原理内容（一句话解释）<br>
+        <strong>第三步</strong>：写方法论（"这要求我们……"）<br>
+        <strong>第四步</strong>：结合材料分析（"材料中……体现了这一点"）
+      </div>
+
+      <div class="highlight-box hl-blue">
+        <h4>🔷 唯物论模板（物质与意识的辩证关系）</h4>
+        ① 物质决定意识，意识是客观存在在人脑中的反映。<br>
+        这要求我们<strong>坚持一切从实际出发，实事求是</strong>。材料中……<br>
+        ② 意识对物质具有能动作用，正确的意识促进事物发展。<br>
+        这要求我们<strong>重视意识的作用，树立正确的思想意识</strong>。材料中……
+      </div>
+
+      <div class="highlight-box hl-gold">
+        <h4>🔶 矛盾观模板（矛盾特殊性/具体问题具体分析）</h4>
+        ① 矛盾具有特殊性，不同事物有不同的矛盾。<br>
+        这要求我们<strong>坚持具体问题具体分析</strong>。材料中……<br>
+        ② 具体问题具体分析是正确认识事物的基础，是正确解决矛盾的关键。材料中……
+      </div>
+
+      <div class="highlight-box hl-red">
+        <h4>🔴 文化传承模板</h4>
+        ① 继承传统，推陈出新——取其精华、去其糟粕，实现<strong>创造性转化和创新性发展</strong><br>
+        ② 面向世界，博采众长——以我为主、为我所用，吸收外来文化有益成果<br>
+        ③ 立足实践，依靠人民——文化创作要<strong>立足社会实践</strong>，满足人民精神文化需求<br>
+        ④ 坚定<strong>文化自信</strong>，弘扬<strong>民族精神</strong>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 19: 答题模板(二) 逻辑题 ===== -->
+    <div class="page" data-page="19" data-book="template">
+      <div class="page-header">
+        <span class="page-badge badge-template">答题模板</span>
+        <h2 class="page-title">答题模板(二) · 逻辑与思维主观题</h2>
+        <p class="page-subtitle">概念判断 | 三段论 | 归纳类比 | 辩证思维 | 创新思维 答题框架</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="highlight-box hl-blue">
+        <h4>🔷 三段论辨析题模板</h4>
+        ① 指出该三段论的<strong>大前提、小前提和结论</strong><br>
+        ② 分析中项是否<strong>周延</strong>（至少周延一次）<br>
+        ③ 分析前提中不周延的项在结论中<strong>是否周延</strong><br>
+        ④ 判断该三段论<strong>是否有效</strong>，说明理由
+      </div>
+
+      <div class="highlight-box hl-green">
+        <h4>🔷 辩证思维分析题模板</h4>
+        ① 运用<strong>分析与综合相结合</strong>的方法：先分析各部分，再综合成整体认识<br>
+        ② 把握<strong>量变与质变</strong>的关系：分析事物的渐进性变化与飞跃性变化<br>
+        ③ 坚持<strong>辩证否定观</strong>：既肯定合理因素，又否定不合理因素（扬弃）<br>
+        ④ 从<strong>抽象上升到具体</strong>：在思维中全面把握事物的多样性统一
+      </div>
+
+      <div class="highlight-box hl-gold">
+        <h4>🔶 创新思维方法题模板</h4>
+        ① <strong>发散思维</strong>：从多角度思考，寻求多种可能性<br>
+        ② <strong>聚合思维</strong>：将多种信息归纳、收敛，找到最优解<br>
+        ③ <strong>逆向思维</strong>：从反面或对立面思考，打破思维定势<br>
+        ④ <strong>超前思维</strong>：立足现实，预测趋势，提前布局<br>
+        ⑤ 多种思维方法<strong>综合运用</strong>，形成创新合力
+      </div>
+    </div>
+
+    <!-- ===== PAGE 20: 押题预测(一) 哲学 ===== -->
+    <div class="page" data-page="20" data-book="predict">
+      <div class="page-header">
+        <span class="page-badge badge-predict">押题预测</span>
+        <h2 class="page-title">押题预测(一) · 哲学部分</h2>
+        <p class="page-subtitle">2026高考热门方向 · 唯物辩证法与唯物史观重点关注</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-cinnabar animate-in stagger-1">
+          <div class="card-title">🎯 押题方向一：新质生产力</div>
+          <div class="card-text">
+            <strong>热点</strong>：科技创新引领新质生产力发展<br>
+            <strong>涉及原理</strong>：<br>
+            ① 发展的实质（新事物取代旧事物）<br>
+            ② 辩证否定观与创新意识（扬弃）<br>
+            ③ 生产力与生产关系的辩证关系<br>
+            ④ 实践是认识发展的动力<br>
+            <strong>命题角度</strong>：运用唯物辩证法发展观，分析发展新质生产力的哲学依据
+          </div>
+          <span class="card-tag tag-exam">极高概率</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-2">
+          <div class="card-title">🎯 押题方向二：生态文明与绿色发展</div>
+          <div class="card-text">
+            <strong>热点</strong>：人与自然和谐共生的现代化<br>
+            <strong>涉及原理</strong>：<br>
+            ① 自然界的物质性（尊重自然规律）<br>
+            ② 联系的客观性和普遍性<br>
+            ③ 矛盾的对立统一（发展与保护）<br>
+            ④ 正确的价值判断与价值选择<br>
+            <strong>命题角度</strong>：运用唯物论和辩证法知识，说明为什么要坚持绿色发展
+          </div>
+          <span class="card-tag tag-exam">极高概率</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-3">
+          <div class="card-title">🎯 押题方向三：文化自信与中国式现代化</div>
+          <div class="card-text">
+            <strong>热点</strong>：中国式现代化的文化根基<br>
+            <strong>涉及原理</strong>：<br>
+            ① 矛盾普遍性与特殊性的辩证关系<br>
+            ② 文化自信与文化自觉<br>
+            ③ 中华优秀传统文化的创造性转化<br>
+            ④ 人民群众是历史的创造者<br>
+            <strong>命题角度</strong>：运用矛盾分析法，说明中国式现代化的哲学基础
+          </div>
+          <span class="card-tag tag-key">高概率</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-4">
+          <div class="card-title">🎯 押题方向四：青年担当与人生价值</div>
+          <div class="card-text">
+            <strong>热点</strong>：新时代青年的使命与担当<br>
+            <strong>涉及原理</strong>：<br>
+            ① 价值观的导向作用<br>
+            ② 人生价值的实现途径<br>
+            ③ 价值判断与价值选择的标准<br>
+            ④ 整体与部分的辩证关系<br>
+            <strong>命题角度</strong>：运用价值观知识，说明当代青年如何实现人生价值
+          </div>
+          <span class="card-tag tag-key">高概率</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 21: 押题预测(二) 逻辑与文化 ===== -->
+    <div class="page" data-page="21" data-book="predict">
+      <div class="page-header">
+        <span class="page-badge badge-predict">押题预测</span>
+        <h2 class="page-title">押题预测(二) · 逻辑与文化部分</h2>
+        <p class="page-subtitle">2026高考热门方向 · 逻辑思维与文化建设综合</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-sky animate-in stagger-1">
+          <div class="card-title">🎯 押题方向五：人工智能与思维方法</div>
+          <div class="card-text">
+            <strong>热点</strong>：AI时代的思维方式变革<br>
+            <strong>涉及知识</strong>：<br>
+            ① 科学思维的特征（客观性、精确性、可检验性）<br>
+            ② 发散思维与聚合思维的结合<br>
+            ③ 超前思维对科技发展的预见性<br>
+            ④ 分析与综合的辩证关系<br>
+            <strong>命题角度</strong>：运用创新思维知识，说明如何培养适应AI时代的思维品质
+          </div>
+          <span class="card-tag tag-exam">极高概率</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-2">
+          <div class="card-title">🎯 押题方向六：传统文化"两创"实践</div>
+          <div class="card-text">
+            <strong>热点</strong>：传统文化的创造性转化与创新性发展<br>
+            <strong>涉及知识</strong>：<br>
+            ① 辩证否定观（扬弃）<br>
+            ② 文化继承与发展的关系<br>
+            ③ 文化交流互鉴与文化自信<br>
+            ④ 具体问题具体分析<br>
+            <strong>命题角度</strong>：结合某传统文化创新案例，运用哲学与文化知识分析其成功原因
+          </div>
+          <span class="card-tag tag-exam">极高概率</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-3">
+          <div class="card-title">🎯 押题方向七：网络治理与科学思维</div>
+          <div class="card-text">
+            <strong>热点</strong>：网络谣言治理与理性思维<br>
+            <strong>涉及知识</strong>：<br>
+            ① 概念明确（避免偷换概念）<br>
+            ② 判断恰当（避免虚假判断）<br>
+            ③ 推理有效（避免无效推理）<br>
+            ④ 同一律、矛盾律、排中律<br>
+            <strong>命题角度</strong>：运用逻辑思维知识，分析网络信息辨别中的逻辑问题
+          </div>
+          <span class="card-tag tag-key">高概率</span>
+        </div>
+
+        <div class="content-card card-cinnabar animate-in stagger-4">
+          <div class="card-title">🎯 押题方向八：辩证法与创新思维综合</div>
+          <div class="card-text">
+            <strong>热点</strong>：大众创业、万众创新<br>
+            <strong>涉及知识</strong>：<br>
+            ① 辩证否定观与创新意识<br>
+            ② 发散思维与聚合思维<br>
+            ③ 逆向思维与超前思维<br>
+            ④ 实践与认识的辩证关系<br>
+            <strong>命题角度</strong>：综合运用哲学与逻辑知识，阐述创新的思维方式
+          </div>
+          <span class="card-tag tag-key">高概率</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE 22: 易错点汇总 ===== -->
+    <div class="page" data-page="22" data-book="tips">
+      <div class="page-header">
+        <span class="page-badge badge-tips">避坑指南</span>
+        <h2 class="page-title">易错点汇总 · 常见陷阱一网打尽</h2>
+        <p class="page-subtitle">考试中最容易混淆的概念辨析与高频错误</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <table class="compare-table">
+        <tr><th>易错点</th><th>正确理解</th><th>错误说法</th></tr>
+        <tr>
+          <td>物质与物质具体形态</td>
+          <td>物质是共性（抽象），物质具体形态是个性（具体）</td>
+          <td>"物质就是看得见摸得着的东西"</td>
+        </tr>
+        <tr>
+          <td>意识直接改造世界</td>
+          <td>意识通过<strong>指导实践</strong>间接改造世界</td>
+          <td>"意识能直接改造客观世界"</td>
+        </tr>
+        <tr>
+          <td>联系的客观性</td>
+          <td>联系是事物本身固有的，但人可以<strong>根据固有联系建立新的具体联系</strong></td>
+          <td>"人不能改变任何联系"</td>
+        </tr>
+        <tr>
+          <td>发展的实质</td>
+          <td>新事物产生和旧事物灭亡（前进和上升）</td>
+          <td>"一切变化都是发展"</td>
+        </tr>
+        <tr>
+          <td>矛盾的普遍性与特殊性</td>
+          <td>二者是<strong>共性与个性</strong>的关系，不是整体与部分</td>
+          <td>"普遍性包含特殊性"</td>
+        </tr>
+        <tr>
+          <td>主次矛盾 vs 矛盾主次方面</td>
+          <td>主次矛盾→<strong>做事</strong>（多个矛盾中）<br>矛盾主次方面→<strong>看问题</strong>（一个矛盾中）</td>
+          <td>将两者混淆</td>
+        </tr>
+        <tr>
+          <td>真理是主观的</td>
+          <td>真理的内容是<strong>客观的</strong>，形式是主观的</td>
+          <td>"真理因人而异"</td>
+        </tr>
+        <tr>
+          <td>社会意识决定社会存在</td>
+          <td>社会存在<strong>决定</strong>社会意识</td>
+          <td>"英雄人物的意志决定历史"</td>
+        </tr>
+        <tr>
+          <td>辩证否定是外力否定</td>
+          <td>辩证否定是事物的<strong>自我否定</strong>（扬弃）</td>
+          <td>"否定就是全盘抛弃"</td>
+        </tr>
+        <tr>
+          <td>矛盾关系与反对关系（逻辑）</td>
+          <td>矛盾关系：非此即彼（A+非A=全部）<br>反对关系：中间可能（A+B<全部）</td>
+          <td>将反对关系当成矛盾关系</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ===== PAGE 23: 考前锦囊 ===== -->
+    <div class="page" data-page="23" data-book="tips">
+      <div class="page-header">
+        <span class="page-badge badge-tips">考前锦囊</span>
+        <h2 class="page-title">考前锦囊 · 时间分配与应试技巧</h2>
+        <p class="page-subtitle">最后冲刺提分攻略 · 沉着应考</p>
+        <div class="page-decoration"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card card-cinnabar animate-in stagger-1">
+          <div class="card-title">⏱️ 时间分配建议</div>
+          <div class="card-text">
+            <strong>选择题（约48分）</strong>：20-25分钟<br>
+            — 每题控制在1-1.5分钟，不会的标记后跳过<br><br>
+            <strong>主观题（约52分）</strong>：50-55分钟<br>
+            — 每题约10-12分钟<br>
+            — 先读问题再看材料，带着问题读材料<br><br>
+            <strong>检查时间</strong>：5-10分钟<br>
+            — 重点检查选择题涂卡和主观题原理名称
+          </div>
+          <span class="card-tag tag-key">时间管理</span>
+        </div>
+
+        <div class="content-card card-jade animate-in stagger-2">
+          <div class="card-title">📝 主观题抢分技巧</div>
+          <div class="card-text">
+            ① <strong>原理定位</strong>：读问题→判断知识范围（唯物论？辩证法？认识论？）<br>
+            ② <strong>原理先行</strong>：先写原理名称，再展开内容<br>
+            ③ <strong>材料绑定</strong>：每个原理后必须跟"材料中……"<br>
+            ④ <strong>分点作答</strong>：①②③序号清晰，层次分明<br>
+            ⑤ <strong>术语精准</strong>：使用课本规范表述，避免口语化
+          </div>
+          <span class="card-tag tag-method">提分秘诀</span>
+        </div>
+
+        <div class="content-card card-gold animate-in stagger-3">
+          <div class="card-title">🎯 选择题三审法</div>
+          <div class="card-text">
+            <strong>一审题干</strong>：找准关键词，明确知识范围和设问指向<br>
+            <strong>二审选项</strong>：排除明显错误的选项（知识性错误）<br>
+            <strong>三审关系</strong>：检查选项与题干之间是否有必然的逻辑关系<br><br>
+            善用<strong>排除法</strong>，提高正确率
+          </div>
+          <span class="card-tag tag-method">解题策略</span>
+        </div>
+
+        <div class="content-card card-sky animate-in stagger-4">
+          <div class="card-title">💪 心态调整</div>
+          <div class="card-text">
+            ① 拿到试卷先<strong>通览全卷</strong>，做到心中有数<br>
+            ② 遇到难题不慌张——<strong>我难人难</strong>，不钻牛角尖<br>
+            ③ 相信<strong>第一感觉</strong>——选择题不要轻易改答案<br>
+            ④ 主观题<strong>宁多勿少</strong>——多写不扣分，少写可能丢分<br>
+            ⑤ 保持节奏，<strong>会的做对</strong>，不会的合理猜测
+          </div>
+          <span class="card-tag tag-compare">心理战术</span>
+        </div>
+      </div>
+
+      <div class="highlight-box hl-green" style="text-align:center;">
+        <h4>🌟 祝你金榜题名！</h4>
+        你已经准备了很久，相信自己的努力。沉着冷静，认真审题，规范作答，胜利属于你！💪✨
+      </div>
+    </div>
+
+  </div><!-- end page-stack -->
+</div><!-- end main-container -->
+
+<!-- Table of Contents Overlay -->
+<div class="toc-overlay" id="tocOverlay">
+  <div class="toc-panel" id="tocPanel">
+    <div class="toc-title">📖 全书目录</div>
+
+    <div class="toc-section">
+      <div class="toc-section-title">📗 必修4 · 哲学与文化（第1-11页）</div>
+      <div class="toc-item" onclick="goToPage(2); closeToc();"><span class="toc-num">1</span>第一课 · 时代精神的精华</div>
+      <div class="toc-item" onclick="goToPage(3); closeToc();"><span class="toc-num">2</span>第二课 · 探究世界的本质</div>
+      <div class="toc-item" onclick="goToPage(4); closeToc();"><span class="toc-num">3</span>第三课(上) · 联系观</div>
+      <div class="toc-item" onclick="goToPage(5); closeToc();"><span class="toc-num">4</span>第三课(中) · 发展观</div>
+      <div class="toc-item" onclick="goToPage(6); closeToc();"><span class="toc-num">5</span>第三课(下) · 矛盾观</div>
+      <div class="toc-item" onclick="goToPage(7); closeToc();"><span class="toc-num">6</span>第四课 · 认识论</div>
+      <div class="toc-item" onclick="goToPage(8); closeToc();"><span class="toc-num">7</span>第五课 · 唯物史观</div>
+      <div class="toc-item" onclick="goToPage(9); closeToc();"><span class="toc-num">8</span>第六课 · 价值观</div>
+      <div class="toc-item" onclick="goToPage(10); closeToc();"><span class="toc-num">9</span>第七课 · 传统文化</div>
+      <div class="toc-item" onclick="goToPage(11); closeToc();"><span class="toc-num">10</span>第八课 · 外来文化</div>
+      <div class="toc-item" onclick="goToPage(12); closeToc();"><span class="toc-num">11</span>第九课 · 中国特色文化</div>
+    </div>
+
+    <div class="toc-section">
+      <div class="toc-section-title">📘 选必3 · 逻辑与思维（第12-16页）</div>
+      <div class="toc-item" onclick="goToPage(13); closeToc();"><span class="toc-num">12</span>第一单元 · 树立科学思维观念</div>
+      <div class="toc-item" onclick="goToPage(14); closeToc();"><span class="toc-num">13</span>第二单元(上) · 概念与判断</div>
+      <div class="toc-item" onclick="goToPage(15); closeToc();"><span class="toc-num">14</span>第二单元(下) · 演绎推理</div>
+      <div class="toc-item" onclick="goToPage(16); closeToc();"><span class="toc-num">15</span>第三单元 · 辩证思维方法</div>
+      <div class="toc-item" onclick="goToPage(17); closeToc();"><span class="toc-num">16</span>第四单元 · 创新思维能力</div>
+    </div>
+
+    <div class="toc-section">
+      <div class="toc-section-title">🎯 冲刺专题（第17-23页）</div>
+      <div class="toc-item special" onclick="goToPage(18); closeToc();"><span class="toc-num">17</span>答题模板(一) · 哲学主观题</div>
+      <div class="toc-item special" onclick="goToPage(19); closeToc();"><span class="toc-num">18</span>答题模板(二) · 逻辑主观题</div>
+      <div class="toc-item special" onclick="goToPage(20); closeToc();"><span class="toc-num">19</span>押题预测(一) · 哲学部分</div>
+      <div class="toc-item special" onclick="goToPage(21); closeToc();"><span class="toc-num">20</span>押题预测(二) · 逻辑与文化</div>
+      <div class="toc-item special" onclick="goToPage(22); closeToc();"><span class="toc-num">21</span>易错点汇总</div>
+      <div class="toc-item special" onclick="goToPage(23); closeToc();"><span class="toc-num">22</span>考前锦囊</div>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation Bar -->
+<div class="nav-bar">
+  <button class="nav-btn" id="btnPrev" title="上一页">◀</button>
+  <div class="page-indicator">
+    <span class="current" id="pageCurrent">1</span>
+    <span class="sep">/</span>
+    <span id="pageTotal">24</span>
+  </div>
+  <button class="nav-btn" id="btnNext" title="下一页">▶</button>
+  <div class="page-dots" id="pageDots"></div>
+  <button class="nav-btn" id="btnJumpTop" title="回到顶部">⬆</button>
+</div>
+
+<script>
+/* ============ PARTICLE SYSTEM ============ */
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animId;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2.5 + 0.8;
+      this.speedX = (Math.random() - 0.5) * 0.4;
+      this.speedY = (Math.random() - 0.5) * 0.4;
+      this.opacity = Math.random() * 0.25 + 0.05;
+      this.fadeSpeed = (Math.random() - 0.5) * 0.003;
+      this.opacityDir = Math.random() > 0.5 ? 1 : -1;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.opacity += this.fadeSpeed * this.opacityDir;
+      if (this.opacity > 0.3) this.opacityDir = -1;
+      if (this.opacity < 0.03) this.opacityDir = 1;
+
+      if (this.x < -10) this.x = canvas.width + 10;
+      if (this.x > canvas.width + 10) this.x = -10;
+      if (this.y < -10) this.y = canvas.height + 10;
+      if (this.y > canvas.height + 10) this.y = -10;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(91,140,90,${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 60 }, () => new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+
+    // Draw connecting lines for close particles
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(91,140,90,${0.04 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    animId = requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', resize);
+
+  // Start if reduced motion is not preferred
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    init();
+    animate();
+  }
+})();
+
+/* ============ PAGE NAVIGATION ============ */
+const TOTAL_PAGES = 24;
+let currentPage = 0;
+let bookmarkedPage = null;
+
+const pageStack = document.getElementById('pageStack');
+const pageDotsContainer = document.getElementById('pageDots');
+const tocOverlay = document.getElementById('tocOverlay');
+
+// Get all pages
+function getAllPages() {
+  return pageStack.querySelectorAll('.page');
+}
+
+// Build dot navigation
+function buildDots() {
+  pageDotsContainer.innerHTML = '';
+  const pages = getAllPages();
+  pages.forEach((page, i) => {
+    const dot = document.createElement('span');
+    dot.className = 'page-dot';
+    dot.title = `第${i + 1}页`;
+    const book = page.dataset.book;
+    if (book === 'template' || book === 'predict' || book === 'tips') {
+      dot.classList.add('special');
+    }
+    dot.addEventListener('click', () => goToPage(i));
+    pageDotsContainer.appendChild(dot);
+  });
+}
+
+// Navigate to page
+function goToPage(index) {
+  if (index === currentPage) return;
+  if (index < 0 || index >= TOTAL_PAGES) return;
+
+  const pages = getAllPages();
+  const oldPage = pages[currentPage];
+  const newPage = pages[index];
+
+  // Determine direction
+  const goingForward = index > currentPage;
+
+  // Exit old page
+  if (oldPage) {
+    oldPage.classList.remove('active');
+    oldPage.classList.add(goingForward ? 'exit-left' : 'exit-right');
+    setTimeout(() => {
+      oldPage.classList.remove('exit-left', 'exit-right');
+    }, 550);
+  }
+
+  // Enter new page
+  newPage.classList.remove('exit-left', 'exit-right');
+  newPage.style.transform = goingForward ? 'translateX(60px) scale(0.96)' : 'translateX(-60px) scale(0.96)';
+  newPage.style.opacity = '0';
+  newPage.classList.add('active');
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      newPage.style.transform = '';
+      newPage.style.opacity = '';
+    });
+  });
+
+  // Scroll to top
+  newPage.scrollTop = 0;
+
+  currentPage = index;
+  updateNavUI();
+}
+
+// Update navigation UI
+function updateNavUI() {
+  document.getElementById('pageCurrent').textContent = currentPage + 1;
+
+  // Update dots
+  const dots = pageDotsContainer.querySelectorAll('.page-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentPage);
+  });
+
+  // Update bookmark button
+  const bookmarkBtn = document.getElementById('btnBookmark');
+  if (bookmarkedPage === currentPage) {
+    bookmarkBtn.classList.add('active');
+    bookmarkBtn.textContent = '★';
+  } else {
+    bookmarkBtn.classList.remove('active');
+    bookmarkBtn.textContent = '☆';
+  }
+}
+
+// Close TOC overlay
+function closeToc() {
+  tocOverlay.classList.remove('open');
+}
+
+/* ============ EVENT LISTENERS ============ */
+document.getElementById('btnPrev').addEventListener('click', () => {
+  if (currentPage > 0) goToPage(currentPage - 1);
+});
+
+document.getElementById('btnNext').addEventListener('click', () => {
+  if (currentPage < TOTAL_PAGES - 1) goToPage(currentPage + 1);
+});
+
+document.getElementById('btnToc').addEventListener('click', () => {
+  tocOverlay.classList.toggle('open');
+});
+
+tocOverlay.addEventListener('click', (e) => {
+  if (e.target === tocOverlay) closeToc();
+});
+
+document.getElementById('btnBookmark').addEventListener('click', () => {
+  if (bookmarkedPage === currentPage) {
+    bookmarkedPage = null;
+  } else {
+    bookmarkedPage = currentPage;
+  }
+  updateNavUI();
+});
+
+document.getElementById('btnJumpTop').addEventListener('click', () => {
+  const pages = getAllPages();
+  if (pages[currentPage]) {
+    pages[currentPage].scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (tocOverlay.classList.contains('open')) {
+    if (e.key === 'Escape') closeToc();
+    return;
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (currentPage > 0) goToPage(currentPage - 1);
+  }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    if (currentPage < TOTAL_PAGES - 1) goToPage(currentPage + 1);
+  }
+  if (e.key === 'Home') {
+    e.preventDefault();
+    goToPage(0);
+  }
+  if (e.key === 'End') {
+    e.preventDefault();
+    goToPage(TOTAL_PAGES - 1);
+  }
+  if (e.key === 't' || e.key === 'T') {
+    e.preventDefault();
+    tocOverlay.classList.toggle('open');
+  }
+  if (e.key === 'b' || e.key === 'B') {
+    e.preventDefault();
+    document.getElementById('btnBookmark').click();
+  }
+});
+
+// Touch swipe support
+let touchStartX = 0;
+let touchStartY = 0;
+
+pageStack.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+pageStack.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+
+  // Only trigger if horizontal swipe is larger than vertical
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+    if (dx < -30 && currentPage < TOTAL_PAGES - 1) {
+      goToPage(currentPage + 1);
+    } else if (dx > 30 && currentPage > 0) {
+      goToPage(currentPage - 1);
+    }
+  }
+});
+
+// Search functionality
+document.getElementById('btnSearch').addEventListener('click', () => {
+  const query = prompt('🔍 搜索知识点（输入关键词）：');
+  if (!query) return;
+
+  const pages = getAllPages();
+  let found = false;
+
+  for (let i = 0; i < pages.length; i++) {
+    if (i === currentPage) continue; // Skip current page
+    const text = pages[i].textContent || '';
+    if (text.includes(query)) {
+      if (confirm(`在"第${i + 1}页"中找到"${query}"，要跳转吗？`)) {
+        goToPage(i);
+        // Highlight search term
+        setTimeout(() => highlightInPage(pages[i], query), 600);
+      }
+      found = true;
+      break;
+    }
+  }
+
+  // Also check current page
+  if (!found) {
+    const curText = pages[currentPage].textContent || '';
+    if (curText.includes(query)) {
+      alert(`在当前页面（第${currentPage + 1}页）中找到"${query}"`);
+      highlightInPage(pages[currentPage], query);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    alert(`未找到"${query}"，请尝试其他关键词。`);
+  }
+});
+
+// Simple highlight function
+function highlightInPage(pageEl, query) {
+  // Scroll through the page to find the text
+  const text = pageEl.textContent || '';
+  const idx = text.indexOf(query);
+  if (idx >= 0) {
+    // Estimate scroll position based on text position
+    const ratio = idx / text.length;
+    pageEl.scrollTo({ top: ratio * pageEl.scrollHeight, behavior: 'smooth' });
+  }
+}
+
+/* ============ INITIALIZATION ============ */
+function buildWatermarks() {
+  const pages = getAllPages();
+  pages.forEach(page => {
+    // Skip cover page (page 0)
+    if (parseInt(page.dataset.page) === 0) return;
+    // Skip if watermark already exists
+    if (page.querySelector('.page-watermark')) return;
+
+    const wm = document.createElement('div');
+    wm.className = 'page-watermark';
+    wm.innerHTML = '<span class="wm-crown">👑</span> 幼儿园霸王 · 高考政治';
+    page.appendChild(wm);
+  });
+}
+
+function init() {
+  buildDots();
+  updateNavUI();
+  buildWatermarks();
+  // Set initial page as active
+  const pages = getAllPages();
+  if (pages.length > 0) {
+    pages[0].classList.add('active');
+  }
+  console.log('📚 高考政治复习系统已就绪');
+  console.log('   👑 幼儿园霸王 · B站 524744175');
+  console.log('   ⌨️ 键盘导航：← → 翻页 | T 目录 | B 书签 | Home/End 首尾页');
+  console.log('   📱 支持触屏滑动翻页');
+  console.log('   📖 共 ' + TOTAL_PAGES + ' 页 | 必修4 + 选必3');
+}
+
+init();
+</script>
+</body>
+</html>
